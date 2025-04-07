@@ -65,7 +65,7 @@ the results will be contained in `predixcan-results/hack-test.csv`
     wget https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST008001-GCST009000/GCST008440/Offenbacher-26962152_pct3.txt
 ```
 ## 4. making test data a good size 
-edit the table by removing low pvalues :) 
+edit the table by removing low pvalues 
 
 run this code 
 ```
@@ -84,4 +84,4 @@ df_filtered = df[df['Pvalue'] < 0.05]
 df_filtered.to_csv(output_file, sep='\t', index=False)
 ```
 
-#then youre done! you should have significant pvalue SNPs that can be used for testing code :) 
+#then youre done! you should have significant pvalue SNPs that can be used for testing code 
