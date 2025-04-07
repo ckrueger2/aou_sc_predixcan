@@ -35,6 +35,7 @@ run
 python run-predixcan.py -i predixcan-results/hack-test.csv -o cleaned_TESTDATA_hacking.txt
 ```
 to run S-PrediXcan on the test data
+the results will be contained in `predixcan-results/hack-test.csv`
 
 # TUTORIAL ON GWAS SAMPLE DATA DOWNLOAD 
 
