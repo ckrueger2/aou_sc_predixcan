@@ -2,7 +2,7 @@
 
 ## hacking instructions: 
 Clone this repository
-### qqman
+### QQMan
 1. you will be using test data "cleaned_TESTDATA_hacking.txt" and scripts "qqman_reformatting.py" and "qqman_hacking.r"
 2. run qqman_reformatting.py with: 
 ``` python qqman_reformatting.py --input cleaned_TESTDATA_hacking.txt --output reformat_output_file.txt ```
