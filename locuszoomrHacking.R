@@ -7,6 +7,7 @@ if (!requireNamespace("data.table", quietly = TRUE))
   install.packages("data.table")
 BiocManager::install("ensembldb")
 BiocManager::install("EnsDb.Hsapiens.v86")
+library(EnsDb.Hsapiens.v86)
 
 # installing locuszoomr from CRAN
 install.packages("locuszoomr")
