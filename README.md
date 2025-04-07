@@ -8,6 +8,12 @@ Clone this repository
 3. then, run "qqman_hacking.r", it will use the result from the first script.
 4. the result from the R script will be a pdf. Open it in vscode or in the browser. vscode will need a module download, browser cant be edge. 
 
+### Locuszoomr
+Utilizing the **cleaned_TESTDATA_hacking.txt** test data, run the script below to visualize the most significant SNP:
+```bash
+Rscript locuszoomrHacking.R
+```
+
 ### S-PrediXcan
 #### Install miniconda
 run these lines from the terminal to install miniconda3
@@ -36,7 +42,7 @@ conda activate imlabtools
 ```
 then run the following script to run S-PrediXcan on the test data
 ```
-python run-predixcan.py -i predixcan-results/hack-test.csv -o cleaned_TESTDATA_hacking.txt
+python run-predixcan.py -i cleaned_TESTDATA_hacking.txt -o predixcan-results/hack-test.csv
 ```
 the results will be contained in `predixcan-results/hack-test.csv`
 

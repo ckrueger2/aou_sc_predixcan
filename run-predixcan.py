@@ -6,13 +6,10 @@ parser.add_argument("-i", "--input", help="input file", required=True)
 parser.add_argument("-o", "--output", help="output file", required=True)
 args = parser.parse_args()
 
-output = "predixcan-results/hack-test.csv"
-input = "cleaned_TESTDATA_hacking.txt"
-
 os.chdir("MetaXcan/software")
 
-model = "allofus_test/eqtl/mashr/mashr_Stomach.db"
-matrix = "allofus_test/eqtl/mashr/mashr_Stomach.txt.gz"
+model = "allofus_test/eqtl/mashr/mashr_Minor_Salivary_Gland.db"
+matrix = "allofus_test/eqtl/mashr/mashr_Minor_Salivary_Gland.txt.gz"
 infile = f"../../{args.input}"
 outfile = f"../../{args.output}"
 
