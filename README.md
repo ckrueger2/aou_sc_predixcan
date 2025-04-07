@@ -21,7 +21,7 @@
 
 ## 3. FTP download
     to download the data, use wget
-    ```
+```
     wget https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST008001-GCST009000/GCST008440/Offenbacher-26962152_pct3.txt
 ```
 ## 4. making test data a good size 
