@@ -13,3 +13,4 @@ mkdir allofus_test
 cd allofus_test
 wget https://zenodo.org/record/3518299/files/mashr_eqtl.tar?download=1 -O mashr_eqtl.tar
 tar -xvpf mashr_eqtl.tar
+rm mashr_eqtl.tar
