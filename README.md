@@ -29,10 +29,11 @@ run
 ./set-up-metaxcan.sh
 ```
 to install MetaXcan, set up conda venv, and download reference files for S-PrediXcan
+if it cannot create the virtual environment, try restarting the terminal
 #### Run S-PrediXcan
 run
 ```
-python run-predixcan.py -i predixcan-results/hack-test.csv -o cleaned_TESTDATA_hacking.txt
+python run-predixcan.py -i cleaned_TESTDATA_hacking.txt -o predixcan-results/hack-test.csv
 ```
 to run S-PrediXcan on the test data
 the results will be contained in `predixcan-results/hack-test.csv`

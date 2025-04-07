@@ -6,7 +6,6 @@ git clone https://github.com/hakyimlab/MetaXcan.git
 # create requisite conda virtual environment
 cd MetaXcan/software
 conda env create -f conda_env.yaml
-conda activate imlabtools
 
 # get transcriptome model databases and SNP covariance matrices
 mkdir allofus_test
