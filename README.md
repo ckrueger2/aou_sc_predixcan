@@ -20,7 +20,8 @@
    in the final column, "data access", there will be a hyperlink for FTP download. 
 
 ## 3. FTP download
-    to download the data, use wget
+   to download the data, use wget
+   
 ```
     wget https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST008001-GCST009000/GCST008440/Offenbacher-26962152_pct3.txt
 ```
