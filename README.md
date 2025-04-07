@@ -36,11 +36,11 @@ run
 ```
 to install MetaXcan, set up conda venv, and download reference files for S-PrediXcan
 #### Run S-PrediXcan
-run this line to activate the requisite conda environment
+first, set up the virtual environment created by the last script using
 ```
 conda activate imlabtools
 ```
-then run this line to run S-PrediXcan on the test data
+then run the following script to run S-PrediXcan on the test data
 ```
 python run-predixcan.py -i cleaned_TESTDATA_hacking.txt -o predixcan-results/hack-test.csv
 ```
@@ -65,7 +65,7 @@ the results will be contained in `predixcan-results/hack-test.csv`
     wget https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST008001-GCST009000/GCST008440/Offenbacher-26962152_pct3.txt
 ```
 ## 4. making test data a good size 
-edit the table by removing low pvalues :) 
+edit the table by removing low pvalues 
 
 run this code 
 ```
@@ -84,4 +84,4 @@ df_filtered = df[df['Pvalue'] < 0.05]
 df_filtered.to_csv(output_file, sep='\t', index=False)
 ```
 
-#then youre done! you should have significant pvalue SNPs that can be used for testing code :) 
+#then youre done! you should have significant pvalue SNPs that can be used for testing code 
