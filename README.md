@@ -4,9 +4,10 @@
 Clone this repository
 ### qqman
 1. you will be using test data "cleaned_TESTDATA_hacking.txt" and scripts "qqman_reformatting.py" and "qqman_hacking.r"
-2. run qqman_reformatting.py with # python qqman_reformatting.py --input cleaned_TESTDATA_hacking.txt --output reformat_output_file.txt
-3. then, run "qqman_hacking.r", it will use the result from the first script.
-4. the result from the R script will be a pdf. Open it in vscode or in the browser. vscode will need a module download, browser cant be edge. 
+2. run qqman_reformatting.py with: 
+``` python qqman_reformatting.py --input cleaned_TESTDATA_hacking.txt --output reformat_output_file.txt ```
+4. then, run "qqman_hacking.r", it will use the result from the first script.
+5. the result from the R script will be a pdf. Open it in vscode or in the browser. vscode will need a module download, browser cant be edge. 
 
 ### Locuszoomr
 Utilizing the **cleaned_TESTDATA_hacking.txt** test data, run the script below to visualize the most significant SNP:
@@ -71,8 +72,8 @@ run this code
 ```
 import pandas as pd
 
-input_file = 'TESTDATA_hacking_COVID-19_Patients.tsv'  # the file you got from ebi 
-output_file = '/home/2025/acarcione/cleaned_TESTDATA_hacking.txt'  # what the new data will be called (this is the file in the github )
+input_file = ##'TESTDATA_hacking_COVID-19_Patients.tsv'  # the file you got from ebi YOU WILL HAVE TO EDIT THIS 
+output_file = 'GWAS-TWAS-in-All-of-Us-Cloud/cleaned_TESTDATA_hacking.txt'  # what the new data will be called (this is the file in the github )
 
 #read the tsv and sep by \t since tsv
 df = pd.read_csv(input_file, sep='\t')
