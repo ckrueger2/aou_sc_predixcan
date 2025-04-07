@@ -31,7 +31,7 @@ signif_chrom <- data$chrom[which.min(data$p)]
 loc <- locus(data = data, ens_db = "EnsDb.Hsapiens.v86", xrange = c(signif_POS-100000, signif_POS+100000), 
             seqname = signif_chrom, flank = 1e5)
 
-#summary(loc)
+summary(loc)
 
 # plotting locuszoomr
 locus_plot(loc)
