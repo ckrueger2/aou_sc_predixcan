@@ -29,13 +29,15 @@ run
 ./set-up-metaxcan.sh
 ```
 to install MetaXcan, set up conda venv, and download reference files for S-PrediXcan
-if it cannot create the virtual environment, try restarting the terminal
 #### Run S-PrediXcan
-run
+run this line to activate the requisite conda environment
+```
+conda activate imlabtools
+```
+then run this line to run S-PrediXcan on the test data
 ```
 python run-predixcan.py -i cleaned_TESTDATA_hacking.txt -o predixcan-results/hack-test.csv
 ```
-to run S-PrediXcan on the test data
 the results will be contained in `predixcan-results/hack-test.csv`
 
 # TUTORIAL ON GWAS SAMPLE DATA DOWNLOAD 
