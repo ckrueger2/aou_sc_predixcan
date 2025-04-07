@@ -1,11 +1,40 @@
 # GWAS-TWAS-in-All-of-Us-Cloud
 
 ## hacking instructions: 
+### qqman
 1. clone repo
 2. you will be using test data "cleaned_TESTDATA_hacking.txt" and scripts "qqman_reformatting.py" and "qqman_hacking.r"
 3. run qqman_reformatting.py with # python qqman_reformatting.py --input cleaned_TESTDATA_hacking.txt --output reformat_output_file.txt
 4. then, run "qqman_hacking.r", it will use the result from the first script.
 5. the result from the R script will be a pdf. Open it in vscode or in the browser. vscode will need a module download, browser cant be edge. 
+
+### S-PrediXcan
+#### Install miniconda
+run these lines from the terminal to install miniconda3
+```
+mkdir -p ~/miniconda3
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
+bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
+rm ~/miniconda3/miniconda.sh
+```
+next, run these lines from the terminal to activate conda
+```
+source ~/miniconda3/bin/activate
+conda init --all
+source ~/.bashrc
+```
+#### Set Up MetaXcan
+run
+```
+./set-up-metaxcan.sh
+```
+to install MetaXcan, set up conda venv, and download reference files for S-PrediXcan
+#### Run S-PrediXcan
+run
+```
+python run-predixcan.py -i predixcan-results/hack-test.csv -o cleaned_TESTDATA_hacking.txt
+```
+to run S-PrediXcan on the test data
 
 # TUTORIAL ON GWAS SAMPLE DATA DOWNLOAD 
 
