@@ -8,6 +8,12 @@ Clone this repository
 3. then, run "qqman_hacking.r", it will use the result from the first script.
 4. the result from the R script will be a pdf. Open it in vscode or in the browser. vscode will need a module download, browser cant be edge. 
 
+### Locuszoomr
+Utilizing the **cleaned_TESTDATA_hacking.txt** test data, run the script below to visualize the most significant SNP:
+```bash
+Rscript locuszoomrHacking.R
+```
+
 ### S-PrediXcan
 #### Install miniconda
 run these lines from the terminal to install miniconda3
