@@ -54,19 +54,8 @@ ht.show(20)
 #summary of table
 globals_dict = ht.globals.collect()[0]
 
-#extract specific fields
-n_cases = globals_dict['n_cases']
-n_controls = globals_dict['n_controls']
-heritability = globals_dict['heritability']
-meta_pop = globals_dict['meta_pop']
-phenoname = globals_dict['phenoname']
-
-#print the fields
-print(f"Number of cases: {n_cases}")
-print(f"Number of controls: {n_controls}")
-print(f"Heritability: {heritability}")
-print(f"Population(s): {meta_pop}")
-print(f"Phenotype name: {phenoname}")
+for key, value in globals_dict.items():
+    print(f"{key} : {value}")
 
 #table dimentions
 rows, cols = ht.count(), len(ht.row)
