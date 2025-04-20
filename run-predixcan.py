@@ -2,16 +2,17 @@ import os
 import sys
 import argparse
 
-def get_arguments(args=None):
+def set_args():
     parser = argparse.ArgumentParser(description="run s-predixcan")
     parser.add_argument("-i", "--input", help="path to input file", required=False)
     parser.add_argument("-o", "--output", help="where to make output file", required=False)
     parser.add_argument("-r", "--reference", help="eqtl model and matrix to use as reference", required=False)
-    parser.add_argument("--databases", help="list possible inputs for --reference option", required=False)
-    return parser.parse_args(args)
+    parser.add_argument("-d", "--databases", help="list possible inputs for --reference option", required=False, action="store_true")
+    return parser
 
 def main():
-    args = get_arguments(sys.argv[1:])
+    parser = set_args()
+    args = parser.parse_args(sys.argv[1:])
 
     d = ["Adipose_Subcutaneous", "Adipose_Visceral_Omentum", "Adrenal_Gland", "Artery_Aorta", "Artery_Coronary", "Artery_Tibial", 
     "Brain_Amygdala", "Brain_Anterior_cingulate_cortex_BA24", "Brain_Caudate_basal_ganglia", "Brain_Cerebellar_Hemisphere", 
@@ -25,11 +26,11 @@ def main():
 
     if args.databases:
         for ref in d:
-            print(d)
+            print(ref)
         return
 
     if not args.input or not args.output or not args.reference:
-        print("missing required arguments")
+        parser.print_help()
     else:
         os.system(f"conda run -p /home/jupyter/miniconda3/envs/imlabtools \
         python MetaXcan/software/SPrediXcan.py \
