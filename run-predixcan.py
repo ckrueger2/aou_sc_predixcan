@@ -1,27 +1,52 @@
 import os
+import sys
 import argparse
 
-parser = argparse.ArgumentParser(description="run s-predixcan")
-parser.add_argument("-i", "--input", help="input file", required=True)
-parser.add_argument("-o", "--output", help="output file", required=True)
-args = parser.parse_args()
+def set_args():
+    parser = argparse.ArgumentParser(description="run s-predixcan")
+    parser.add_argument("-i", "--input", help="path to input file", required=False)
+    parser.add_argument("-o", "--output", help="where to make output file", required=False)
+    parser.add_argument("-r", "--reference", help="eqtl model and matrix to use as reference", required=False)
+    parser.add_argument("-d", "--databases", help="list possible inputs for --reference option", required=False, action="store_true")
+    return parser
 
-os.chdir("MetaXcan/software")
+def main():
+    parser = set_args()
+    args = parser.parse_args(sys.argv[1:])
 
-model = "allofus_test/eqtl/mashr/mashr_Minor_Salivary_Gland.db"
-matrix = "allofus_test/eqtl/mashr/mashr_Minor_Salivary_Gland.txt.gz"
-infile = f"../../{args.input}"
-outfile = f"../../{args.output}"
+    d = ["Adipose_Subcutaneous", "Adipose_Visceral_Omentum", "Adrenal_Gland", "Artery_Aorta", "Artery_Coronary", "Artery_Tibial", 
+    "Brain_Amygdala", "Brain_Anterior_cingulate_cortex_BA24", "Brain_Caudate_basal_ganglia", "Brain_Cerebellar_Hemisphere", 
+    "Brain_Cerebellum", "Brain_Cortex", "Brain_Frontal_Cortex_BA9", "Brain_Hippocampus", "Brain_Hypothalamus", 
+    "Brain_Nucleus_accumbens_basal_ganglia", "Brain_Putamen_basal_ganglia", "Brain_Spinal_cord_cervical_c-1", "Brain_Substantia_nigra", 
+    "Breast_Mammary_Tissue", "Cells_Cultured_fibroblasts", "Cells_EBV-transformed_lymphocytes", "Colon_Sigmoid", "Colon_Transverse", 
+    "Esophagus_Gastroesophageal_Junction", "Esophagus_Mucosa", "Esophagus_Muscularis", "Heart_Atrial_Appendage", 
+    "Heart_Left_Ventricle", "Kidney_Cortex", "Liver", "Lung", "Minor_Salivary_Gland", "Muscle_Skeletal", "Nerve_Tibial", "Ovary", 
+    "Pancreas", "Pituitary", "Prostate", "Skin_Not_Sun_Exposed_Suprapubic", "Skin_Sun_Exposed_Lower_leg", 
+    "Small_Intestine_Terminal_Ileum", "Spleen", "Stomach", "Testis", "Thyroid", "Uterus", "Vagina", "Whole_Blood"]
 
-os.system(f"./SPrediXcan.py \
---model_db_path {model} \
---covariance {matrix} \
---gwas_file {infile} \
---snp_column locus \
---effect_allele_column effect_allele \
---non_effect_allele_column other_allele \
---beta_column beta \
---pvalue_column Pvalue \
---se_column standard_error \
---or_column odds_ratio \
---output_file {outfile}")
+    if args.databases:
+        for ref in d:
+            print(ref)
+        return
+
+    if not args.input or not args.output or not args.reference:
+        parser.print_help()
+    else:
+        os.system(f"conda run -p /home/jupyter/miniconda3/envs/imlabtools \
+        python MetaXcan/software/SPrediXcan.py \
+        --gwas_file {args.input} \
+        --snp_column SNP \
+        --effect_allele_column ALT \
+        --non_effect_allele_column REF \
+        --beta_column BETA \
+        --se_column SE \
+        --model_db_path eqtl/mashr/mashr_{args.reference}.db \
+        --covariance eqtl/mashr/mashr_{args.reference}.txt.gz \
+        --keep_non_rsid \
+        --additional_output \
+        --model_db_snp_key varID \
+        --throw \
+        --output_file {args.output}.csv")
+
+if __name__ == "__main__":
+    main()
