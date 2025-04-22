@@ -17,7 +17,7 @@ library(locuszoomr)
 my_bucket <- Sys.getenv('WORKSPACE_BUCKET')
 
 # replace empty quotes with the name of the file in your google bucket (don't delete the quotation marks)
-fileName = ""
+name_of_file_in_bucket = ""
 
 # Get the bucket name
 my_bucket <- Sys.getenv('WORKSPACE_BUCKET')
