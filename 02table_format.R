@@ -23,8 +23,16 @@ my_bucket <- Sys.getenv('WORKSPACE_BUCKET')
 
 #PERFORM COMMAND LINE FORMATTING FOR rsID VCF FILE
 #download reference genome
-command <- paste0("wget https://ftp.ncbi.nlm.nih.gov/snp/organisms/human_9606_b151_GRCh38p7/VCF/All_20180418.vcf.gz")
-system(command)
+file_name <- "All_20180418.vcf.gz"
+#check if file exists in the home directory
+if (!file.exists(file_name)) {
+  #if file doesn't exist, download it
+  command <- paste0("wget https://ftp.ncbi.nlm.nih.gov/snp/organisms/human_9606_b151_GRCh38p7/VCF/", file_name)
+  system(command)
+} else {
+  #if file exists, print a message
+  cat("File", file_name, "already exists. Skipping download.\n")
+}
 
 #create file of chr and pos columns only to use for filtering
 command2 <- paste0("gsutil cat ", my_bucket, "/data/", args$pop, "_filtered_", args$phecode, ".tsv | awk 'NR > 1 {print $8, $9}' > /tmp/subset_", args$phecode, ".tsv")
@@ -57,7 +65,7 @@ if (check_result != 0) {
 
 #PERFORM COMMAND LINE FORMATTING FOR S-PREDIXCAN FILE
 #upload GTEx SNP file to workspace bucket
-command7 <- paste0("gsutil -m cp -v /GWAS-TWAS-in-All-of-Us-Cloud/predixcan_models_varids-effallele.txt.gz ", my_bucket, "/data/")
+command7 <- paste0("gsutil -m cp -v /myrepo/predixcan_models_varids-effallele.txt.gz ", my_bucket, "/data/")
 system(command7, intern=TRUE)
 
 #unzip files
