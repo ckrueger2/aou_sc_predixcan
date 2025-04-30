@@ -1,4 +1,6 @@
 # How to Do GWAS/TWAS in the All of Us Cloud Environment
+
+### Using All of Us Cloud
 ## Get approved
 In order to access sensitive All of Us GWAS data, you must create and account, verify your identity, and complete the requisite training. The steps to do this can be found in the wiki at [Registering for All of Us](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/wiki/1.-Registering-for-All-of-Us).
 
