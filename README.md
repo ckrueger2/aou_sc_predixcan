@@ -1,14 +1,14 @@
-# How to Do GWAS/TWAS in the All of Us Cloud Environment
+# Project 5: GWAS, TWAS, and Data Viz in the All of Us Cloud (Ben, Claudia, Angelina, Drew)
 
-## Using All of Us Cloud
-### Get approved
+## Using All of Us Cloud Environment
+### Get Approved
 In order to access sensitive All of Us GWAS data, you must create and account, verify your identity, and complete the requisite training. The steps to do this can be found in the wiki at [Registering for All of Us](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/wiki/1.-Registering-for-All-of-Us).
 
 ### Create Workspace
 The next step is to create a workspace at your Research Workbench. Your workspace will house any GWAS data you pull along with all scripts from this repository and their output. The [Workspaces](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/wiki/2.-Workspaces) page on the wiki details how to set up a workspace.
 
 
-## Using the pipeline
+## Using the Pipeline
 ### Clone Repo
 To access these scripts, clone this repository in your workspace. Information on how to do this and how to run scripts from this repo in your workspace is also in [Workspaces](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/wiki/2.-Workspaces).
 
