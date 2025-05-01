@@ -49,7 +49,7 @@ SNP_COUNT=$(python "$REPO/01pull_data.py" --phecode "$PHECODE" --pop "$POP" | ta
 Rscript "$REPO/02table_format.R" --phecode "$PHECODE" --pop "$POP"
 
 #GWAS qqman
-Rscript "$REPO/03qqman.R" --phecode "$PHECODE" --pop "$POP" --snp_count "$SNP_COUNT"
+Rscript "$REPO/03gwas_qqman.R" --phecode "$PHECODE" --pop "$POP" --snp_count "$SNP_COUNT"
 
 #locuszoomR
 LOCUSZOOM_CMD="Rscript $REPO/04locuszoom.R --phecode \"$PHECODE\" --pop \"$POP\""
