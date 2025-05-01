@@ -56,12 +56,6 @@ ht.export(ht_path)
 #show first few lines of hail table
 ht.show(20)
 
-#summary of table
-globals_dict = ht.globals.collect()[0]
-
-for key, value in globals_dict.items():
-    print(f"{key} : {value}")
-
 #table dimentions
 rows, cols = ht.count(), len(ht.row)
 print(f"Table dimensions: {rows} rows x {cols} columns")
