@@ -24,7 +24,7 @@ args <- parser$parse_args()
 my_bucket <- Sys.getenv('WORKSPACE_BUCKET')
 
 #pull file from bucket
-name_of_file_in_bucket <- paste0(args$pop, "_formatted_filtered_", args$phecode,".tsv")
+name_of_file_in_bucket <- paste0(args$pop, "_formatted_filtered_", args$phecode,".tsv") #CHANGE TO SPREDIXCAN OUTPUT FILE FORMAT
 read_in_command <- paste0("gsutil cp ", my_bucket, "/data/", name_of_file_in_bucket, " .")
 
 #copy file from the bucket to the current workspace
