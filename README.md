@@ -25,4 +25,5 @@ To run the wrapper use the following command within the All of Us terminal under
 - Phecode and Population arguments are required - See Wiki 4. Retrieving Summary Statistics for phecode and population options
 - rsid and token arguments are optional
 > To view a locus with locuszoomr other than the locus with the lowest P-value SNP, specify the rsID of a SNP within the locus of interest. This SNP will also serve as the reference SNP for linkage disequilibrium disply
+
 > Token represents the LDlink personal access code needed to display linkage disequilibrium when plotting with locuszoomr. To make a one-time request for your personal access token follow the directions within the following web browser at https://ldlink.nih.gov/?tab=apiaccess.
