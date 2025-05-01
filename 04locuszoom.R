@@ -35,8 +35,8 @@ system(read_in_command, intern=TRUE)
 data <- fread(name_of_file_in_bucket, sep = "\t", header=TRUE)
 
 #reformatting column headers
-colnames(data)[colnames(data) == "P"] <- "p"
-colnames(data)[colnames(data) == "CHR"] <- "chrom"
+colnames(data)[colnames(data) == "P"] <- "Pvalue"
+colnames(data)[colnames(data) == "CHR"] <- "CHR"
 
 #if rsid is user provided
 if (!is.null(args$rsid)) {
