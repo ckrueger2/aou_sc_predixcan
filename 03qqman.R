@@ -27,7 +27,7 @@ system(paste0("gsutil cp ", my_bucket, "/data/", name_of_file_in_bucket, " ."), 
 hail_table  <- fread(name_of_file_in_bucket, header=TRUE)
 
 #what to save file as
-destination_filename <- paste0(args$pop, "_", args$phecode,"_manhattan.png")
+destination_filename <- paste0(args$pop, "_", args$phecode,"_gwas_manhattan.png")
 
 #find bonferroni correction value
 b_value <- (0.05/args$snp_count)
