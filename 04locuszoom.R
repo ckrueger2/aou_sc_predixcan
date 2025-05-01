@@ -73,3 +73,5 @@ output_filename <- paste0(args$pop, "_locuszoom_", args$phecode, ".png")
 png(output_filename, width = 1200, height = 800)
 locus_plot(loc, labels = c("index"), label_x = c(4, -5))
 dev.off()
+
+cat("LocusZoom plot complete\n")
