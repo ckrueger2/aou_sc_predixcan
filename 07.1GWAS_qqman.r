@@ -1,6 +1,6 @@
 library(qqman)
 
-data <- read.table('/home/jupyter/GWAS-TWAS-in-All-of-Us-Cloud/reformat_output_file.txt', 
+data <- read.table('~/GWAS-TWAS-in-All-of-Us-Cloud/reformat_output_file.txt', 
                    header = TRUE, 
                    sep = ' ', 
                    stringsAsFactors = FALSE)
