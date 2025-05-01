@@ -1,7 +1,12 @@
+#import libraries
+try:
+    import pandas as pd
+except ImportError:
+    import subprocess, sys
+    subprocess.run([sys.executable, "-m", "pip", "install", "pandas"], check=True)
+    import pandas as pd
+    
 import os
-import argparse
-import numpy as np
-import pandas as pd
 import argparse
 import sys
 import hail as hl
@@ -122,3 +127,6 @@ try:
 except subprocess.CalledProcessError:
     #if command failed
     sys.exit(f"ERROR: File '{filtered_path}' was not found in {bucket}/data/.\n")
+
+#Print number of SNPs in order to capture by wrapper for bonferroni correction    
+print(rows - 1)
