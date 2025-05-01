@@ -1,11 +1,13 @@
 #if needed, install packages
 if (!requireNamespace("data.table", quietly = TRUE)) install.packages("data.table")
 if (!requireNamespace("dplyr", quietly = TRUE)) install.packages("dplyr")
+if (!requireNamespace("tidyr", quietly = TRUE)) install.packages("tidyr")
 if (!requireNamespace("argparse", quietly = TRUE)) install.packages("argparse")
 
 #load packages
 library(data.table)
 library(dplyr)
+library(tidyr)
 library(argparse)
 
 #set up argparse
