@@ -43,7 +43,7 @@ REPO=$HOME/GWAS-TWAS-in-All-of-Us-Cloud
 #download hail table
 python "$REPO/01pull_data.py" --phecode "$PHECODE" --pop "$POP"
 #capture the SNP count
-SNP_COUNT=$(python "$REPO/01pull_data.py" --phecode "$PHECODE" --pop "$POP" | tail -n 1)
+SNP_COUNT=$(echo "$PULL_DATA_OUTPUT" | tail -n 1)
 
 #format hail tables
 Rscript "$REPO/02table_format.R" --phecode "$PHECODE" --pop "$POP"
