@@ -20,7 +20,7 @@ my_bucket <- Sys.getenv('WORKSPACE_BUCKET')
 #build file name
 name_of_file_in_bucket <- paste0(args$pop, "_formatted_filtered_", args$phecode,".tsv")
 
-#copy file from current workspace to the bucket
+#copy file from the bucket to the current workspace
 system(paste0("gsutil cp ", my_bucket, "/data/", name_of_file_in_bucket, " ."), intern=T)
 
 #load the file into a dataframe
