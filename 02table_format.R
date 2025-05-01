@@ -1,14 +1,11 @@
 #if needed, install packages
-if (!requireNamespace("R.utils", quietly = TRUE)) install.packages('R.utils')
 if (!requireNamespace("data.table", quietly = TRUE)) install.packages("data.table")
 if (!requireNamespace("dplyr", quietly = TRUE)) install.packages("dplyr")
-if (!requireNamespace("tidyverse", quietly = TRUE)) install.packages("tidyverse")
 if (!requireNamespace("argparse", quietly = TRUE)) install.packages("argparse")
 
 #load packages
 library(data.table)
 library(dplyr)
-library(tidyverse)
 library(argparse)
 
 #set up argparse
@@ -131,7 +128,7 @@ gtex_table$alleles_formatted <- gsub('","', "_", gtex_table$alleles_formatted)  
 
 #split allele column
 gtex_table <- gtex_table %>%
-    separate(alleles_formatted, into = c("REF", "ALT"), sep = "_", remove=F)
+  separate(alleles_formatted, into = c("REF", "ALT"), sep = "_", remove=F)
 
 #combine strings
 gtex_table$SNP <- paste0(gtex_table$locus_formatted, "_", gtex_table$alleles_formatted, "_b38")
@@ -152,7 +149,7 @@ filtered_table$alleles_formatted <- gsub('"\\]', "", filtered_table$alleles_form
 filtered_table$alleles_formatted <- gsub('","', "_", filtered_table$alleles_formatted)  #comma to underscore
 
 filtered_table <- filtered_table %>%
-    separate(alleles_formatted, into = c("REF", "ALT"), sep = "_", remove=F)
+  separate(alleles_formatted, into = c("REF", "ALT"), sep = "_", remove=F)
 
 filtered_table$SNP <- paste0(filtered_table$locus_formatted, "_", filtered_table$alleles_formatted, "_b38")
 filtered_table$ID <- paste0(filtered_table$locus, ":", filtered_table$REF, ":", filtered_table$ALT)
