@@ -51,3 +51,5 @@ manhattan(hail_table,
           suggestiveline = log_b_value)
 
 dev.off()
+
+cat("GWAS Manhattan plot complete\n")
