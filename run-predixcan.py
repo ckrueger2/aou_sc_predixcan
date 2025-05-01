@@ -5,9 +5,10 @@ import argparse
 def set_args():
     parser = argparse.ArgumentParser(description="run s-predixcan")
     parser.add_argument("-i", "--input", help="path to input file", required=False)
-    parser.add_argument("-o", "--output", help="where to make output file", required=False)
+    parser.add_argument("--phecode", help="phecode", required=False)
+    parser.add_argument("--pop", help="population", required=False)
     parser.add_argument("-r", "--reference", help="eqtl model and matrix to use as reference", required=False)
-    parser.add_argument("-d", "--databases", help="list possible inputs for --reference option", required=False, action="store_true")
+    parser.add_argument( "--databases", help="list possible inputs for --reference option", required=False, action="store_true")
     return parser
 
 def main():
@@ -29,7 +30,7 @@ def main():
             print(ref)
         return
 
-    if not args.input or not args.output or not args.reference:
+    if not args.input or not args.pop or not args.phecode or not args.reference:
         parser.print_help()
     else:
         os.system(f"conda run -p /home/jupyter/miniconda3/envs/imlabtools \
@@ -46,7 +47,7 @@ def main():
         --additional_output \
         --model_db_snp_key varID \
         --throw \
-        --output_file {args.output}.csv")
+        --output_file {args.pop}_predixcan_output_{args.phecode}.csv")
 
 if __name__ == "__main__":
     main()
