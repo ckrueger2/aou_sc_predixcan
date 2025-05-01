@@ -42,7 +42,7 @@ df['P'] = df['Pvalue']
 result = df[['SNP', 'CHR', 'BP', 'P']]
 
 # saving the results to a txt with space separation for usability in qqman, will not accept tsv or csv...
-output_file = '/home/jupyter/GWAS-TWAS-in-All-of-Us-Cloud/reformat_output_file.txt'
+output_file = '~/GWAS-TWAS-in-All-of-Us-Cloud/reformat_output_file.txt'
 result.to_csv(output_file, index=False, sep = ' ')
 
 #just to verify that the file was made 
