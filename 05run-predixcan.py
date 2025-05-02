@@ -22,9 +22,8 @@ def main():
     input = filename
     output = f"{args.pop}_predixcan_output_{args.phecode}.csv"
 
-    os.system(f"conda run -p /home/jupyter/miniconda3/envs/imlabtools \
-    python MetaXcan/software/SPrediXcan.py \
-    --gwas_file {input} \
+    os.system(f"/home/jupyter/miniconda3/envs/imlabtools/bin/python MetaXcan/software/SPrediXcan.py \
+    --gwas_file /home/jupyter/GWAS-TWAS-in-All-of-Us-Cloud/{input} \
     --snp_column SNP \
     --effect_allele_column ALT \
     --non_effect_allele_column REF \
