@@ -43,17 +43,26 @@ Run the wrapper via `bash ~/GWAS-TWAS-in-All-of-Us-Cloud/00twas-wrapper.sh --phe
 Possible reference databases can be displayed by including the `--databases` flag
 ***
 ## Pipeline Outline: 
-### The [wrapper](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/blob/main/00wrapper.sh) will run the following scripts:
-### 1. [Pulling Data](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/blob/main/01pull_data.py)
-- retrieves hail tables of GWAS summary statistics from the AoU cloud based on a user-defined ancestral population abbreviation and phecode that corresponds to a phenotype of interest
-### 2. [Table Formatting](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/blob/main/02table_format.R)
-- accommodates various input formatting requirements by subsequent tools
-### 3. [GWAS qqman](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/blob/main/03gwas_qqman.R)
-- visualizes GWAS summary statistics results via Manhattan Plot
-### 4. [locuszoomR](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/blob/main/04locuszoom.R)
--  visualize all of the SNPs in a specific locus
-### 5. [S-PrediXcan Wrapper](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/blob/main/05predixcan-wrapper.ipynb)
-- imputes TWAS summary statistics from GWAS summary statistics
-### 6. [TWAS qqman (and biomaRt)](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/blob/main/06twas_qqman.R)
-- visualizes TWAS summary statistics results via Manhattan Plot
+### The [First Wrapper](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/blob/main/00wrapper.sh) will run the following scripts:
+  ### 1. [Pulling Data](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/blob/main/01pull_data.py)
+  - retrieves hail tables of GWAS summary statistics from the AoU cloud based on a user-defined ancestral population abbreviation and phecode that corresponds to a phenotype of interest
+  - [Documentation](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/wiki/4.-Retrieve-Summary-Statistics#pulling-all-of-us-gwas-summary-statistics-from-the-cloud)
+  ### 2. [Table Formatting](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/blob/main/02table_format.R)
+  - accommodates various input formatting requirements by subsequent tools
+  - [Documentation](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/wiki/4.-Retrieve-Summary-Statistics#formatting-all-of-us-gwas-summary-statistics-for-qqman-locuszoomr-and-s-predixcan-input)
+  ### 3. [GWAS qqman](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/blob/main/03gwas_qqman.R)
+  - visualizes GWAS summary statistics results via Manhattan Plot
+  - [Documentation](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/wiki/5.-qqman-for-GWAS-summary-statistic-data)
+  ### 4. [locuszoomR](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/blob/main/04locuszoom.R)
+  -  visualize all of the SNPs in a specific locus
+  -  [Documentation](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/wiki/6.-Locuszoomr)
+
+
+### The [Second Wrapper](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/blob/main/00twas-wrapper.sh) will run S-PrediXcan, then plot the results using biomaRt, and qqman.
+  ### 5. [S-PrediXcan Wrapper](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/blob/main/05predixcan-wrapper.ipynb)
+  - imputes TWAS summary statistics from GWAS summary statistics
+  - [Documentation](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/wiki/7.-S%E2%80%90PrediXcan)
+  ### 6. [TWAS qqman (and biomaRt)](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/blob/main/06twas_qqman.R)
+  - visualizes TWAS summary statistics results via Manhattan Plot
+  - [Documentation](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/wiki/8.-biomaRt-and-qqman-for-TWAS-summary-statistics)
 
