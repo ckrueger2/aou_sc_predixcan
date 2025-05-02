@@ -92,7 +92,7 @@ new_suggestive_threshold <- -log10(bonferroni_threshold)
 cat("Bonferroni corrected P-value: ", bonferroni_threshold , "\n")
 
 #manhattan plot title name
-title <- paste0(args$pop, " ", args$phecode, "TWAS Manhattan Plot")
+title <- paste0(args$pop, " ", args$phecode, " TWAS Manhattan Plot")
 
 #name of saved file
 destination_filename <- paste0(args$pop, "_", args$phecode,"_twas_manhattan.png")
