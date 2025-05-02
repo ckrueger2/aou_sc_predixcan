@@ -12,6 +12,7 @@ library(biomaRt)
 library(data.table)
 library(dplyr)
 library(qqman)
+library(argparse)
 
 #set up argparse
 parser <- ArgumentParser()
@@ -29,7 +30,7 @@ read_in_command <- paste0("gsutil cp ", my_bucket, "/data/", name_of_file_in_buc
 
 #copy file from the bucket to the current workspace
 system(read_in_command, intern=TRUE)
-data <- fread(name_of_file_in_bucket, sep = "\t", header=TRUE)
+df <- fread(name_of_file_in_bucket, sep = ",", header=TRUE)
 
 #accessing the Ensembl biomart database for 'genes', specifically the human genes version 113 (can be changed or left out)
 biomart_access <- useEnsembl(biomart = "genes", dataset = "hsapiens_gene_ensembl", version = "113")
@@ -58,6 +59,7 @@ gene_coords <- getBM(
 
 #merge our TWAS table and biomart results 
 merged_df <- left_join(df, gene_coords, by=c("gene_id" ="ensembl_gene_id"))
+head(merged_df)
 
 #merging the original "df", with new "gene_coords", gene_id in df and ensembl_gene_id in gene_coords into a new dataframe merged_df
 
@@ -65,7 +67,7 @@ merged_df <- left_join(df, gene_coords, by=c("gene_id" ="ensembl_gene_id"))
 merged_df$P <- as.numeric(merged_df$pvalue)
 #merged_df <- merged_df[is.finite(merged_df$P) & merged_df$P > 0, ]
 zeros <- which(merged_df$P == 0)
-merged_df <- merged_df %>% drop_na()
+merged_df <- na.omit(merged_df)
 merged_df$P[merged_df$P == 0] <- 1e-300
 
 #make CHR rows numeric and remove rows with NA, keeping only autosomes (1-22)
