@@ -70,18 +70,27 @@ zeros <- which(merged_df$P == 0)
 merged_df <- na.omit(merged_df)
 merged_df$P[merged_df$P == 0] <- 1e-300
 
-#make CHR rows numeric and remove rows with NA, keeping only autosomes (1-22)
-merged_df$CHR <- as.numeric(merged_df$chromosome_name)
-merged_df <- merged_df[!is.na(merged_df$CHR) & merged_df$CHR %in% 1:22, ]
+#make P column is numeric and handle NA p-values and 0s
+merged_df$P <- as.numeric(merged_df$pvalue)
+zeros <- which(merged_df$P == 0)
+#filter only for required fields
+merged_df <- merged_df %>% filter(!is.na(chromosome_name) & !is.na(start_position) & !is.na(P))
+if(length(zeros) > 0) {
+  merged_df$P[merged_df$P == 0] <- 1e-300
+}
 
-# double check data
+#make CHR rows numeric and remove rows with NA
+merged_df$CHR <- as.numeric(merged_df$chromosome_name)
+merged_df <- merged_df[!is.na(merged_df$CHR), ]
+
+#double check data
 cat("Preview of BioMart merged table \n")
 head(merged_df, 10)
 
-# finding sample size to calculate threshold
+#finding sample size to calculate threshold
 sample_size <- nrow(merged_df)
 
-# calculate the new bonferroni and threshold based on sample size 
+#calculate the new bonferroni and threshold based on sample size 
 bonferroni_threshold <- 0.05 / sample_size
 new_suggestive_threshold <- -log10(bonferroni_threshold)
 cat("Bonferroni corrected P-value: ", bonferroni_threshold , "\n")
