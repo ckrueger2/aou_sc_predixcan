@@ -46,4 +46,4 @@ REPO=$HOME/GWAS-TWAS-in-All-of-Us-Cloud
 python "$REPO/05run-predixcan.py" --phecode "$PHECODE" --pop "$POP" --ref "$REF"
 
 # run qqman on twas sum stats
-# Rscript "$REPO/06twas-qqman.R" --phecode "$PHECODE" --pop "$POP"
+Rscript "$REPO/06twas-qqman.R" --phecode "$PHECODE" --pop "$POP"
