@@ -5,7 +5,7 @@
 In order to access sensitive All of Us GWAS data, you must create and account, verify your identity, and complete the requisite training. The steps to do this can be found in the wiki at [Registering for All of Us](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/wiki/1.-Registering-for-All-of-Us).
 
 ### Navigating and Creating a Workspace
-The next step is to create a workspace at your Research Workbench. To navigate https://workbench.researchallofus.org/ the [Using All of Us Website and Cloud](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/wiki/2.-Using-All-of-Us-Website-and-Cloud) page on the wiki will walk you through the website. 
+The next step is to create a workspace at your Research Workbench. The [Using All of Us Website and Cloud](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/wiki/2.-Using-All-of-Us-Website-and-Cloud) page on the wiki will walk you through the website. 
 Your workspace will house any GWAS data you pull along with all scripts from this repository and their output.
 ***
 ## Using the Pipeline
