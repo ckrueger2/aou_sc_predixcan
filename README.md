@@ -54,7 +54,7 @@ bash ~/GWAS-TWAS-in-All-of-Us-Cloud/00twas-wrapper.sh --phecode <PHECODE> --pop 
 ```
 
 `<PHECODE>` is the phenotype code of interest  
-`<POP>` is the population the same originates from  
+`<POP>` is the population the sample originates from  
 `<REF>` is the reference database to use  
 Possible reference databases can be displayed by including the `--databases` flag
 ***
