@@ -12,8 +12,8 @@ Your workspace will house any GWAS data you pull along with all scripts from thi
 ### Clone Repo
 To access these scripts, clone this repository in your workspace. Information on how to do this and how to run scripts from this repo in your workspace is in [Using This Repository](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/wiki/3.-Using-This-Repository).
 
-### Analysis
-Once these scripts are in your workspace, you will be able to run them to pull and analyze All of Us GWAS data. This can be done with the wrapper to run all analyses at once, or each tool can be run individually. Each tool is detailed in its respective wiki page; the wrapper is detailed below.
+### Analysis 
+Once these scripts are in your workspace, you will be able to run them to pull and analyze All of Us GWAS data. This can be done most easily by using the two wrapper scripts. The first wrapper script obtains, analyzes, and plots GWAS data from All of Us. The second wrapper script generates and plots TWAS data. The wrappers call a number of other scripts which can be run on their own if you only need to use one of the tools. Each tool is detailed in its respective wiki page; the wrappers are detailed below.
 
 ### 00Wrapper
 Prior to running the 00wrapper.sh script, run `chmod +x ~/GWAS-TWAS-in-All-of-Us-Cloud/00wrapper.sh`
@@ -31,7 +31,8 @@ To run the wrapper use the following command within the All of Us terminal under
 ### 00twas-wrapper
 Prior to running the 00wrapper.sh script, run `chmod +x ~/GWAS-TWAS-in-All-of-Us-Cloud/00twas-wrapper.sh`
 
-Then, set clone the tool into your repo and set up a conda environment for S-PrediXcan via `bash ~/GWAS-TWAS-in-All-of-Us-Cloud/set-up-predixcan.sh`
+Next, run the setup script with `bash ~/GWAS-TWAS-in-All-of-Us-Cloud/set-up-predixcan.sh`  
+This clones S-PrediXcan into your repository and sets up a conda environment for it, both of which are necessary for the wrapper to work.
 
 This second wrapper performs the TWAS part of this tool. It executes scripts 5 & 6, which imputes TWAS summary statistics and generates a Manhattan plot of those data.
 
