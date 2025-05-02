@@ -16,11 +16,17 @@ To access these scripts, clone this repository in your workspace. Information on
 Once these scripts are in your workspace, you will be able to run them to pull and analyze All of Us GWAS data. This can be done most easily by using the two wrapper scripts. The first wrapper script obtains, analyzes, and plots GWAS data from All of Us. The second wrapper script generates and plots TWAS data. The wrappers call a number of other scripts which can be run on their own if you only need to use one of the tools. Each tool is detailed in its respective wiki page; the wrappers are detailed below.
 
 ### 00Wrapper
-Prior to running the 00wrapper.sh script, run `chmod +x ~/GWAS-TWAS-in-All-of-Us-Cloud/00wrapper.sh`
+Prior to running the 00wrapper.sh script, run
+```
+chmod +x ~/GWAS-TWAS-in-All-of-Us-Cloud/00wrapper.sh
+```
 
 Running the 00Wrapper.sh will execute scripts 1 through 4, which include pulling GWAS summary statistics, formatting them, plotting a Manhattan plot, and running LocusZoom on one locus of interest.
 
-To run the wrapper use the following command within the All of Us terminal under the Hail Table Environment: `bash ~/GWAS-TWAS-in-All-of-Us-Cloud/00wrapper.sh --phecode <PHECODE> --pop <POP> --rsid <RSID> --token <TOKEN>`
+To run the wrapper use the following command within the All of Us terminal under the Hail Table Environment:
+```
+bash ~/GWAS-TWAS-in-All-of-Us-Cloud/00wrapper.sh --phecode <PHECODE> --pop <POP> --rsid <RSID> --token <TOKEN>
+```
 
 - Phecode and Population arguments are required - See Wiki 4. Retrieving Summary Statistics for phecode and population options
 - rsid and token arguments are optional
@@ -29,14 +35,23 @@ To run the wrapper use the following command within the All of Us terminal under
 > Token represents the LDlink personal access code needed to display linkage disequilibrium when plotting with locuszoomr. To make a one-time request for your personal access token follow the directions within the following web browser at https://ldlink.nih.gov/?tab=apiaccess.
 
 ### 00twas-wrapper
-Prior to running the 00twas-wrapper.sh script, run `chmod +x ~/GWAS-TWAS-in-All-of-Us-Cloud/00twas-wrapper.sh`
+Prior to running the 00twas-wrapper.sh script, run
+```
+chmod +x ~/GWAS-TWAS-in-All-of-Us-Cloud/00twas-wrapper.sh
+```
 
-Next, run the setup script with `bash ~/GWAS-TWAS-in-All-of-Us-Cloud/set-up-predixcan.sh`  
+Next, run the setup script with
+```
+bash ~/GWAS-TWAS-in-All-of-Us-Cloud/set-up-predixcan.sh
+```  
 This clones S-PrediXcan into your repository, sets up a conda environment for it, and downloads eqtl reference databases. All of this is necessary for the wrapper to work.
 
 This second wrapper performs the TWAS part of this tool. It executes scripts 5 & 6, which imputes TWAS summary statistics and generates a Manhattan plot of those data.
 
-Run the wrapper via `bash ~/GWAS-TWAS-in-All-of-Us-Cloud/00twas-wrapper.sh --phecode <PHECODE> --pop <POP> --ref <REF>`
+Run the wrapper via
+```
+bash ~/GWAS-TWAS-in-All-of-Us-Cloud/00twas-wrapper.sh --phecode <PHECODE> --pop <POP> --ref <REF>
+```
 
 `<PHECODE>` is the phenotype code of interest  
 `<POP>` is the population the same originates from  
