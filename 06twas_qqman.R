@@ -12,6 +12,7 @@ library(biomaRt)
 library(data.table)
 library(dplyr)
 library(qqman)
+library(argparse)
 
 #set up argparse
 parser <- ArgumentParser()
