@@ -1,3 +1,5 @@
+#!/usr/bin/R
+
 #using biomart to find genomic coordinates of genes from spredixcan output
 if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
 if (!requireNamespace("biomaRt", quietly = TRUE)) BiocManager::install("biomaRt")
