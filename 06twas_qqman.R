@@ -52,8 +52,9 @@ gene_coords <- getBM(
   mart = biomart_access
 )
 
-cat("Gene Coords:\n")
+cat("Preview of Biomart Query:\n")
 head(gene_coords)
+
 # attributes are the columns you want to retrieve/add from the database to your data
 # filters are for ensuring that youre using the same data base as was used for the previous tools (spredixcan)
 # values are what the database will use to search for your data, in our case the "cleaned up" gene_ids 
@@ -64,13 +65,6 @@ merged_df <- left_join(df, gene_coords, by=c("gene_id" ="ensembl_gene_id"))
 head(merged_df)
 
 #merging the original "df", with new "gene_coords", gene_id in df and ensembl_gene_id in gene_coords into a new dataframe merged_df
-
-# make P column is numeric and remove NA p-values and 0s
-merged_df$P <- as.numeric(merged_df$pvalue)
-#merged_df <- merged_df[is.finite(merged_df$P) & merged_df$P > 0, ]
-zeros <- which(merged_df$P == 0)
-merged_df <- na.omit(merged_df)
-merged_df$P[merged_df$P == 0] <- 1e-300
 
 #make P column is numeric and handle NA p-values and 0s
 merged_df$P <- as.numeric(merged_df$pvalue)
