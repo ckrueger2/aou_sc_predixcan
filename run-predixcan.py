@@ -8,7 +8,7 @@ def set_args():
     parser.add_argument("--phecode", help="phecode", required=False)
     parser.add_argument("--pop", help="population", required=False)
     parser.add_argument("-r", "--reference", help="eqtl model and matrix to use as reference", required=False)
-    parser.add_argument( "--databases", help="list possible inputs for --reference option", required=False, action="store_true")
+    parser.add_argument("--databases", help="list possible inputs for --reference option", required=False, action="store_true")
     return parser
 
 def main():
