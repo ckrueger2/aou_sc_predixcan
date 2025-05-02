@@ -31,6 +31,8 @@ To run the wrapper use the following command within the All of Us terminal under
 ### 00twas-wrapper
 Prior to running the 00wrapper.sh script, run `chmod +x ~/GWAS-TWAS-in-All-of-Us-Cloud/00twas-wrapper.sh`
 
+Then, set clone the tool into your repo and set up a conda environment for S-PrediXcan via `bash ~/GWAS-TWAS-in-All-of-Us-Cloud/set-up-predixcan.sh`
+
 This second wrapper performs the TWAS part of this tool. It executes scripts 5 & 6, which imputes TWAS summary statistics and generates a Manhattan plot of those data.
 
 Run the wrapper via `bash ~/GWAS-TWAS-in-All-of-Us-Cloud/00twas-wrapper.sh --phecode <PHECODE> --pop <POP> --ref <REF>`
