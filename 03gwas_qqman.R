@@ -1,3 +1,5 @@
+#!/usr/bin/R
+
 if (!requireNamespace("data.table", quietly = TRUE)) install.packages("data.table")
 if (!requireNamespace("qqman", quietly = TRUE)) install.packages("qqman")
 if (!requireNamespace("argparse", quietly = TRUE)) install.packages("argparse")
