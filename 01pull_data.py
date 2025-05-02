@@ -51,15 +51,14 @@ os.system(f"gsutil -u $GOOGLE_PROJECT ls gs://fc-aou-datasets-controlled/AllxAll
 #find hail table and save to variable
 ht = hl.read_table(f"gs://fc-aou-datasets-controlled/AllxAll/v1/ht/ACAF/{pop}/phenotype_{phenotype_id}_ACAF_results.ht")
 
-#save the column headers
-available_fields = set(ht.row)
-
-#keep only necessary columns
+#columns to keep
 desired_columns = ['locus', 'alleles', 'BETA', 'SE', 'Het_Q', 'Pvalue', 'Pvalue_log10', 'CHR', 'POS', 'rank', 'Pvalue_expected', 'Pvalue_expected_log10']
 
-#select the columns
-columns_to_select = [col for col in desired_columns if col in available_fields]
-filtered_ht = ht.select(*columns_to_select)
+#save the column headers
+available_fields = set(ht.row)
+key_fields = list(ht.key)
+non_key_columns = [col for col in desired_columns if col in available_fields and col not in key_fields]
+filtered_ht = ht.select(*non_key_columns)
 
 #add Het_Q column if it doesn't exist
 if 'Het_Q' not in available_fields:
