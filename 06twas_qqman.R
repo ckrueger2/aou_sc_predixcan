@@ -52,6 +52,8 @@ gene_coords <- getBM(
   mart = biomart_access
 )
 
+cat("Gene Coords:\n")
+head(gene_coords)
 # attributes are the columns you want to retrieve/add from the database to your data
 # filters are for ensuring that youre using the same data base as was used for the previous tools (spredixcan)
 # values are what the database will use to search for your data, in our case the "cleaned up" gene_ids 
