@@ -13,7 +13,14 @@ def main():
     parser = set_args()
     args = parser.parse_args(sys.argv[1:])
 
+    # get file from bucket
     bucket = os.environ.get("WORKSPACE_BUCKET")
+    filename = args.pop + "_formatted_gtex_" + args.phecode + ".tsv"
+    get_file = "gsutil cp " + bucket + "/data/" + filename + " ."
+    
+    os.system(get_file)
+    input = filename
+    output = f"{args.pop}_predixcan_output_{args.phecode}.csv"
 
     os.system(f"conda run -p /home/jupyter/miniconda3/envs/imlabtools \
     python MetaXcan/software/SPrediXcan.py \
@@ -29,7 +36,10 @@ def main():
     --additional_output \
     --model_db_snp_key varID \
     --throw \
-    --output_file {args.pop}_predixcan_output_{args.phecode}.csv")
+    --output_file {output}")
+
+    set_file = "gsutil cp " + output + " " + bucket + "/data/"
+    os.system(set_file)
 
 if __name__ == "__main__":
     main()
