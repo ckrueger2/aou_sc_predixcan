@@ -34,21 +34,16 @@ read_in_command <- paste0("gsutil cp ", my_bucket, "/data/", name_of_file_in_buc
 system(read_in_command, intern=TRUE)
 data <- fread(name_of_file_in_bucket, sep = "\t", header=TRUE)
 
-#reformatting column headers
-colnames(data)[colnames(data) == "P"] <- "Pvalue"
-colnames(data)[colnames(data) == "CHR"] <- "CHR"
-
 #if rsid is user provided
 if (!is.null(args$rsid)) {
   #creating locus object with user provided SNP
   loc <- locus(data = data, ens_db = "EnsDb.Hsapiens.v86", index_snp = args$rsid, flank = 1e5)
 } else { 
   #rsid is not provided, so we default to most signif. SNP
-  signif_rsid <- data$rsID[which.min(data$P)]
+  signif_rsid <- data$rsID[which.min(data$Pvalue)]
   # creating locus object with top hit SNP
   cat("rsID not provided; running locuszoom on lowest p-value SNP\n")
-  loc <- locus(data = data, ens_db = "EnsDb.Hsapiens.v86", index_snp = signif_rsid, 
-               flank = 1e5)
+  loc <- locus(data = data, ens_db = "EnsDb.Hsapiens.v86", index_snp = signif_rsid, flank = 1e5, snp_col = "rsID", pvalue_col = "Pvalue")
 }
 
 #make a one-time request for your personal access token from a web browser at https://ldlink.nih.gov/?tab=apiaccess.
