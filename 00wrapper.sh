@@ -41,10 +41,10 @@ fi
 REPO=$HOME/GWAS-TWAS-in-All-of-Us-Cloud
 
 #download hail table
-#python "$REPO/01pull_data.py" --phecode "$PHECODE" --pop "$POP"
+python "$REPO/01pull_data.py" --phecode "$PHECODE" --pop "$POP"
 
 #format hail tables
-#Rscript "$REPO/02table_format.R" --phecode "$PHECODE" --pop "$POP"
+Rscript "$REPO/02table_format.R" --phecode "$PHECODE" --pop "$POP"
 
 #capture the SNP count
 BUCKET_PATH=$(gsutil ls gs://*/data/${POP}_full_${PHECODE}.tsv)
