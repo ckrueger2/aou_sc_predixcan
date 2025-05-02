@@ -30,7 +30,7 @@ read_in_command <- paste0("gsutil cp ", my_bucket, "/data/", name_of_file_in_buc
 
 #copy file from the bucket to the current workspace
 system(read_in_command, intern=TRUE)
-data <- fread(name_of_file_in_bucket, sep = "\t", header=TRUE)
+data <- fread(name_of_file_in_bucket, sep = ",", header=TRUE)
 
 #accessing the Ensembl biomart database for 'genes', specifically the human genes version 113 (can be changed or left out)
 biomart_access <- useEnsembl(biomart = "genes", dataset = "hsapiens_gene_ensembl", version = "113")
