@@ -82,12 +82,12 @@ if (check_result != 0) {
 
 #filter SNPs
 #command10 <- paste0("awk 'NR==FNR {a[$1]; next} ($1) in a' /tmp/chrpos_allele_table.tsv /tmp/", args$pop, "_full_", args$phecode, ".tsv > /tmp/gtex_", args$phecode, ".tsv")
-command10 <- paste0("awk 'NR==FNR {split($1,b,\":\"); key=b[1]\":\"b[2]; a[key]; next} {key=$1\":\"$2; if(key in a) print}' /tmp/chrpos_allele_table.tsv /tmp/", args$pop, "_full_", args$phecode, ".tsv > /tmp/gtex_", args$phecode, ".tsv")
-system(command10)
+#command10 <- paste0("awk 'NR==FNR {split($1,b,\":\"); key=b[1]\":\"b[2]; a[key]; next} {key=$1\":\"$2; if(key in a) print}' /tmp/chrpos_allele_table.tsv /tmp/", args$pop, "_full_", args$phecode, ".tsv > /tmp/gtex_", args$phecode, ".tsv")
+#system(command10)
 
 #save to bucket
-command11 <- paste0("gsutil cp /tmp/gtex_", args$phecode, ".tsv ", my_bucket, "/data/", args$pop, "_gtex_", args$phecode,".tsv")
-system(command11)
+#command11 <- paste0("gsutil cp /tmp/gtex_", args$phecode, ".tsv ", my_bucket, "/data/", args$pop, "_gtex_", args$phecode,".tsv")
+#system(command11)
 
 #check bucket
 check_result2 <- system(paste0("gsutil ls ", my_bucket, "/data/ | grep ", args$pop, "_gtex_", args$phecode, ".tsv"), ignore.stderr = TRUE)
@@ -105,7 +105,7 @@ gtex_command <- paste0("gsutil cp ", my_bucket, "/data/", name_of_gtex_file, " .
 
 system(gtex_command, intern=TRUE)
 
-gtex_table <- fread(name_of_gtex_file, header=FALSE)
+gtex_table <- fread(name_of_gtex_file, header=FALSE, sep="\t")
 colnames(gtex_table) <- c("locus","alleles","BETA","SE","Het_Q","Pvalue","Pvalue_log10","CHR","POS","rank","Pvalue_expected","Pvalue_expected_log10")
 
 #check table
