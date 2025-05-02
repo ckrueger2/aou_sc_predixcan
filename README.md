@@ -27,6 +27,18 @@ To run the wrapper use the following command within the All of Us terminal under
 > To view a locus with locuszoomr other than the locus with the lowest P-value SNP, specify the rsID of a SNP within the locus of interest. This SNP will also serve as the reference SNP for linkage disequilibrium disply
 
 > Token represents the LDlink personal access code needed to display linkage disequilibrium when plotting with locuszoomr. To make a one-time request for your personal access token follow the directions within the following web browser at https://ldlink.nih.gov/?tab=apiaccess.
+
+### 00twas-wrapper
+Prior to running the 00wrapper.sh script, run `chmod +x ~/GWAS-TWAS-in-All-of-Us-Cloud/00twas-wrapper.sh`
+
+This second wrapper performs the TWAS part of this tool. It executes scripts 5 & 6, which imputes TWAS summary statistics and generates a Manhattan plot of those data.
+
+Run the wrapper via `bash ~/GWAS-TWAS-in-All-of-Us-Cloud/00twas-wrapper.sh --phecode <PHECODE> --pop <POP> --ref <REF>`
+
+`<PHECODE>` is the phenotype code of interest
+`<POP>` is the population the same originates from
+`<REF>` is the reference database to use
+Possible reference databases can be displayed by including the `--databases` flag
 ***
 ## Pipeline Outline: 
 ### The [wrapper](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/blob/main/00wrapper.sh) will run the following scripts:
