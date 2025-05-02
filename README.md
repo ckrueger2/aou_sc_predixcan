@@ -29,7 +29,7 @@ To run the wrapper use the following command within the All of Us terminal under
 > Token represents the LDlink personal access code needed to display linkage disequilibrium when plotting with locuszoomr. To make a one-time request for your personal access token follow the directions within the following web browser at https://ldlink.nih.gov/?tab=apiaccess.
 
 ### 00twas-wrapper
-Prior to running the 00wrapper.sh script, run `chmod +x ~/GWAS-TWAS-in-All-of-Us-Cloud/00twas-wrapper.sh`
+Prior to running the 00twas-wrapper.sh script, run `chmod +x ~/GWAS-TWAS-in-All-of-Us-Cloud/00twas-wrapper.sh`
 
 Next, run the setup script with `bash ~/GWAS-TWAS-in-All-of-Us-Cloud/set-up-predixcan.sh`  
 This clones S-PrediXcan into your repository and sets up a conda environment for it, both of which are necessary for the wrapper to work.
