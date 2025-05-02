@@ -66,7 +66,7 @@ merged_df <- left_join(df, gene_coords, by=c("gene_id" ="ensembl_gene_id"))
 merged_df$P <- as.numeric(merged_df$pvalue)
 #merged_df <- merged_df[is.finite(merged_df$P) & merged_df$P > 0, ]
 zeros <- which(merged_df$P == 0)
-merged_df <- merged_df %>% drop_na()
+merged_df <- na.omit(merged_df)
 merged_df$P[merged_df$P == 0] <- 1e-300
 
 #make CHR rows numeric and remove rows with NA, keeping only autosomes (1-22)
