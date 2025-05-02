@@ -121,6 +121,3 @@ try:
 except subprocess.CalledProcessError:
     #if command failed
     sys.exit(f"ERROR: File '{filtered_path}' was not found in {bucket}/data/.\n")
-
-#Print number of SNPs in order to capture by wrapper for bonferroni correction    
-print(rows - 1)
