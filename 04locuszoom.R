@@ -1,3 +1,5 @@
+#!/usr/bin/R
+
 #installation of of database packages from Bioconductor, if already installed not necessary
 #first installing BiocManager as well as test db
 if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
