@@ -51,15 +51,33 @@ os.system(f"gsutil -u $GOOGLE_PROJECT ls gs://fc-aou-datasets-controlled/AllxAll
 #find hail table and save to variable
 ht = hl.read_table(f"gs://fc-aou-datasets-controlled/AllxAll/v1/ht/ACAF/{pop}/phenotype_{phenotype_id}_ACAF_results.ht")
 
+#save the column headers
+available_fields = set(ht.row)
+
+#keep only necessary columns
+desired_columns = ['locus', 'alleles', 'BETA', 'SE', 'Het_Q', 'Pvalue', 'Pvalue_log10', 'CHR', 'POS', 'rank', 'Pvalue_expected', 'Pvalue_expected_log10']
+
+#select the columns
+columns_to_select = [col for col in desired_columns if col in available_fields]
+filtered_ht = ht.select(*columns_to_select)
+
+#add Het_Q column if it doesn't exist
+if 'Het_Q' not in available_fields:
+    filtered_ht = filtered_ht.annotate(Het_Q=hl.null(hl.tfloat64))
+
+#make sure columns are in the correct order
+ordered_columns = [col for col in desired_columns if col in filtered_ht.row]
+ordered_ht = filtered_ht.select(*ordered_columns)
+
 #save full table to bucket for S-PrediXcan input
 ht_path = f'{bucket}/data/{pop}_full_{phenotype_id}.tsv'
-ht.export(ht_path)
+ordered_ht.export(ht_path)
 
 #show first few lines of hail table
-ht.show(20)
+ordered_ht.show(20)
 
 #table dimentions
-rows, cols = ht.count(), len(ht.row)
+rows, cols = ordered_ht.count(), len(ordered_ht.row)
 print(f"Table dimensions: {rows} rows x {cols} columns")
 
 #FILTER BY PVALUE
@@ -69,7 +87,7 @@ max_snps = 2000000
 min_pval = 5e-8
 
 #intial thinning of SNPs
-significant_snps = ht.filter(ht.Pvalue < pval)
+significant_snps = ordered_ht.filter(ordered_ht.Pvalue < pval)
 num_snps = significant_snps.count()
 
 #continue to thin until less than max_snps threshold
@@ -79,7 +97,7 @@ while num_snps > max_snps and pval > min_pval:
     if pval < min_pval:
         pval = min_pval
     #thin again
-    significant_snps = ht.filter(ht.Pvalue < pval)
+    significant_snps = ordered_ht.filter(ordered_ht.Pvalue < pval)
     num_snps = significant_snps.count()
     if pval == min_pval:
         break
