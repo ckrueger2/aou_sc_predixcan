@@ -59,6 +59,7 @@ gene_coords <- getBM(
 
 #merge our TWAS table and biomart results 
 merged_df <- left_join(df, gene_coords, by=c("gene_id" ="ensembl_gene_id"))
+head(merged_df)
 
 #merging the original "df", with new "gene_coords", gene_id in df and ensembl_gene_id in gene_coords into a new dataframe merged_df
 
