@@ -66,6 +66,7 @@ if 'Het_Q' not in available_fields:
 
 #make sure columns are in the correct order
 ordered_columns = [col for col in desired_columns if col in filtered_ht.row]
+filtered_ht = filtered_ht.key_by()
 ordered_ht = filtered_ht.select(*ordered_columns)
 
 #save full table to bucket for S-PrediXcan input
