@@ -38,12 +38,15 @@ if [[ -z "$PHECODE" || -z "$POP" ]]; then
 fi
 
 #github repo path
-REPO=$HOME/GWAS-TWAS-in-All-of-Us-Cloud
+#REPO=$HOME/GWAS-TWAS-in-All-of-Us-Cloud
 
 #download hail table
-python "$REPO/01pull_data.py" --phecode "$PHECODE" --pop "$POP"
+#python "$REPO/01pull_data.py" --phecode "$PHECODE" --pop "$POP"
+
 #capture the SNP count
-SNP_COUNT=$(echo "$PULL_DATA_OUTPUT" | tail -n 1)
+BUCKET_PATH=$(gsutil ls gs://*/data/${POP}_full_${PHECODE}.tsv)
+SNP_COUNT=$(gsutil cat $BUCKET_PATH | wc -l)
+SNP_COUNT=$((SNP_COUNT - 1)) #subtract 1 to exclude the header line
 
 #format hail tables
 Rscript "$REPO/02table_format.R" --phecode "$PHECODE" --pop "$POP"
