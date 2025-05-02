@@ -66,7 +66,7 @@ if (check_result != 0) {
 
 #PERFORM COMMAND LINE FORMATTING FOR S-PREDIXCAN FILE
 #upload GTEx SNP file to workspace bucket
-command7 <- paste0("gsutil -m cp -v /GWAS-TWAS-in-All-of-Us-Cloud/predixcan_models_varids-effallele.txt.gz ", my_bucket, "/data/")
+command7 <- paste0("gsutil -m cp -v ~/GWAS-TWAS-in-All-of-Us-Cloud/predixcan_models_varids-effallele.txt.gz ", my_bucket, "/data/")
 system(command7, intern=TRUE)
 
 #unzip files
