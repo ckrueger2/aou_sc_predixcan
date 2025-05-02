@@ -92,5 +92,5 @@ gsutil ls $WORKSPACE_BUCKET
 
 Files can be copied from the bucket to the current directory via
 ```
-gustil cp $WORKSPACE_BUCKET/<filname> .
+gustil cp $WORKSPACE_BUCKET/<filename> .
 ```
