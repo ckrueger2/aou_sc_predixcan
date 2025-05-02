@@ -59,7 +59,7 @@ Possible reference databases can be displayed by including the `--databases` fla
 
 
 ### The [Second Wrapper](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/blob/main/00twas-wrapper.sh) will run S-PrediXcan, then plot the results using biomaRt, and qqman.
-  ### 5. [S-PrediXcan Wrapper](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/blob/main/05predixcan-wrapper.ipynb)
+  ### 5. [S-PrediXcan](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/blob/main/05run-predixcan.py)
   - imputes TWAS summary statistics from GWAS summary statistics
   - [Documentation](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/wiki/7.-S%E2%80%90PrediXcan)
   ### 6. [TWAS qqman (and biomaRt)](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/blob/main/06twas_qqman.R)
