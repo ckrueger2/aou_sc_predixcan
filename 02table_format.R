@@ -84,10 +84,6 @@ system(command9)
 command10 <- paste0("awk 'NR==FNR{a[$1];next} $1 in a' /tmp/chrpos_allele_table.tsv /tmp/", args$pop, "_full_", args$phecode, ".tsv > /tmp/gtex_", args$phecode, ".tsv")
 system(command10)
 
-# Check the number of lines in the filtered file
-line_count_check <- system(paste0("wc -l /tmp/gtex_", args$phecode, ".tsv"), intern = TRUE)
-cat("Number of lines in filtered GTEx file:", line_count_check, "\n")
-
 #save to bucket
 command11 <- paste0("gsutil cp /tmp/gtex_", args$phecode, ".tsv ", my_bucket, "/data/", args$pop, "_gtex_", args$phecode,".tsv")
 system(command11)
