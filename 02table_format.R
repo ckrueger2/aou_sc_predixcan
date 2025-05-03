@@ -82,7 +82,7 @@ if (check_result != 0) {
 
 #filter SNPs
 #command10 <- paste0("awk 'NR==FNR {a[$1]; next} ($1) in a' /tmp/chrpos_allele_table.tsv /tmp/", args$pop, "_full_", args$phecode, ".tsv > /tmp/gtex_", args$phecode, ".tsv")
-command10 <- paste0("(head -1 /tmp/", args$pop, "_full_", args$phecode, ".tsv && grep -F -f /tmp/chrpos_allele_table.tsv /tmp/", args$pop, "_full_", args$phecode, ".tsv) > /tmp/gtex_", args$phecode, ".tsv")
+command10 <- paste0("grep -F -f /tmp/chrpos_allele_table.tsv /tmp/", args$pop, "_full_", args$phecode, ".tsv | grep -v '^locus' > /tmp/gtex_", args$phecode, ".tsv")
 system(command10)
 
 #save to bucket
