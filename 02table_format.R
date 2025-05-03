@@ -189,7 +189,6 @@ head(reference_data)
 
 #merge files
 merged_table <- merge(filtered_table, reference_data[, c("CHR", "POS", "rsID")], by = c("CHR", "POS"), all.x = TRUE)
-head(merged_table)
 
 #remove un-needed columns
 filtered_merged_table <- merged_table[, c(1, 2, 13, 14, 15, 17, 5, 6, 8)]
@@ -269,4 +268,4 @@ if (check_filtered != 0) {
 }
 
 #clean up tmp files
-system("rm -f /tmp/*", intern=TRUE)
+system(paste0("rm -f /tmp/subset_", args$phecode, ".tsv /tmp/nochr", args$phecode, ".tsv /tmp/filtered_20180418.vcf /tmp/", args$phecode, "ref.vcf /tmp/predixcan_models_varids-effallele.txt /tmp/chrpos_allele_table.tsv /tmp/", args$pop, "_full_", args$phecode, ".tsv /tmp/gtex_", args$phecode, ".tsv"), intern=TRUE)
