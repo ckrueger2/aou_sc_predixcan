@@ -6,8 +6,8 @@ if [ ! -d ~/miniconda3 ]; then
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
     bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
     rm ~/miniconda3/miniconda.sh
-    source ~/miniconda3/bin/activate
-    conda init --all
+    eval "$(~/miniconda3/bin/conda shell.bash hook)"
+    conda init bash
 fi 
 
 # clone repo and create environment
@@ -19,8 +19,11 @@ if [ ! -d MetaXcan ]; then
     conda env create -f MetaXcan/software/conda_env.yaml
 fi
 
+#create imlabtools manually if needed
 if ! conda env list | grep -q imlabtools; then
-    echo "Failed to create imlabtools environment"
+    echo "Failed to create imlabtools environment, creating manually"
+    conda create -n imlabtools python=3.8 numpy pandas scipy h5py -y
+fi
         
 # download databases
 if [ ! -d eqtl ]; then
