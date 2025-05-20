@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os
 import sys
 import argparse
@@ -14,20 +16,21 @@ def set_args():
 def main():
     parser = set_args()
     args = parser.parse_args(sys.argv[1:])
-
-    #get file from bucket
+    
+    #retrieve file from bucket
     bucket = os.getenv('WORKSPACE_BUCKET')
     filename = args.pop + "_formatted_gtex_" + args.phecode + ".tsv"
-    get_command = "gsutil cp " + bucket + "/data/" + filename +  " /tmp/"
+    get_command = "gsutil cp " + bucket + "/data/" + filename + " /tmp/"
     os.system(get_command)
     
     output = f"/home/jupyter/{args.pop}_predixcan_output_{args.phecode}.csv"
-
-    #define python and metaxcan paths
+    
+    #python and metaxcan paths
     python_path = sys.executable
     metaxcan_dir = "/home/jupyter/MetaXcan"
     
-    os.system(f"{python_path} {metaxcan_dir}/software/SPrediXcan.py \
+    #build the command
+    cmd = f"{python_path} {metaxcan_dir}/software/SPrediXcan.py \
     --gwas_file /tmp/{filename} \
     --snp_column SNP \
     --effect_allele_column ALT \
@@ -39,21 +42,34 @@ def main():
     --keep_non_rsid \
     --additional_output \
     --model_db_snp_key varID \
-    --throw \
-    --output_file {output}")
+    --throw"
     
     #add heritability parameter if available
-    if h2 is not None:
-        cmd += f" \\\n    --gwas_h2 {h2}"
+    if args.gwas_h2 is not None:
+        cmd += f" \\\n    --gwas_h2 {args.gwas_h2}"
     
     #add sample size parameter if available
-    if N is not None:
-        cmd += f" \\\n    --gwas_N {N}"
+    if args.gwas_N is not None:
+        cmd += f" \\\n    --gwas_N {args.gwas_N}"
     
     #add output file and execute command
     cmd += f" \\\n    --output_file {output}"
+
+    #create a temporary patch file
+    patch_content = """
+import numpy as np
+np.object = object  # Add compatibility for older code
+"""
+    with open("/tmp/numpy_patch.py", "w") as f:
+        f.write(patch_content)
+    
+    #execute the patch before running S-PrediXcan
+    os.system(f"python /tmp/numpy_patch.py")
+    
+    #execute the S-PrediXcan command
     os.system(cmd)
     
+    #copy output to bucket
     set_file = "gsutil cp " + output + " " + bucket + "/data/"
     os.system(set_file)
 
