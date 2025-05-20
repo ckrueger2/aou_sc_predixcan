@@ -71,10 +71,12 @@ fi
 
 #patch metaxcan code if needed
 echo "Patching MetaXcan code for compatibility..."
-
-#patch GWAS.py for numpy.object compatibility
 if [ -f /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py ]; then
     sed -i 's/if a.dtype == numpy.object:/if a.dtype == object or str(a.dtype).startswith("object"):/' /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py
+fi
+
+if [ -f /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py ]; then
+    sed -i 's/numpy.str/str/g' /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
 fi
 
 output_file="/home/jupyter/${POP}_predixcan_output_${PHECODE}.csv"
