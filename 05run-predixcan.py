@@ -39,8 +39,9 @@ def main():
         if n_total is None:
             n_cases = ht.globals.n_cases.collect()[0]
             n_controls = ht.globals.n_controls.collect()[0]
-            print(f"Cases/Controls/Heritability display None if no information is connected to the hail table\n")
+            print(f'Cases/Controls/Heritability will print "None" if no information is connected to the hail table\n')
             print(f"Cases: {n_cases}, Controls: {n_controls}\n")
+            print(f'Any "None" values are excluded from analysis; proceeding with S-PrediXcan analysis\n')
             
             #only set n_total if both values are not None
             if n_cases is not None and n_controls is not None:
