@@ -48,20 +48,23 @@ bash "$REPO/set-up-predixcan.sh"
 #activate conda
 source ~/miniconda3/bin/activate
 
+#remove existing imlabtools if it exists
+if conda env list | grep -q imlabtools; then
+    conda env remove -n imlabtools -y
+fi
+
+#create environment with compatible versions (this may need to be changed with future updates)
+conda create -n imlabtools python=3.8 numpy=1.19 pandas=1.1 scipy -y
+
 #activate imlabtools
 if conda activate imlabtools; then
     echo "Successfully activated imlabtools environment"
-else
-    echo "Failed to activate imlabtools environment, creating it now"
-    conda create -n imlabtools python=3.8 numpy=1.19 pandas scipy -y
-    conda activate imlabtools
 fi
 
-#use numpy version compatible with metaxcan (this may need to be changed with future updates)
-conda install -n imlabtools numpy=1.19 -y
-
-#define python path
-export PYTHON_PATH=$(which python)
+#patch metaxcan code if needed
+if [ -f /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py ]; then
+    sed -i 's/if a.dtype == numpy.object:/if a.dtype == object or str(a.dtype).startswith("object"):/' /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py
+fi
 
 #run s-predixcan
 python "$REPO/05run-predixcan.py" --phecode "$PHECODE" --pop "$POP" --ref "$REF"
