@@ -15,15 +15,16 @@ if [ ! -d MetaXcan ]; then
     git clone https://github.com/hakyimlab/MetaXcan
     cd MetaXcan
     git checkout 76a11b856f3cbab0b866033d518c201374a5594b
+    cd ..
     conda env create -f MetaXcan/software/conda_env.yaml
 fi
 
+if ! conda env list | grep -q imlabtools; then
+    echo "Failed to create imlabtools environment"
+        
 # download databases
 if [ ! -d etql ]; then
     wget https://zenodo.org/record/3518299/files/mashr_eqtl.tar?download=1 -O mashr_eqtl.tar
     tar -xvpf mashr_eqtl.tar
     rm mashr_eqtl.tar
 fi
-
-#return to home directory
-cd ~/
