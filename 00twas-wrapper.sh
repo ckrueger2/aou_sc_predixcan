@@ -70,17 +70,26 @@ if conda activate imlabtools; then
 fi
 
 #patch metaxcan code if needed
-if [ -f /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py ]; then
-    sed -i 's/if a.dtype == numpy.object:/if a.dtype == object or str(a.dtype).startswith("object"):/' /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py
-fi
-
 if [ -f /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py ]; then
-    sed -i 's/numpy\.str/numpy.str_/g' /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
+    #replace 'numpy.str' with 'numpy.str_'
+    sed -i 's/numpy\.str\([^_]\)/numpy.str_\1/g' /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
+    
+    # verify the file doesn't contain any malformed replacements
+    if grep -q "numpy\.str_____" /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py; then
+        echo "WARNING: Found incorrect replacement in Utilities.py, fixing..."
+        sed -i 's/numpy\.str_____/numpy.str_/g' /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
+    fi
+    
+    #double-check for any other incorrect replacements
+    if grep -q "numpy\.str__" /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py; then
+        echo "WARNING: Found other incorrect replacements in Utilities.py, fixing..."
+        sed -i 's/numpy\.str__/numpy.str_/g' /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
+    fi
 fi
 
 output_file="/home/jupyter/${POP}_predixcan_output_${PHECODE}.csv"
 
-# Check if the output file already exists
+#check if the output file already exists
 if [ -f "$output_file" ]; then
     echo "WARNING: Output file $output_file already exists."
     read -p "Press ENTER to replace it, or type 'n' to cancel: " response
