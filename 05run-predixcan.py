@@ -24,32 +24,54 @@ def main():
     
     #if either value is not provided by user, try to get it from the Hail table
     if h2 is None or n_total is None:
-        import hail as hl
-        #initialize hail and read in table
-        hl.init()
-        ht = hl.read_table(f"gs://fc-aou-datasets-controlled/AllxAll/v1/ht/ACAF/{pop}/phenotype_{phenotype_id}_ACAF_results.ht")
-        
-        print("Available globals:\n")
-        ht.describe()
-        
-        #get values from table if not provided by user
-        if h2 is None:
-            h2 = ht.globals.heritability.collect()[0]
-        
-        if n_total is None:
-            n_cases = ht.globals.n_cases.collect()[0]
-            n_controls = ht.globals.n_controls.collect()[0]
-            print(f'Cases/Controls/Heritability will print "None" if no information is connected to the hail table\n')
-            print(f"Cases: {n_cases}, Controls: {n_controls}\n")
+        #store original numpy version
+        original_numpy = None
+        try:
+            import numpy
+            original_numpy = numpy.__version__
             
-            #only set n_total if both values are not None
-            if n_cases is not None and n_controls is not None:
-                n_total = n_cases + n_controls
-        
-        if h2 is not None:
-            print(f"Heritability: {h2}\n")
+            #install higher numpy version for Hail
+            subprocess.check_call([sys.executable, "-m", "pip", "install", "numpy>=1.20.3", "--force-reinstall", "--quiet"])
             
-        print(f'Any "None" values are excluded from analysis; proceeding with S-PrediXcan analysis\n')
+            import hail as hl
+            #initialize hail and read in table
+            hl.init()
+            ht = hl.read_table(f"gs://fc-aou-datasets-controlled/AllxAll/v1/ht/ACAF/{pop}/phenotype_{phenotype_id}_ACAF_results.ht")
+            
+            print("Available globals:\n")
+            ht.describe()
+            
+            #get values from table if not provided by user
+            if h2 is None:
+                h2 = ht.globals.heritability.collect()[0]
+            
+            if n_total is None:
+                n_cases = ht.globals.n_cases.collect()[0]
+                n_controls = ht.globals.n_controls.collect()[0]
+                print(f'Cases/Controls/Heritability will print "None" if no information is connected to the hail table\n')
+                print(f"Cases: {n_cases}, Controls: {n_controls}\n")
+                
+                #only set n_total if both values are not None
+                if n_cases is not None and n_controls is not None:
+                    n_total = n_cases + n_controls
+            
+            if h2 is not None:
+                print(f"Heritability: {h2}\n")
+                
+            print(f'Any "None" values are excluded from analysis; proceeding with S-PrediXcan analysis\n')
+            
+        except Exception as e:
+            print(f"Error accessing Hail data: {e}")
+            print("Proceeding with available command-line values only.")
+        
+        finally:
+            #restore original numpy version for MetaXcan compatibility
+            if original_numpy:
+                subprocess.check_call([sys.executable, "-m", "pip", "install", f"numpy=={original_numpy}", "--force-reinstall", "--quiet"])
+                # Force reload of numpy
+                if 'numpy' in sys.modules:
+                    del sys.modules['numpy']
+                import numpy
         
     #get gtex formatted file from bucket
     bucket = os.getenv('WORKSPACE_BUCKET')
