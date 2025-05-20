@@ -40,9 +40,18 @@ data <- fread(name_of_file_in_bucket, sep = "\t", header=TRUE)
 data$Pvalue <- as.numeric(as.character(data$Pvalue)) #ensure p-values are numeric
 data_sorted <- data[order(data$Pvalue), ] #sort data from low to high p-values
 head(data_sorted)
-top_row <- data_sorted[1, ] #top row is the lowest p-value
-signif_rsid <- as.character(top_row$rsID) #extract rsID of top row
+valid_idx <- which(!is.na(data_sorted$rsID) & data_sorted$rsID != "" & data_sorted$rsID != "<NA>")[1] #find the first row with a valid rsID
 
+#check if the lowest p-value SNP has a valid rsID
+if (is.na(data_sorted$rsID[1]) || data_sorted$rsID[1] == "" || data_sorted$rsID[1] == "<NA>") {
+  top_row <- data_sorted[valid_idx, ] #use first row with valid rsID
+  cat("Warning: The SNP with the lowest p-value doesn't have a corresponding rsID.\n")
+  cat("Using the SNP with the lowest p-value that has a valid rsID instead.\n")
+} else {
+  top_row <- data_sorted[1, ] #top row is the lowest p-value
+}
+
+signif_rsid <- as.character(top_row$rsID) #extract rsID of top row
 cat(signif_rsid)
 
 #if rsid is user provided
