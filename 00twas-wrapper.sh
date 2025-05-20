@@ -70,16 +70,23 @@ if conda activate imlabtools; then
 fi
 
 #patch metaxcan code if needed
-#patch metaxcan code if needed
+echo "Patching MetaXcan code for compatibility..."
+
+#patch GWAS.py for numpy.object compatibility
 if [ -f /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py ]; then
     sed -i 's/if a.dtype == numpy.object:/if a.dtype == object or str(a.dtype).startswith("object"):/' /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py
+    echo "- Patched GWAS.py for numpy.object compatibility"
 fi
+
+#patch Utilities.py for numpy.str and pandas compatibility
 if [ -f /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py ]; then
-    #fix original numpy.str issue on specific line
+    #fix numpy.str on line 118
     sed -i '118s/numpy\.str/numpy.str_/g' /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
     
-    #fix pandas drop() method
+    #fix pandas drop() method on line 315
     sed -i '315s/results = results.drop("n_snps_in_model",1)/results = results.drop(columns=["n_snps_in_model"])/g' /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
+    
+    echo "- Patched Utilities.py for numpy.str and pandas compatibility"
 fi
 
 output_file="/home/jupyter/${POP}_predixcan_output_${PHECODE}.csv"
