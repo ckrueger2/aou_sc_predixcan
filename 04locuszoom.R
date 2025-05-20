@@ -36,8 +36,6 @@ read_in_command <- paste0("gsutil cp ", my_bucket, "/data/", name_of_file_in_buc
 system(read_in_command, intern=TRUE)
 data <- fread(name_of_file_in_bucket, sep = "\t", header=TRUE)
 
-head(data)
-
 #if rsid is user provided
 if (!is.null(args$rsid)) {
   #creating locus object with user provided SNP
@@ -45,8 +43,10 @@ if (!is.null(args$rsid)) {
 } else { 
   #rsid is not provided, so we default to most significant SNP
   data$Pvalue <- as.numeric(as.character(data$Pvalue)) #ensure p-values are numeric
-  min_idx <- which.min(data$Pvalue) #find minimum index
-  signif_rsid <- data$rsID[min_idx] #find snp at minimum index
+  data_sorted <- data[order(data$Pvalue), ] #sort data from low to high p-values
+  head(data_sorted)
+  top_row <- data_sorted[1, ] #top row is the lowest p-value
+  signif_rsid <- as.character(top_row$rsID) #extract rsID of top row
   cat("rsID not provided; running locuszoom on lowest p-value SNP\n")
   loc <- locus(data = data, ens_db = "EnsDb.Hsapiens.v86", index_snp = signif_rsid, flank = 1e5)
 }
