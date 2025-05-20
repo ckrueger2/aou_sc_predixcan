@@ -13,6 +13,7 @@ fi
 # clone repo and create environment
 if [ ! -d MetaXcan ]; then
     git clone https://github.com/hakyimlab/MetaXcan
+    cd MetaXcan
     git checkout 76a11b856f3cbab0b866033d518c201374a5594b
     conda env create -f MetaXcan/software/conda_env.yaml
 fi
@@ -23,3 +24,6 @@ if [ ! -d etql ]; then
     tar -xvpf mashr_eqtl.tar
     rm mashr_eqtl.tar
 fi
+
+#return to home directory
+cd ~/
