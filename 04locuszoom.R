@@ -43,6 +43,8 @@ head(data_sorted)
 top_row <- data_sorted[1, ] #top row is the lowest p-value
 signif_rsid <- as.character(top_row$rsID) #extract rsID of top row
 
+cat(signif_rsid)
+
 #if rsid is user provided
 if (!is.null(args$rsid)) {
   #creating locus object with user provided SNP
