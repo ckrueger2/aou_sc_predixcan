@@ -50,15 +50,6 @@ fi
 #github repo path
 REPO=$HOME/GWAS-TWAS-in-All-of-Us-Cloud
 
-#numpy patch to fix the 'numpy.object' issue
-echo "Applying NumPy patch to fix compatibility issues..."
-GWAS_PY_FILE="/home/jupyter/MetaXcan/software/metax/gwas/GWAS.py"
-
-if [ -f "$GWAS_PY_FILE" ]; then
-    sed -i 's/if a.dtype == numpy.object:/if a.dtype == object or str(a.dtype).startswith("object"):/' "$GWAS_PY_FILE"
-    echo "NumPy patch applied successfully."
-fi
-
 #set up S-PrediXcan environment
 bash "$REPO/set-up-predixcan.sh"
 
@@ -70,12 +61,17 @@ if conda env list | grep -q imlabtools; then
     conda env remove -n imlabtools -y
 fi
 
-#create environment with compatible versions (this may need to be changed with future updates)
+#create environment with compatible versions
 conda create -n imlabtools python=3.8 numpy=1.19 pandas=1.1 scipy -y
 
 #activate imlabtools
 if conda activate imlabtools; then
     echo "Successfully activated imlabtools environment"
+fi
+
+#patch MetaXcan code
+if [ -f /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py ]; then
+    sed -i 's/if a.dtype == numpy.object:/if a.dtype == object or str(a.dtype).startswith("object"):/' /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py
 fi
 
 output_file="/home/jupyter/${POP}_predixcan_output_${PHECODE}.csv"
