@@ -70,21 +70,16 @@ if conda activate imlabtools; then
 fi
 
 #patch metaxcan code if needed
+#patch metaxcan code if needed
+if [ -f /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py ]; then
+    sed -i 's/if a.dtype == numpy.object:/if a.dtype == object or str(a.dtype).startswith("object"):/' /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py
+fi
 if [ -f /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py ]; then
-    #replace 'numpy.str' with 'numpy.str_'
-    sed -i 's/numpy\.str\([^_]\)/numpy.str_\1/g' /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
+    #fix original numpy.str issue on specific line
+    sed -i '118s/numpy\.str/numpy.str_/g' /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
     
-    # verify the file doesn't contain any malformed replacements
-    if grep -q "numpy\.str_____" /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py; then
-        echo "WARNING: Found incorrect replacement in Utilities.py, fixing..."
-        sed -i 's/numpy\.str_____/numpy.str_/g' /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
-    fi
-    
-    #double-check for any other incorrect replacements
-    if grep -q "numpy\.str__" /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py; then
-        echo "WARNING: Found other incorrect replacements in Utilities.py, fixing..."
-        sed -i 's/numpy\.str__/numpy.str_/g' /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
-    fi
+    #fix pandas drop() method
+    sed -i '315s/results = results.drop("n_snps_in_model",1)/results = results.drop(columns=["n_snps_in_model"])/g' /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
 fi
 
 output_file="/home/jupyter/${POP}_predixcan_output_${PHECODE}.csv"
