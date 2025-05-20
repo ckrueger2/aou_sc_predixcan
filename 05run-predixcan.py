@@ -42,7 +42,8 @@ def main():
     --keep_non_rsid \
     --additional_output \
     --model_db_snp_key varID \
-    --throw"
+    --throw
+    --output_file {output}"
     
     #add heritability parameter if available
     if args.gwas_h2 is not None:
@@ -53,11 +54,18 @@ def main():
         cmd += f" \\\n    --gwas_N {args.gwas_N}"
         
     #execute the S-PrediXcan command
-    os.system(cmd)
+    exit_code = os.system(cmd)
     
-    #copy output to bucket
-    set_file = "gsutil cp " + output + " " + bucket + "/data/"
+    if exit_code != 0:
+        print(f"ERROR: SPrediXcan.py failed with exit code {exit_code}")
+        return
+    
+    #upload the results back to the bucket
+    set_file = f"gsutil cp {output} {bucket}/data/"
+    print(f"Uploading results: {set_file}")
     os.system(set_file)
+    
+    print("S-PrediXcan analysis completed successfully")
 
 if __name__ == "__main__":
     main()
