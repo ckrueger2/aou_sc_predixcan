@@ -13,7 +13,7 @@ def main():
     parser = set_args()
     args = parser.parse_args(sys.argv[1:])
 
-    # get file from bucket
+    #get file from bucket
     bucket = os.environ.get("WORKSPACE_BUCKET")
     filename = args.pop + "_formatted_gtex_" + args.phecode + ".tsv"
     get_file = "gsutil cp " + bucket + "/data/" + filename + " ."
@@ -21,7 +21,13 @@ def main():
     os.system(get_file)
     output = f"{args.pop}_predixcan_output_{args.phecode}.csv"
 
-    os.system(f"/home/jupyter/miniconda3/envs/imlabtools/bin/python MetaXcan/software/SPrediXcan.py \
+    #use system Python if conda environment Python isn't found
+    python_path = "/home/jupyter/miniconda3/envs/imlabtools/bin/python"
+    if not os.path.exists(python_path):
+        print(f"Warning: {python_path} not found, using system Python")
+        python_path = "python"
+    
+    os.system(f"{python_path} MetaXcan/software/SPrediXcan.py \
     --gwas_file /home/jupyter/GWAS-TWAS-in-All-of-Us-Cloud/{filename} \
     --snp_column SNP \
     --effect_allele_column ALT \
