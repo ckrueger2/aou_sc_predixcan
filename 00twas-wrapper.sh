@@ -75,7 +75,7 @@ if [ -f /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py ]; then
 fi
 
 #run s-predixcan
-PREDIXCAN_CMD="python $REPO/05rub-predixcan.py --phecode \"$PHECODE\" --pop \"$POP\" --ref \"$REF\""
+PREDIXCAN_CMD="python $REPO/05run-predixcan.py --phecode \"$PHECODE\" --pop \"$POP\" --ref \"$REF\""
 if [[ ! -z "$H2" ]]; then
     PREDIXCAN_CMD="$PREDIXCAN_CMD --gwas_h2 \"$H2\""
 fi
