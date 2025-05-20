@@ -1,8 +1,5 @@
 #!/bin/bash
 
-#activate conda environment
-eval "$(~/miniconda3/bin/conda shell.bash hook)"
-
 #command
 usage() {
     echo "Usage: $0 --phecode <PHECODE> --pop <POP> --ref <REF> [--databases]"
@@ -48,8 +45,20 @@ REPO=$HOME/GWAS-TWAS-in-All-of-Us-Cloud
 #set up S-PrediXcan environment
 bash "$REPO/set-up-predixcan.sh"
 
+#activate conda
+source ~/miniconda3/bin/activate
+
 #activate imlabtools
-conda activate imlabtools
+if conda activate imlabtools; then
+    echo "Successfully activated imlabtools environment"
+else
+    echo "Failed to activate imlabtools environment, creating it now"
+    conda create -n imlabtools python=3.8 numpy pandas scipy -y
+    conda activate imlabtools
+fi
+
+#define python path
+export PYTHON_PATH=$(which python)
 
 #run s-predixcan
 python "$REPO/05run-predixcan.py" --phecode "$PHECODE" --pop "$POP" --ref "$REF"
@@ -59,3 +68,6 @@ Rscript "$REPO/06twas_qqman.R" --phecode "$PHECODE" --pop "$POP"
 
 #deactivate imlabtools
 conda deactivate
+
+#how to view generated PNG files
+echo "To view the PNG files, go to the Jupyter file browser by selecting the jupyter logo to the top left of the terminal."
