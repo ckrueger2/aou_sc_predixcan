@@ -53,9 +53,12 @@ if conda activate imlabtools; then
     echo "Successfully activated imlabtools environment"
 else
     echo "Failed to activate imlabtools environment, creating it now"
-    conda create -n imlabtools python=3.8 numpy pandas scipy -y
+    conda create -n imlabtools python=3.8 numpy=1.19 pandas scipy -y
     conda activate imlabtools
 fi
+
+#use numpy version compatible with metaxcan (this may need to be changed with future updates)
+conda install -n imlabtools numpy=1.19 -y
 
 #define python path
 export PYTHON_PATH=$(which python)
