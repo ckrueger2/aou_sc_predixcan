@@ -41,7 +41,6 @@ def main():
             n_controls = ht.globals.n_controls.collect()[0]
             print(f'Cases/Controls/Heritability will print "None" if no information is connected to the hail table\n')
             print(f"Cases: {n_cases}, Controls: {n_controls}\n")
-            print(f'Any "None" values are excluded from analysis; proceeding with S-PrediXcan analysis\n')
             
             #only set n_total if both values are not None
             if n_cases is not None and n_controls is not None:
@@ -49,7 +48,9 @@ def main():
         
         if h2 is not None:
             print(f"Heritability: {h2}\n")
-    
+            
+        print(f'Any "None" values are excluded from analysis; proceeding with S-PrediXcan analysis\n')
+        
     #get gtex formatted file from bucket
     bucket = os.getenv('WORKSPACE_BUCKET')
     filename = args.pop + "_formatted_gtex_" + args.phecode + ".tsv"
