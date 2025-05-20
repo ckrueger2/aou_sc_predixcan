@@ -67,6 +67,10 @@ conda create -n imlabtools python=3.8 numpy=1.19 pandas=1.1 scipy -y
 #activate imlabtools
 if conda activate imlabtools; then
     echo "Successfully activated imlabtools environment"
+    #install hail within the imlabtools environment
+    if pip install hail --quiet; then
+        echo "Successfully installed Hail package"
+    fi
 fi
 
 #patch metaxcan code if needed
