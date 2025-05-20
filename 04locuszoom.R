@@ -44,15 +44,15 @@ valid_idx <- which(!is.na(data_sorted$rsID) & data_sorted$rsID != "" & data_sort
 
 #check if the lowest p-value SNP has a valid rsID
 if (is.na(data_sorted$rsID[1]) || data_sorted$rsID[1] == "" || data_sorted$rsID[1] == "<NA>") {
-  top_row <- data_sorted[valid_idx, ] #use first row with valid rsID
-  cat("Warning: The SNP with the lowest p-value doesn't have a corresponding rsID.\n")
+  #print info about the lowest p-value SNP that won't be used
+  cat("Warning: The SNP with the lowest p-value (chr", data_sorted$CHR[1], ":", data_sorted$POS[1], ") doesn't have a corresponding rsID.\n", sep="")
   cat("Using the SNP with the lowest p-value that has a valid rsID instead.\n")
+  top_row <- data_sorted[valid_idx, ] #use first row with valid rsID
 } else {
   top_row <- data_sorted[1, ] #top row is the lowest p-value
 }
 
 signif_rsid <- as.character(top_row$rsID) #extract rsID of top row
-cat(signif_rsid)
 
 #if rsid is user provided
 if (!is.null(args$rsid)) {
