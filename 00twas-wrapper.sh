@@ -2,7 +2,7 @@
 
 #command
 usage() {
-    echo "Usage: $0 --phecode <PHECODE> --pop <POP> --ref <REF> [--gwas_h2 <h2>] [--gwas_N <n>] [--databases]"
+    echo "Usage: $0 --phecode <PHECODE> --pop <POP> --ref <REF> [--gwas_h2 <h2>] [--gwas_N <N>] [--databases]"
     exit 1
 }
         
@@ -75,7 +75,14 @@ if [ -f /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py ]; then
 fi
 
 #run s-predixcan
-python "$REPO/05run-predixcan.py" --phecode "$PHECODE" --pop "$POP" --ref "$REF"
+PREDIXCAN_CMD="python $REPO/05rub-predixcan.py --phecode \"$PHECODE\" --pop \"$POP|""
+if [[ ! -z "$gwas_h2" ]]; then
+    PREDIXCAN_CMD="$PREDIXCAN_CMD --gwas_h2 \"$h2\""
+fi
+if [[ ! -z "$gwas_N" ]]; then
+    PREDIXCAN_CMD="$PREDIXCAN_CMD --gwas_h2 \"$N\""
+fi
+eval $PREDIXCAN_CMD
 
 #run qqman on twas sum stats
 Rscript "$REPO/06twas_qqman.R" --phecode "$PHECODE" --pop "$POP"
@@ -84,4 +91,4 @@ Rscript "$REPO/06twas_qqman.R" --phecode "$PHECODE" --pop "$POP"
 conda deactivate
 
 #how to view generated PNG files
-echo "To view the PNG files, go to the Jupyter file browser by selecting the jupyter logo to the top left of the terminal."
+echo "To view the S-PrediXcan and PNG files, go to the Jupyter file browser by selecting the jupyter logo to the top left of the terminal."
