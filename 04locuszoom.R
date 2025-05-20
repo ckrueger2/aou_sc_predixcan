@@ -46,9 +46,10 @@ if (!is.null(args$rsid)) {
   if(any(is.na(data$Pvalue))) {
     cat("Warning: NA values found in Pvalue column, removing NA rows from analysis\n")
     signif_rsid <- which.min(data$Pvalue[!is.na(data$Pvalue)])
-    cat(signif_rsid"\n")
+    cat(signif_rsid, "\n")
   } else {
     signif_rsid <- data$rsID[which.min(data$Pvalue)]
+    cat(signif_rsid, "\n")
   }
   # creating locus object with top hit SNP
   cat("rsID not provided; running locuszoom on lowest p-value SNP\n")
