@@ -2,7 +2,7 @@
 
 #command
 usage() {
-    echo "Usage: $0 --phecode <PHECODE> --pop <POP> --ref <REF> [--gwas_h2 <h2>] [--gwas_N <N>] [--databases]"
+    echo "Usage: $0 --phecode <PHECODE> --pop <POP> --ref <REF> [--gwas_h2 <H2>] [--gwas_N <N>] [--databases]"
     exit 1
 }
         
@@ -24,11 +24,11 @@ while [[ $# -gt 0 ]]; do
             shift 2
             ;;
         --gwas_h2)
-            REF=$2
+            H2=$2
             shift 2
             ;;
         --gwas_N)
-            REF=$2
+            N=$2
             shift 2
             ;;
         --databases)
@@ -75,12 +75,12 @@ if [ -f /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py ]; then
 fi
 
 #run s-predixcan
-PREDIXCAN_CMD="python $REPO/05rub-predixcan.py --phecode \"$PHECODE\" --pop \"$POP|""
-if [[ ! -z "$gwas_h2" ]]; then
-    PREDIXCAN_CMD="$PREDIXCAN_CMD --gwas_h2 \"$h2\""
+PREDIXCAN_CMD="python $REPO/05rub-predixcan.py --phecode \"$PHECODE\" --pop \"$POP\" --ref \"$REF\""
+if [[ ! -z "$H2" ]]; then
+    PREDIXCAN_CMD="$PREDIXCAN_CMD --gwas_h2 \"$H2\""
 fi
-if [[ ! -z "$gwas_N" ]]; then
-    PREDIXCAN_CMD="$PREDIXCAN_CMD --gwas_h2 \"$N\""
+if [[ ! -z "$N" ]]; then
+    PREDIXCAN_CMD="$PREDIXCAN_CMD --gwas_N \"$N\""
 fi
 eval $PREDIXCAN_CMD
 
