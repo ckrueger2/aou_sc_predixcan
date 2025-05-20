@@ -51,21 +51,7 @@ def main():
     #add sample size parameter if available
     if args.gwas_N is not None:
         cmd += f" \\\n    --gwas_N {args.gwas_N}"
-    
-    #add output file and execute command
-    cmd += f" \\\n    --output_file {output}"
-
-    #create a temporary patch file
-    patch_content = """
-import numpy as np
-np.object = object  # Add compatibility for older code
-"""
-    with open("/tmp/numpy_patch.py", "w") as f:
-        f.write(patch_content)
-    
-    #execute the patch before running S-PrediXcan
-    os.system(f"python /tmp/numpy_patch.py")
-    
+        
     #execute the S-PrediXcan command
     os.system(cmd)
     
