@@ -36,17 +36,19 @@ read_in_command <- paste0("gsutil cp ", my_bucket, "/data/", name_of_file_in_buc
 system(read_in_command, intern=TRUE)
 data <- fread(name_of_file_in_bucket, sep = "\t", header=TRUE)
 
+#isolate lowest p-value rsID
+data$Pvalue <- as.numeric(as.character(data$Pvalue)) #ensure p-values are numeric
+data_sorted <- data[order(data$Pvalue), ] #sort data from low to high p-values
+head(data_sorted)
+top_row <- data_sorted[1, ] #top row is the lowest p-value
+signif_rsid <- as.character(top_row$rsID) #extract rsID of top row
+
 #if rsid is user provided
 if (!is.null(args$rsid)) {
   #creating locus object with user provided SNP
   loc <- locus(data = data, ens_db = "EnsDb.Hsapiens.v86", index_snp = args$rsid, flank = 1e5)
 } else { 
   #rsid is not provided, so we default to most significant SNP
-  data$Pvalue <- as.numeric(as.character(data$Pvalue)) #ensure p-values are numeric
-  data_sorted <- data[order(data$Pvalue), ] #sort data from low to high p-values
-  head(data_sorted)
-  top_row <- data_sorted[1, ] #top row is the lowest p-value
-  signif_rsid <- as.character(top_row$rsID) #extract rsID of top row
   cat("rsID not provided; running locuszoom on lowest p-value SNP\n")
   loc <- locus(data = data, ens_db = "EnsDb.Hsapiens.v86", index_snp = signif_rsid, flank = 1e5)
 }
