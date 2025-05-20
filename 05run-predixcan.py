@@ -1,7 +1,6 @@
 import os
 import sys
 import argparse
-import hail as hl
 import subprocess
 
 def set_args():
@@ -25,6 +24,7 @@ def main():
     
     #if either value is not provided by user, try to get it from the Hail table
     if h2 is None or n_total is None:
+        import hail as hl
         #initialize hail and read in table
         hl.init()
         ht = hl.read_table(f"gs://fc-aou-datasets-controlled/AllxAll/v1/ht/ACAF/{pop}/phenotype_{phenotype_id}_ACAF_results.ht")
