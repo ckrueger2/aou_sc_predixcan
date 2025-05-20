@@ -75,24 +75,6 @@ echo "Patching MetaXcan code for compatibility..."
 #patch GWAS.py for numpy.object compatibility
 if [ -f /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py ]; then
     sed -i 's/if a.dtype == numpy.object:/if a.dtype == object or str(a.dtype).startswith("object"):/' /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py
-    echo "- Patched GWAS.py for numpy.object compatibility"
-fi
-
-#patch Utilities.py for numpy.str and pandas compatibility
-if [ -f /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py ]; then
-    #write the exact correct line
-    echo "    type = [numpy.str_, numpy.float64, numpy.float64, numpy.float64]" > /tmp/corrected_line.txt
-    
-    #replace line 118 entirely
-    sed -i '118 c\'"$(cat /tmp/corrected_line.txt)" /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
-    
-    #fix pandas drop() method on line 315
-    sed -i '315s/results = results.drop("n_snps_in_model",1)/results = results.drop(columns=["n_snps_in_model"])/g' /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
-
-    echo "- Patched Utilities.py for numpy.str and pandas compatibility"
-    
-    #clean up
-    rm -f /tmp/corrected_line.txt
 fi
 
 output_file="/home/jupyter/${POP}_predixcan_output_${PHECODE}.csv"
