@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#activate conda environment
+source ~/miniconda3/bin/activate
+
 #command
 usage() {
     echo "Usage: $0 --phecode <PHECODE> --pop <POP> --ref <REF> [--databases]"
@@ -42,11 +45,17 @@ fi
 #github repo path
 REPO=$HOME/GWAS-TWAS-in-All-of-Us-Cloud
 
-#set up S-PrediXcan
+#set up S-PrediXcan environment
 bash "$REPO/set-up-predixcan.sh"
+
+#activate imlabtools
+conda activate imlabtools
 
 #run s-predixcan
 python "$REPO/05run-predixcan.py" --phecode "$PHECODE" --pop "$POP" --ref "$REF"
 
 #run qqman on twas sum stats
 Rscript "$REPO/06twas_qqman.R" --phecode "$PHECODE" --pop "$POP"
+
+#deactivate imlabtools
+conda deactivate
