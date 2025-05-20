@@ -67,7 +67,7 @@ except Exception as e:
 """)
             
             #run the script in a temporary environment with correct dependencies
-            print("Running Hail in a separate process...")
+            print("No sample size or heritability provided; running Hail in a separate process...")
             cmd = f"cd /tmp && pip install hail numpy>=1.20.3 --quiet && python {temp_script}"
             result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
             
