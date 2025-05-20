@@ -69,12 +69,6 @@ if conda activate imlabtools; then
     echo "Successfully activated imlabtools environment"
 fi
 
-#patch metaxcan code if needed
-echo "Patching MetaXcan code for compatibility..."
-if [ -f /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py ]; then
-    sed -i 's/if a.dtype == numpy.object:/if a.dtype == object or str(a.dtype).startswith("object"):/' /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py
-fi
-
 output_file="/home/jupyter/${POP}_predixcan_output_${PHECODE}.csv"
 
 #check if the output file already exists
