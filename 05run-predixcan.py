@@ -58,33 +58,31 @@ try:
     }}
     
     print(f'Any "None" values are excluded from analysis; proceeding with S-PrediXcan analysis')
-    print(json.dumps(result))
+    
+    with open('/tmp/hail_values.json', 'w') as f:
+        json.dump(result, f)
+    
+    print(f'Any "None" values are excluded from analysis; proceeding with S-PrediXcan analysis')
     sys.exit(0)
 except Exception as e:
     print(f"Error: {{str(e)}}")
-    print(json.dumps({{"error": str(e)}}))
     sys.exit(1)
 """)
             
             #run the script in a temporary environment with correct dependencies
             print("Sample size or heritability not provided; running Hail in a separate process...")
             cmd = f"cd /tmp && pip install hail numpy>=1.20.3 --quiet && python {temp_script}"
-            result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+            subprocess.run(cmd, shell=True, check=False)
             
-            print(result.stdout)
-            
-            #parse the JSON output
-            import json
-            import re
-            
-            #find JSON in the output
-            json_match = re.search(r'\{.*\}', result.stdout.split("\n")[-2])
-            if json_match:
-                hail_values = json.loads(json_match.group(0))
+            #read the JSON from file instead of trying to parse stdout
+            if os.path.exists('/tmp/hail_values.json'):
+                with open('/tmp/hail_values.json', 'r') as f:
+                    hail_values = json.load(f)
                 
                 #set h2 if not provided and available from Hail
                 if h2 is None and "h2" in hail_values and hail_values["h2"] is not None:
                     h2 = hail_values["h2"]
+                    print(f"Using heritability from Hail: {h2}")
                 
                 #calculate n_total if not provided and components available from Hail
                 if n_total is None and "n_cases" in hail_values and "n_controls" in hail_values:
@@ -93,15 +91,18 @@ except Exception as e:
                     
                     if n_cases is not None and n_controls is not None:
                         n_total = n_cases + n_controls
+                        print(f"Using sample size from Hail: {n_total}")
             
             #clean up
             if os.path.exists(temp_script):
                 os.remove(temp_script)
+            if os.path.exists('/tmp/hail_values.json'):
+                os.remove('/tmp/hail_values.json')
                 
         except Exception as e:
             print(f"Error accessing Hail data: {e}")
             print("Proceeding with available command-line values only.")
-        
+                
     #get gtex formatted file from bucket
     bucket = os.getenv('WORKSPACE_BUCKET')
     filename = args.pop + "_formatted_gtex_" + args.phecode + ".tsv"
