@@ -42,6 +42,7 @@ if (!is.null(args$rsid)) {
   loc <- locus(data = data, ens_db = "EnsDb.Hsapiens.v86", index_snp = args$rsid, flank = 1e5)
 } else { 
   #rsid is not provided, so we default to most signif. SNP
+  data$Pvalue <- as.numeric(as.character(data$Pvalue)) #ensure p-values are numeric
   signif_rsid <- data$rsID[which.min(data$Pvalue)]
   cat(signif_rsid)
   # creating locus object with top hit SNP
