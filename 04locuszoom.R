@@ -43,6 +43,7 @@ if (!is.null(args$rsid)) {
 } else { 
   #rsid is not provided, so we default to most signif. SNP
   signif_rsid <- data$rsID[which.min(data$Pvalue)]
+  cat(signif_rsid)
   # creating locus object with top hit SNP
   cat("rsID not provided; running locuszoom on lowest p-value SNP\n")
   loc <- locus(data = data, ens_db = "EnsDb.Hsapiens.v86", index_snp = signif_rsid, flank = 1e5)
