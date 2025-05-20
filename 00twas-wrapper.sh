@@ -70,7 +70,7 @@ if conda activate imlabtools; then
     #install hail within the imlabtools environment
     echo "Installing Hail"
     if pip install hail --quiet --no-warn-script-location; then
-        pip install numpy==1.19.* --force-reinstall --quiet --no-warn-script-location
+        pip install numpy==1.19.* --force-reinstall --quiet --no-warn-script-location 2>/dev/null
         echo "Successfully installed/loaded Hail package"
     fi
 fi
