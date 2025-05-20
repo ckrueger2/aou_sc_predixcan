@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #activate conda environment
-source ~/miniconda3/bin/activate
+eval "$(~/miniconda3/bin/conda shell.bash hook)"
 
 #command
 usage() {
