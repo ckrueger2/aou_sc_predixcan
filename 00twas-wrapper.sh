@@ -50,6 +50,15 @@ fi
 #github repo path
 REPO=$HOME/GWAS-TWAS-in-All-of-Us-Cloud
 
+#numpy patch to fix the 'numpy.object' issue
+echo "Applying NumPy patch to fix compatibility issues..."
+GWAS_PY_FILE="/home/jupyter/MetaXcan/software/metax/gwas/GWAS.py"
+
+if [ -f "$GWAS_PY_FILE" ]; then
+    sed -i 's/if a.dtype == numpy.object:/if a.dtype == object or str(a.dtype).startswith("object"):/' "$GWAS_PY_FILE"
+    echo "NumPy patch applied successfully."
+fi
+
 #set up S-PrediXcan environment
 bash "$REPO/set-up-predixcan.sh"
 
