@@ -79,6 +79,23 @@ if [ -f /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py ]; then
     sed -i 's/if a.dtype == numpy.object:/if a.dtype == object or str(a.dtype).startswith("object"):/' /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py
 fi
 
+output_file="/home/jupyter/${POP}_predixcan_output_${PHECODE}.csv"
+
+# Check if the output file already exists
+if [ -f "$output_file" ]; then
+    echo "WARNING: Output file $output_file already exists."
+    read -p "Press ENTER to replace it, or type 'n' to cancel: " response
+    
+    if [[ $response =~ ^[Nn]$ ]]; then
+        echo "Operation cancelled by user."
+        exit 1
+    else
+        # Delete the file
+        rm -f "$output_file"
+        echo "Existing file has been deleted."
+    fi
+fi
+
 #run s-predixcan
 PREDIXCAN_CMD="python $REPO/05run-predixcan.py --phecode \"$PHECODE\" --pop \"$POP\" --ref \"$REF\""
 if [[ ! -z "$H2" ]]; then
