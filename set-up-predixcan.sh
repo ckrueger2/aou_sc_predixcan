@@ -16,7 +16,12 @@ if [ ! -d MetaXcan ]; then
     cd MetaXcan
     git checkout 76a11b856f3cbab0b866033d518c201374a5594b
     cd ..
-    conda env create -f MetaXcan/software/conda_env.yaml
+    if [ -f MetaXcan/software/conda_env.yaml ]; then
+        conda env create -f MetaXcan/software/conda_env.yaml
+    else
+        # Create environment manually as fallback
+        conda create -n imlabtools python=3.8 numpy pandas scipy h5py -y
+    fi
 fi
 
 #create imlabtools manually if needed
