@@ -21,11 +21,8 @@ def main():
     os.system(get_file)
     output = f"{args.pop}_predixcan_output_{args.phecode}.csv"
 
-    #use system Python if conda environment Python isn't found
-    python_path = "/home/jupyter/miniconda3/envs/imlabtools/bin/python"
-    if not os.path.exists(python_path):
-        print(f"Warning: {python_path} not found, using system Python")
-        python_path = "python"
+    #define python path
+    python_path = sys.executable
     
     os.system(f"{python_path} MetaXcan/software/SPrediXcan.py \
     --gwas_file /home/jupyter/GWAS-TWAS-in-All-of-Us-Cloud/{filename} \
