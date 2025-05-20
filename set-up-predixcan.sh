@@ -23,7 +23,7 @@ if ! conda env list | grep -q imlabtools; then
     echo "Failed to create imlabtools environment"
         
 # download databases
-if [ ! -d etql ]; then
+if [ ! -d eqtl ]; then
     wget https://zenodo.org/record/3518299/files/mashr_eqtl.tar?download=1 -O mashr_eqtl.tar
     tar -xvpf mashr_eqtl.tar
     rm mashr_eqtl.tar
