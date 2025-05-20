@@ -36,6 +36,8 @@ read_in_command <- paste0("gsutil cp ", my_bucket, "/data/", name_of_file_in_buc
 system(read_in_command, intern=TRUE)
 data <- fread(name_of_file_in_bucket, sep = "\t", header=TRUE)
 
+head(data)
+
 #if rsid is user provided
 if (!is.null(args$rsid)) {
   #creating locus object with user provided SNP
