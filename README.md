@@ -35,11 +35,12 @@ bash ~/GWAS-TWAS-in-All-of-Us-Cloud/00wrapper.sh --phecode <PHECODE> --pop <POP>
 > Token represents the LDlink personal access code needed to display linkage disequilibrium when plotting with locuszoomr. To make a one-time request for your personal access token follow the directions within the following web browser at https://ldlink.nih.gov/?tab=apiaccess.
 
 ### 00twas-wrapper
-Prior to running the 00twas-wrapper.sh script, run
-```
-chmod +x ~/GWAS-TWAS-in-All-of-Us-Cloud/00twas-wrapper.sh
-```
 This second wrapper performs the TWAS part of this tool. It executes setting up S-PrediXcan and scripts 5 & 6, which imputes TWAS summary statistics and generates a Manhattan plot of those data.
+
+**MUST BE PERFORMED AT LEAST ONCE PRIOR TO RUNNING S-PREDIXCAN:**
+1. Run `chmod +x ~/GWAS-TWAS-in-All-of-Us-Cloud/00twas-wrapper.sh`
+2. Run `gsutil ls` to find bucket name -> ex. `gs://fc-secure-d80c2561-4630-4343-ab98-9fb7fcc9c21b`
+4. Run `gsutil -m cp -v /home/wheelerlab3/elastic-net-with-phi.tar {PASTE_YOUR_BUCKET_HERE}/data/` -> ex. `gsutil -m cp -v /home/wheelerlab3/elastic-net-with-phi.tar gs://fc-secure-d80c2561-4630-4343-ab98-9fb7fcc9c21b/data/`
 
 Run the wrapper via
 ```
