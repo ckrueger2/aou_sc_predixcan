@@ -16,6 +16,14 @@ def set_args():
 def main():
     parser = set_args()
     args = parser.parse_args(sys.argv[1:])
+
+    #convert args.gwas_h2 to float and args.gwas_N to int if they are provided
+    if args.gwas_h2 is not None and args.gwas_N is not None:
+        gwas_h2 = float(args.gwas_h2)
+        gwas_N = int(args.gwas_N)
+    else:
+        gwas_h2 = None
+        gwas_N = None
     
     #retrieve gtex filtered file from bucket
     bucket = os.getenv('WORKSPACE_BUCKET')
@@ -30,7 +38,7 @@ def main():
     metaxcan_dir = "/home/jupyter/MetaXcan"
 
     #build command based on parameters
-    if args.gwas_h2 is not None and args.gwas_N is not None:
+    if gwas_h2 is not None and gwas_N is not None:
         #retrieve gtex reference files from bucket
         print("Retrieving gtex files...")
         if not os.path.exists("/tmp/elastic-net-with-phi.tar"):
@@ -54,12 +62,12 @@ def main():
         --output_file {output}"
         
         #add heritability parameter if available
-        if args.gwas_h2 is not None:
-            cmd += f" \\\n    --gwas_h2 {args.gwas_h2}"
+        if gwas_h2 is not None:
+            cmd += f" \\\n    --gwas_h2 {gwas_h2}"
         
         #add sample size parameter if available
-        if args.gwas_N is not None:
-            cmd += f" \\\n    --gwas_N {args.gwas_N}"
+        if gwas_N is not None:
+            cmd += f" \\\n    --gwas_N {gwas_N}"
     else:
         #command without optional parameters
         cmd = f"{python_path} {metaxcan_dir}/software/SPrediXcan.py \
@@ -90,7 +98,7 @@ def main():
     os.system(set_file)
 
     #clean up tmp files if they exist
-    if args.gwas_h2 is not None and args.gwas_N is not None:
+    if gwas_h2 is not None and gwas_N is not None:
         os.system("rm -rf /tmp/elastic-net-with-phi /tmp/eqtl 2>/dev/null")
         
     print("S-PrediXcan analysis completed successfully")
