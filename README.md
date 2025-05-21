@@ -40,7 +40,7 @@ This second wrapper performs the TWAS part of this tool. It executes setting up 
 **MUST BE PERFORMED AT LEAST ONCE PRIOR TO RUNNING S-PREDIXCAN:**
 1. Run in AoU terminal: `chmod +x ~/GWAS-TWAS-in-All-of-Us-Cloud/00twas-wrapper.sh`
 2. Run in AoU terminal: `gsutil ls` to find bucket name -> ex. `gs://fc-secure-d80c2561-4630-4343-ab98-9fb7fcc9c21b`
-3. Run in lab server terminal: `gsutil -m cp -v /home/wheelerlab3/elastic-net-with-phi.tar {PASTE_YOUR_BUCKET_HERE}/data/` -> ex. `gsutil -m cp -v /home/wheelerlab3/elastic-net-with-phi.tar gs://fc-secure-d80c2561-4630-4343-ab98-9fb7fcc9c21b/data/`
+3. Run in lab server terminal: `gsutil -m cp -v /home/wheelerlab3/Data/predictdb_models/elastic-net-with-phi.tar {PASTE_YOUR_BUCKET_HERE}/data/` -> ex. `gsutil -m cp -v //home/wheelerlab3/Data/predictdb_models/elastic-net-with-phi.tar gs://fc-secure-d80c2561-4630-4343-ab98-9fb7fcc9c21b/data/`
 
 Run the wrapper via
 ```
