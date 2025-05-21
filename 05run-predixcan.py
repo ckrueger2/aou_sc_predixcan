@@ -17,7 +17,7 @@ def main():
     parser = set_args()
     args = parser.parse_args(sys.argv[1:])
     
-    #retrieve file from bucket
+    #retrieve gtex filtered file from bucket
     bucket = os.getenv('WORKSPACE_BUCKET')
     filename = args.pop + "_formatted_gtex_" + args.phecode + ".tsv"
     get_command = "gsutil cp " + bucket + "/data/" + filename + " /tmp/"
@@ -30,7 +30,11 @@ def main():
     metaxcan_dir = "/home/jupyter/MetaXcan"
 
     #build command based on parameters
-    if args.gwas_h2 is not None or args.gwas_N is not None:
+    if args.gwas_h2 is not None and args.gwas_N is not None:
+        #retrieve gtex reference files from bucket
+        os.system(f"gsutil cp {bucket}/data/elastic-net-with-phi.tar /tmp/")
+        os.system("tar -xf /tmp/elastic-net-with-phi.tar -C /tmp/") #fixed the brackets issue
+
         #command with optional parameters
         cmd = f"{python_path} {metaxcan_dir}/software/SPrediXcan.py \
         --gwas_file /tmp/{filename} \
@@ -39,8 +43,8 @@ def main():
         --non_effect_allele_column REF \
         --beta_column BETA \
         --se_column SE \
-        --model_db_path {bucket}/data/en_{args.ref}.db \
-        --covariance {bucket}/data/en_{args.ref}.txt.gz \
+        --model_db_path /tmp/elastic-net-with-phi/en_{args.ref}.db \
+        --covariance /tmp/elastic-net-with-phi/en_{args.ref}.txt.gz \
         --keep_non_rsid \
         --additional_output \
         --model_db_snp_key varID \
@@ -81,7 +85,11 @@ def main():
     set_file = f"gsutil cp {output} {bucket}/data/"
     print(f"Uploading results: {set_file}")
     os.system(set_file)
-    
+
+    #clean up tmp files if they exist
+    if args.gwas_h2 is not None and args.gwas_N is not None:
+        os.system("rm -rf /tmp/elastic-net-with-phi /tmp/eqtl /tmp/elastic-net-with-phi.tar 2>/dev/null")
+        
     print("S-PrediXcan analysis completed successfully")
 
 if __name__ == "__main__":
