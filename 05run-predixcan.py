@@ -41,9 +41,8 @@ def main():
     if gwas_h2 is not None and gwas_N is not None:
         #retrieve gtex reference files from bucket
         print("Retrieving gtex files...")
-        if not os.path.exists("/tmp/elastic-net-with-phi.tar"):
-            os.system(f"gsutil cp {bucket}/data/elastic-net-with-phi.tar /tmp/")
-        os.system("tar -xf /tmp/elastic-net-with-phi.tar -C /tmp/")
+        if not os.path.exists(f"{bucket}/data/elastic-net-with-phi"):
+            os.system(f"gsutil tar -xf /{bucket}/data/elastic-net-with-phi.tar -C {bucket}/data/")
 
         #command with optional parameters
         cmd = f"{python_path} {metaxcan_dir}/software/SPrediXcan.py \
@@ -53,8 +52,8 @@ def main():
         --non_effect_allele_column REF \
         --beta_column BETA \
         --se_column SE \
-        --model_db_path /tmp/elastic-net-with-phi/en_{args.ref}.db \
-        --covariance /tmp/elastic-net-with-phi/en_{args.ref}.txt.gz \
+        --model_db_path {bucket}/elastic-net-with-phi/en_{args.ref}.db \
+        --covariance {bucket}/elastic-net-with-phi/en_{args.ref}.txt.gz \
         --keep_non_rsid \
         --additional_output \
         --model_db_snp_key varID \
@@ -97,10 +96,6 @@ def main():
     print(f"Uploading results: {set_file}")
     os.system(set_file)
 
-    #clean up tmp files if they exist
-    if gwas_h2 is not None and gwas_N is not None:
-        os.system("rm -rf /tmp/elastic-net-with-phi /tmp/eqtl 2>/dev/null")
-        
     print("S-PrediXcan analysis completed successfully")
 
 if __name__ == "__main__":
