@@ -24,6 +24,9 @@ def main():
     else:
         gwas_h2 = None
         gwas_N = None
+
+    print(gwas_h2)
+    print(gwas_N)
     
     #retrieve gtex filtered file from bucket
     bucket = os.getenv('WORKSPACE_BUCKET')
