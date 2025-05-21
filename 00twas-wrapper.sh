@@ -74,6 +74,11 @@ if [ -f /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py ]; then
     sed -i 's/if a.dtype == numpy.object:/if a.dtype == object or str(a.dtype).startswith("object"):/' /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py
 fi
 
+# Patch numpy.str deprecation in Utilities.py
+if [ -f /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py ]; then
+    sed -i 's/numpy.str/numpy.str_/g' /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
+fi
+
 output_file="/home/jupyter/${POP}_predixcan_output_${PHECODE}.csv"
 
 #check if the output file already exists
