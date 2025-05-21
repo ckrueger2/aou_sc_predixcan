@@ -33,7 +33,8 @@ def main():
     if args.gwas_h2 is not None and args.gwas_N is not None:
         #retrieve gtex reference files from bucket
         print("Retrieving gtex files...")
-        os.system(f"gsutil cp {bucket}/data/elastic-net-with-phi.tar /tmp/")
+        if not os.path.exists("/tmp/elastic-net-with-phi.tar"):
+            os.system(f"gsutil cp {bucket}/data/elastic-net-with-phi.tar /tmp/")
         os.system("tar -xf /tmp/elastic-net-with-phi.tar -C /tmp/")
 
         #command with optional parameters
