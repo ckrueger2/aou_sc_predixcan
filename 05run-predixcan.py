@@ -32,8 +32,9 @@ def main():
     #build command based on parameters
     if args.gwas_h2 is not None and args.gwas_N is not None:
         #retrieve gtex reference files from bucket
+        print("Retrieving gtex files...\n")
         os.system(f"gsutil cp {bucket}/data/elastic-net-with-phi.tar /tmp/")
-        os.system("tar -xf /tmp/elastic-net-with-phi.tar -C /tmp/") #fixed the brackets issue
+        os.system("tar -xf /tmp/elastic-net-with-phi.tar -C /tmp/")
 
         #command with optional parameters
         cmd = f"{python_path} {metaxcan_dir}/software/SPrediXcan.py \
@@ -75,6 +76,7 @@ def main():
         --output_file {output}"
         
     #execute the S-PrediXcan command
+    print("Running S-PrediXcan...\n")
     exit_code = os.system(cmd)
     
     if exit_code != 0:
