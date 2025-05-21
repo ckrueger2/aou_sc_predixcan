@@ -61,7 +61,7 @@ if conda env list | grep -q imlabtools; then
     conda env remove -n imlabtools -y
 fi
 
-#create environment with compatible versions
+#create environment with compatible versions (version numbers may need to be changed with future updates)
 conda create -n imlabtools python=3.8 numpy=1.19 pandas scipy -y
 
 #activate imlabtools
