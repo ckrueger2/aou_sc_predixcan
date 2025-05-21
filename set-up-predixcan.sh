@@ -32,10 +32,10 @@ fi
         
 #download databases
 #download expression models
-if [ ! -f mashr_eqtl.tar ]; then
+if [ ! -d eqtl ]; then
     echo "Downloading mashr_eqtl.tar..."
-    wget https://zenodo.org/record/3518299/files/mashr_eqtl.tar -O mashr_eqtl.tar
-    tar -xvf mashr_eqtl.tar
+    wget https://zenodo.org/record/3518299/files/mashr_eqtl.tar?download=1 -O mashr_eqtl.tar
+    tar -xvpf mashr_eqtl.tar
 fi
 
 #download splicing models
