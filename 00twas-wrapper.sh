@@ -74,9 +74,24 @@ if [ -f /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py ]; then
     sed -i 's/if a.dtype == numpy.object:/if a.dtype == object or str(a.dtype).startswith("object"):/' /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py
 fi
 
+# Patch MetaXcan code
+if [ -f /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py ]; then
+    sed -i 's/if a.dtype == numpy.object:/if a.dtype == object or str(a.dtype).startswith("object"):/' /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py
+fi
+
 # Patch numpy.str deprecation in Utilities.py
 if [ -f /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py ]; then
-    sed -i 's/numpy.str/numpy.str_/g' /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
+    # First check if the file contains the original numpy.str (not already patched)
+    if grep -q "numpy\.str[^_]" /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py; then
+        # Only replace numpy.str with numpy.str_ if it hasn't been replaced yet
+        sed -i 's/numpy\.str\([^_]\)/numpy.str_\1/g' /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
+    elif grep -q "numpy\.str_" /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py; then
+        # If we find numpy.str__ (double underscore), replace it with numpy.str_
+        sed -i 's/numpy\.str__/numpy.str_/g' /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
+    fi
+    
+    # Fix the specific line that causes errors with numpy.str__
+    sed -i 's/type = \[numpy\.str[_]*, numpy\.float64, numpy\.float64, numpy\.float64\]/type = \[str, numpy.float64, numpy.float64, numpy.float64\]/g' /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
     
     # Fix pandas drop() method call
     sed -i 's/results = results.drop("n_snps_in_model",1)/results = results.drop(columns=["n_snps_in_model"])/' /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
