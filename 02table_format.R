@@ -42,30 +42,46 @@ print("Formatting reference files...")
 #create file of chr and pos columns only to use for filtering
 #command2 <- paste0("gsutil cat ", my_bucket, "/data/", args$pop, "_filtered_", args$phecode, ".tsv | awk 'NR > 1 {print $8, $9}' > /tmp/subset_", args$phecode, ".tsv")
 #system(command2)
+command2.5 <- paste0("gsutil cat ", my_bucket, "/data/", args$pop, "_full_", args$phecode, ".tsv | awk 'NR > 1 {print $8, $9}' > /tmp/gtex_subset_", args$phecode, ".tsv")
+system(command2.5)
 
 #remove chr prefix
 #command3 <- paste0("sed -e 's/chr//' -e 's/^X /23 /' /tmp/subset_", args$phecode, ".tsv > /tmp/nochr", args$phecode, ".tsv")
 #system(command3)
+command3.5 <- paste0("sed -e 's/chr//' -e 's/^X /23 /' /tmp/gtex_subset_", args$phecode, ".tsv > /tmp/gtex_nochr", args$phecode, ".tsv")
+system(command3.5)
 
 #filter large file, eliminating SNPs not present in sumstats file
 #command4 <- paste0("zcat All_20180418.vcf.gz | awk 'NR==FNR {a[$1\" \"$2]=1; next} !/^#/ && ($1\" \"$2) in a' /tmp/nochr", args$phecode, ".tsv - > /tmp/filtered_20180418.vcf")
 #system(command4)
+command4.5 <- paste0("zcat All_20180418.vcf.gz | awk 'NR==FNR {a[$1\" \"$2]=1; next} !/^#/ && ($1\" \"$2) in a' /tmp/gtex_nochr", args$phecode, ".tsv - > /tmp/gtex_20180418.vcf")
+system(command4.5)
 
 #remove metadata rows
 #command5 <- paste0("awk '!/^##/' /tmp/filtered_20180418.vcf > /tmp/", args$phecode, "ref.vcf")
 #system(command5)
+command5.5 <- paste0("awk '!/^##/' /tmp/gtex_20180418.vcf > /tmp/", args$phecode, "gtex_ref.vcf")
+system(command5.5)
 
 #copy to bucket
 #command6 <- paste0("gsutil cp /tmp/", args$phecode, "ref.vcf ", my_bucket, "/data/")
 #system(command6)
+command6.5 <- paste0("gsutil cp /tmp/", args$phecode, "gtex_ref.vcf ", my_bucket, "/data/")
+system(command6.5)
 
 #check bucket for vcf file
 check_result <- system(paste0("gsutil ls ", my_bucket, "/data/ | grep ", args$phecode, "ref.vcf"), ignore.stderr = TRUE)
+check_result2 <- system(paste0("gsutil ls ", my_bucket, "/data/ | grep ", args$phecode, "gtex_ref.vcf"), ignore.stderr = TRUE)
 
 if (check_result != 0) {
   stop(paste0("ERROR: File '", args$phecode, "ref.vcf' was not found in bucket ", my_bucket, "/data/"))
 } else {
   cat("Reference VCF file successfully transferred to bucket.\n")
+}
+if (check_result2 != 0) {
+  stop(paste0("ERROR: File '", args$phecode, "gtex_ref.vcf' was not found in bucket ", my_bucket, "/data/"))
+} else {
+  cat("Reference gtex VCF file successfully transferred to bucket.\n")
 }
 
 #PERFORM COMMAND LINE FORMATTING FOR S-PREDIXCAN FILE
@@ -179,6 +195,16 @@ reference_data <- fread(name_of_vcf, header = FALSE, sep='\t')
 reference_data <- reference_data[,1:3]
 colnames(reference_data) <- c("CHR", "POS", "rsID")
 
+#read in gtex rsID reference file
+name_of_vcf2 <- paste0(args$phecode, "gtex_ref.vcf")
+reference_command2 <- paste0("gsutil cp ", my_bucket, "/data/", name_of_vcf, " .")
+
+system(reference_command2, intern=T)
+
+reference_data2 <- fread(name_of_vcf2, header = FALSE, sep='\t')
+reference_data2 <- reference_data2[,1:3]
+colnames(reference_data2) <- c("CHR", "POS", "rsID")
+
 #format data for matching
 filtered_table$CHR <- as.character(filtered_table$CHR)
 filtered_table$POS <- as.character(filtered_table$POS)
@@ -189,13 +215,18 @@ reference_data$CHR <- paste0("chr", reference_data$CHR)
 reference_data$CHR <- as.character(reference_data$CHR)
 reference_data$POS <- as.character(reference_data$POS)
 
+reference_data2$CHR <- paste0("chr", reference_data2$CHR)
+reference_data2$CHR <- as.character(reference_data2$CHR)
+reference_data2$POS <- as.character(reference_data2$POS)
+
 #check tables
 cat("rsID reference table preview:\n")
 head(reference_data)
+head(reference_data2)
 
 #merge files
 merged_table <- merge(filtered_table, reference_data[, c("CHR", "POS", "rsID")], by = c("CHR", "POS"), all.x = TRUE)
-merged_gtex_table <- merge(gtex_table, reference_data[, c("CHR", "POS", "rsID")], by = c("CHR", "POS"), all.x = TRUE)
+merged_gtex_table <- merge(gtex_table, reference_data2[, c("CHR", "POS", "rsID")], by = c("CHR", "POS"), all.x = TRUE)
 
 #remove un-needed columns
 filtered_merged_table <- merged_table[, c(1, 2, 13, 14, 15, 17, 5, 6, 8)]
