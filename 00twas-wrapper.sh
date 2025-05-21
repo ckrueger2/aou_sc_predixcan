@@ -72,7 +72,7 @@ if [ -f /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py ]; then
     sed -i 's/if a.dtype == numpy.object:/if a.dtype == object or str(a.dtype).startswith("object"):/' /home/jupyter/MetaXcan/software/metax/gwas/GWAS.py
 fi
 
-# Patch numpy.str deprecation in Utilities.py
+#patch numpy.str deprecation in Utilities.py
 if [ -f /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py ]; then
     # First check if the file contains the original numpy.str (not already patched)
     if grep -q "numpy\.str[^_]" /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py; then
@@ -90,9 +90,12 @@ if [ -f /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py ]; then
     sed -i 's/results = results.drop("n_snps_in_model",1)/results = results.drop(columns=["n_snps_in_model"])/' /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
 fi
 
-# Patch M04_zscores.py to fix the string/float division error
+#patch M04_zscores.py to fix the string/float division error
 if [ -f /home/jupyter/MetaXcan/software/M04_zscores.py ]; then
-    sed -i '/def correct_inf_phi/,/return/ s/xcan_df\["zscore"\] = xcan_df\["zscore"\] \/ np\.sqrt(denominator)/# Convert zscore to numeric if it\'s not already\nxcan_df["zscore"] = pd.to_numeric(xcan_df["zscore"], errors="coerce")\nxcan_df["zscore"] = xcan_df["zscore"] \/ np.sqrt(denominator)/' /home/jupyter/MetaXcan/software/M04_zscores.py
+    sed -i '/def correct_inf_phi/,/return/ s/xcan_df\["zscore"\] = xcan_df\["zscore"\] \/ np\.sqrt(denominator)/xcan_df["zscore"] = pd.to_numeric(xcan_df["zscore"], errors="coerce")\n    xcan_df["zscore"] = xcan_df["zscore"] \/ np.sqrt(denominator)/' /home/jupyter/MetaXcan/software/M04_zscores.py
+    if ! grep -q "import pandas as pd" /home/jupyter/MetaXcan/software/M04_zscores.py; then
+        sed -i '1s/^/import pandas as pd\n/' /home/jupyter/MetaXcan/software/M04_zscores.py
+    fi
 fi
 
 output_file="/home/jupyter/${POP}_predixcan_output_${PHECODE}.csv"
