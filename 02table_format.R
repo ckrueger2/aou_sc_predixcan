@@ -40,24 +40,24 @@ if (!file.exists(file_name)) {
 print("Formatting reference files...\n")
 
 #create file of chr and pos columns only to use for filtering
-command2 <- paste0("gsutil cat ", my_bucket, "/data/", args$pop, "_filtered_", args$phecode, ".tsv | awk 'NR > 1 {print $8, $9}' > /tmp/subset_", args$phecode, ".tsv")
-system(command2)
+#command2 <- paste0("gsutil cat ", my_bucket, "/data/", args$pop, "_filtered_", args$phecode, ".tsv | awk 'NR > 1 {print $8, $9}' > /tmp/subset_", args$phecode, ".tsv")
+#system(command2)
 
 #remove chr prefix
-command3 <- paste0("sed -e 's/chr//' -e 's/^X /23 /' /tmp/subset_", args$phecode, ".tsv > /tmp/nochr", args$phecode, ".tsv")
-system(command3)
+#command3 <- paste0("sed -e 's/chr//' -e 's/^X /23 /' /tmp/subset_", args$phecode, ".tsv > /tmp/nochr", args$phecode, ".tsv")
+#system(command3)
 
 #filter large file, eliminating SNPs not present in sumstats file
-command4 <- paste0("zcat All_20180418.vcf.gz | awk 'NR==FNR {a[$1\" \"$2]=1; next} !/^#/ && ($1\" \"$2) in a' /tmp/nochr", args$phecode, ".tsv - > /tmp/filtered_20180418.vcf")
-system(command4)
+#command4 <- paste0("zcat All_20180418.vcf.gz | awk 'NR==FNR {a[$1\" \"$2]=1; next} !/^#/ && ($1\" \"$2) in a' /tmp/nochr", args$phecode, ".tsv - > /tmp/filtered_20180418.vcf")
+#system(command4)
 
 #remove metadata rows
-command5 <- paste0("awk '!/^##/' /tmp/filtered_20180418.vcf > /tmp/", args$phecode, "ref.vcf")
-system(command5)
+#command5 <- paste0("awk '!/^##/' /tmp/filtered_20180418.vcf > /tmp/", args$phecode, "ref.vcf")
+#system(command5)
 
 #copy to bucket
-command6 <- paste0("gsutil cp /tmp/", args$phecode, "ref.vcf ", my_bucket, "/data/")
-system(command6)
+#command6 <- paste0("gsutil cp /tmp/", args$phecode, "ref.vcf ", my_bucket, "/data/")
+#system(command6)
 
 #check bucket for vcf file
 check_result <- system(paste0("gsutil ls ", my_bucket, "/data/ | grep ", args$phecode, "ref.vcf"), ignore.stderr = TRUE)
@@ -70,27 +70,27 @@ if (check_result != 0) {
 
 #PERFORM COMMAND LINE FORMATTING FOR S-PREDIXCAN FILE
 #upload GTEx SNP file to workspace bucket
-command7 <- paste0("gsutil -m cp -v ~/GWAS-TWAS-in-All-of-Us-Cloud/predixcan_models_varids-effallele.txt.gz ", my_bucket, "/data/")
-system(command7, intern=TRUE)
+#command7 <- paste0("gsutil -m cp -v ~/GWAS-TWAS-in-All-of-Us-Cloud/predixcan_models_varids-effallele.txt.gz ", my_bucket, "/data/")
+#system(command7, intern=TRUE)
 
 #unzip files
-command8 <- paste0("gsutil cat ", my_bucket, "/data/predixcan_models_varids-effallele.txt.gz | gunzip > /tmp/predixcan_models_varids-effallele.txt")
-system(command8)
+#command8 <- paste0("gsutil cat ", my_bucket, "/data/predixcan_models_varids-effallele.txt.gz | gunzip > /tmp/predixcan_models_varids-effallele.txt")
+#system(command8)
 
 #format reference file
-system("awk -F'[,:]' 'NR>1 {print $1\":\"$2}' /tmp/predixcan_models_varids-effallele.txt > /tmp/chrpos_allele_table.tsv", intern=TRUE)
+#system("awk -F'[,:]' 'NR>1 {print $1\":\"$2}' /tmp/predixcan_models_varids-effallele.txt > /tmp/chrpos_allele_table.tsv", intern=TRUE)
 
 #make temp files
-command9 <- paste0("gsutil cp ", my_bucket, "/data/", args$pop, "_full_", args$phecode,".tsv /tmp/")
-system(command9)
+#command9 <- paste0("gsutil cp ", my_bucket, "/data/", args$pop, "_full_", args$phecode,".tsv /tmp/")
+#system(command9)
 
 #filter SNPs
-command10 <- paste0("awk 'NR==FNR{a[$1];next} $1 in a' /tmp/chrpos_allele_table.tsv /tmp/", args$pop, "_full_", args$phecode, ".tsv > /tmp/gtex_", args$phecode, ".tsv")
-system(command10)
+#command10 <- paste0("awk 'NR==FNR{a[$1];next} $1 in a' /tmp/chrpos_allele_table.tsv /tmp/", args$pop, "_full_", args$phecode, ".tsv > /tmp/gtex_", args$phecode, ".tsv")
+#system(command10)
 
 #save to bucket
-command11 <- paste0("gsutil cp /tmp/gtex_", args$phecode, ".tsv ", my_bucket, "/data/", args$pop, "_gtex_", args$phecode,".tsv")
-system(command11)
+#command11 <- paste0("gsutil cp /tmp/gtex_", args$phecode, ".tsv ", my_bucket, "/data/", args$pop, "_gtex_", args$phecode,".tsv")
+#system(command11)
 
 #check bucket
 check_result2 <- system(paste0("gsutil ls ", my_bucket, "/data/ | grep ", args$pop, "_gtex_", args$phecode, ".tsv"), ignore.stderr = TRUE)
@@ -193,52 +193,54 @@ head(reference_data)
 
 #merge files
 merged_table <- merge(filtered_table, reference_data[, c("CHR", "POS", "rsID")], by = c("CHR", "POS"), all.x = TRUE)
+merged_gtex_table <- merge(gtex_table, reference_data[, c("CHR", "POS", "rsID")], by = c("CHR", "POS"), all.x = TRUE)
 
 #remove un-needed columns
 filtered_merged_table <- merged_table[, c(1, 2, 13, 14, 15, 17, 5, 6, 8)]
 
 #check table
-cat("rsID merged table preview:\n")
+cat("rsID merged table previews:\n")
 head(filtered_merged_table)
+head(merged_gtex_table)
 
 #FINAL FORMATTING
 #format chromosomes
 filtered_merged_table$CHR <- gsub("chr", "", filtered_merged_table$CHR)
-gtex_table$CHR <- gsub("chr", "", gtex_table$CHR)
-gtex_table$CHR <- gsub("X", "23", gtex_table$CHR)
-gtex_table$CHR <- gsub("Y", "24", gtex_table$CHR)
+merged_gtex_table$CHR <- gsub("chr", "", merged_gtex_table$CHR)
+merged_gtex_table$CHR <- gsub("X", "23", merged_gtex_table$CHR)
+merged_gtex_table$CHR <- gsub("Y", "24", merged_gtex_table$CHR)
 
 #make numeric
 filtered_merged_table$CHR <- as.numeric(filtered_merged_table$CHR)
-gtex_table$CHR <- as.numeric(gtex_table$CHR)
+merged_gtex_table$CHR <- as.numeric(merged_gtex_table$CHR)
 filtered_merged_table$POS <- as.numeric(filtered_merged_table$POS)
 
 #sort by chr, pos
 filtered_merged_table <- filtered_merged_table %>%
   arrange(CHR, POS)
-gtex_table <- gtex_table %>%
+merged_gtex_table <- merged_gtex_table %>%
   arrange(CHR, POS)
 
 #rename header
-gtex_table$"#CHROM" <- gtex_table$CHR
-gtex_table$CHR <- NULL
+merged_gtex_table$"#CHROM" <- merged_gtex_table$CHR
+merged_gtex_table$CHR <- NULL
 
 #select columns
-gtex_table <- gtex_table %>%
-  select(locus, alleles, ID, REF, ALT, "#CHROM", BETA, SE, Pvalue, SNP)
+merged_gtex_table <- merged_gtex_table %>%
+  select(locus, alleles, ID, REF, ALT, "#CHROM", BETA, SE, Pvalue, SNP, rsID)
 
 #check tables
 cat("Final pvalue filtered table:\n")
 head(filtered_merged_table)
 
 cat("Final GTEx filtered table:\n")
-head(gtex_table)
+head(merged_gtex_table)
 
 #write table
 gtex_destination_filename <- paste0(args$pop, "_formatted_gtex_", args$phecode,".tsv")
 
 #store the dataframe in current workspace
-write.table(gtex_table, gtex_destination_filename, col.names=TRUE, row.names=FALSE, quote=FALSE, sep="\t")
+write.table(merged_gtex_table, gtex_destination_filename, col.names=TRUE, row.names=FALSE, quote=FALSE, sep="\t")
 
 #copy the file from current workspace to the bucket
 system(paste0("gsutil cp ./", gtex_destination_filename, " ", my_bucket, "/data/"), intern=TRUE)
