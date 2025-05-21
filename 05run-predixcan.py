@@ -42,7 +42,7 @@ def main():
     --keep_non_rsid \
     --additional_output \
     --model_db_snp_key varID \
-    --throw
+    --throw \
     --output_file {output}"
     
     #add heritability parameter if available
