@@ -42,32 +42,32 @@ print("Formatting reference files...")
 #create file of chr and pos columns only to use for filtering
 #command2 <- paste0("gsutil cat ", my_bucket, "/data/", args$pop, "_filtered_", args$phecode, ".tsv | awk 'NR > 1 {print $8, $9}' > /tmp/subset_", args$phecode, ".tsv")
 #system(command2)
-command2.5 <- paste0("gsutil cat ", my_bucket, "/data/", args$pop, "_full_", args$phecode, ".tsv | awk 'NR > 1 {print $8, $9}' > /tmp/gtex_subset_", args$phecode, ".tsv")
-system(command2.5)
+#command2.5 <- paste0("gsutil cat ", my_bucket, "/data/", args$pop, "_full_", args$phecode, ".tsv | awk 'NR > 1 {print $8, $9}' > /tmp/gtex_subset_", args$phecode, ".tsv")
+#system(command2.5)
 
 #remove chr prefix
 #command3 <- paste0("sed -e 's/chr//' -e 's/^X /23 /' /tmp/subset_", args$phecode, ".tsv > /tmp/nochr", args$phecode, ".tsv")
 #system(command3)
-command3.5 <- paste0("sed -e 's/chr//' -e 's/^X /23 /' /tmp/gtex_subset_", args$phecode, ".tsv > /tmp/gtex_nochr", args$phecode, ".tsv")
-system(command3.5)
+#command3.5 <- paste0("sed -e 's/chr//' -e 's/^X /23 /' /tmp/gtex_subset_", args$phecode, ".tsv > /tmp/gtex_nochr", args$phecode, ".tsv")
+#system(command3.5)
 
 #filter large file, eliminating SNPs not present in sumstats file
 #command4 <- paste0("zcat All_20180418.vcf.gz | awk 'NR==FNR {a[$1\" \"$2]=1; next} !/^#/ && ($1\" \"$2) in a' /tmp/nochr", args$phecode, ".tsv - > /tmp/filtered_20180418.vcf")
 #system(command4)
-command4.5 <- paste0("zcat All_20180418.vcf.gz | awk 'NR==FNR {a[$1\" \"$2]=1; next} !/^#/ && ($1\" \"$2) in a' /tmp/gtex_nochr", args$phecode, ".tsv - > /tmp/gtex_20180418.vcf")
-system(command4.5)
+#command4.5 <- paste0("zcat All_20180418.vcf.gz | awk 'NR==FNR {a[$1\" \"$2]=1; next} !/^#/ && ($1\" \"$2) in a' /tmp/gtex_nochr", args$phecode, ".tsv - > /tmp/gtex_20180418.vcf")
+#system(command4.5)
 
 #remove metadata rows
 #command5 <- paste0("awk '!/^##/' /tmp/filtered_20180418.vcf > /tmp/", args$phecode, "ref.vcf")
 #system(command5)
-command5.5 <- paste0("awk '!/^##/' /tmp/gtex_20180418.vcf > /tmp/", args$phecode, "gtex_ref.vcf")
-system(command5.5)
+#command5.5 <- paste0("awk '!/^##/' /tmp/gtex_20180418.vcf > /tmp/", args$phecode, "gtex_ref.vcf")
+#system(command5.5)
 
 #copy to bucket
 #command6 <- paste0("gsutil cp /tmp/", args$phecode, "ref.vcf ", my_bucket, "/data/")
 #system(command6)
-command6.5 <- paste0("gsutil cp /tmp/", args$phecode, "gtex_ref.vcf ", my_bucket, "/data/")
-system(command6.5)
+#command6.5 <- paste0("gsutil cp /tmp/", args$phecode, "gtex_ref.vcf ", my_bucket, "/data/")
+#system(command6.5)
 
 #check bucket for vcf file
 check_result <- system(paste0("gsutil ls ", my_bucket, "/data/ | grep ", args$phecode, "ref.vcf"), ignore.stderr = TRUE)
@@ -197,7 +197,7 @@ colnames(reference_data) <- c("CHR", "POS", "rsID")
 
 #read in gtex rsID reference file
 name_of_vcf2 <- paste0(args$phecode, "gtex_ref.vcf")
-reference_command2 <- paste0("gsutil cp ", my_bucket, "/data/", name_of_vcf, " .")
+reference_command2 <- paste0("gsutil cp ", my_bucket, "/data/", name_of_vcf2, " .")
 
 system(reference_command2, intern=T)
 
