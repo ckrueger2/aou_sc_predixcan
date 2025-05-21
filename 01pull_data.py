@@ -52,7 +52,7 @@ os.system(f"gsutil -u $GOOGLE_PROJECT ls gs://fc-aou-datasets-controlled/AllxAll
 ht = hl.read_table(f"gs://fc-aou-datasets-controlled/AllxAll/v1/ht/ACAF/{pop}/phenotype_{phenotype_id}_ACAF_results.ht")
 
 #find global fields
-global_fields = list(ht.globals())
+global_fields = list(ht.globals)
 n_cases = ht.globals.n_cases.collect()[0]
 n_controls = ht.globals.n_controls.collect()[0]
 heritability = ht.globals.heritability.collect()[0]
