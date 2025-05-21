@@ -164,7 +164,7 @@ if 'n_controls' in global_fields:
 else:
     print("Number of controls: Not available")
 
-if 'n_controls' and 'n_cases' in global_fields:
+if n_controls is not None and n_cases is not None:
     n_total = int(n_controls) + int(n_cases)
     print(f"Sample Size (n): {n_total}")
     
