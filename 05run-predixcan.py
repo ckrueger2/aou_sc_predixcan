@@ -3,6 +3,7 @@
 import os
 import sys
 import argparse
+import subprocess
 
 def set_args():
     parser = argparse.ArgumentParser(description="run s-predixcan")
@@ -24,9 +25,6 @@ def main():
     else:
         gwas_h2 = None
         gwas_N = None
-
-    print(type(gwas_h2))
-    print(type(gwas_N))
     
     #retrieve gtex filtered file from bucket
     bucket = os.getenv('WORKSPACE_BUCKET')
@@ -42,10 +40,18 @@ def main():
 
     #build command based on parameters
     if gwas_h2 is not None and gwas_N is not None:
-        #retrieve gtex reference files from bucket
-        print("Retrieving gtex files...")
-        os.system(f"gsutil cp {bucket}/data/elastic-net-with-phi.tar /tmp/")
-        os.system("tar -xf /tmp/elastic-net-with-phi.tar -C /tmp/")
+        # Retrieve gtex reference files from bucket
+        print("Retrieving GTEx reference files...")
+        if not os.path.exists("/tmp/elastic-net-with-phi.tar"):
+            ret = subprocess.run(f"gsutil cp {bucket}/data/elastic-net-with-phi.tar /tmp/", shell=True)
+            if ret.returncode != 0:
+                print("ERROR: Failed to retrieve elastic-net-with-phi.tar")
+                return 1
+                
+        ret = subprocess.run("tar -xf /tmp/elastic-net-with-phi.tar -C /tmp/", shell=True)
+        if ret.returncode != 0:
+            print("ERROR: Failed to extract elastic-net-with-phi.tar")
+            return 1
 
         #command with optional parameters
         cmd = f"{python_path} {metaxcan_dir}/software/SPrediXcan.py \
