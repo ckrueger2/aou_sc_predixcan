@@ -90,14 +90,6 @@ if [ -f /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py ]; then
     sed -i 's/results = results.drop("n_snps_in_model",1)/results = results.drop(columns=["n_snps_in_model"])/' /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
 fi
 
-#patch M04_zscores.py to fix the string/float division error
-if [ -f /home/jupyter/MetaXcan/software/M04_zscores.py ]; then
-    sed -i '/def correct_inf_phi/,/return/ s/xcan_df\["zscore"\] = xcan_df\["zscore"\] \/ np\.sqrt(denominator)/xcan_df["zscore"] = pd.to_numeric(xcan_df["zscore"], errors="coerce")\n    xcan_df["zscore"] = xcan_df["zscore"] \/ np.sqrt(denominator)/' /home/jupyter/MetaXcan/software/M04_zscores.py
-    if ! grep -q "import pandas as pd" /home/jupyter/MetaXcan/software/M04_zscores.py; then
-        sed -i '1s/^/import pandas as pd\n/' /home/jupyter/MetaXcan/software/M04_zscores.py
-    fi
-fi
-
 output_file="/home/jupyter/${POP}_predixcan_output_${PHECODE}.csv"
 
 #check if the output file already exists
