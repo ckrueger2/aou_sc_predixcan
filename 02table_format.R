@@ -98,7 +98,7 @@ check_result2 <- system(paste0("gsutil ls ", my_bucket, "/data/ | grep ", args$p
 if (check_result2 != 0) {
   stop(paste0("ERROR: File '", args$pop, "_gtex_", args$phecode, ".tsv' was not found in bucket ", my_bucket, "/data/"))
 } else {
-  cat("GTEx filtered file successfully transferred to bucket.\n")
+  cat("Reference GTEx file successfully transferred to bucket.\n")
 }
 
 #FORMAT TABLES
