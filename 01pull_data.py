@@ -172,4 +172,4 @@ if 'heritability' in global_fields:
     print(f"Heritability: {heritability}")
 else:
     print("Heritability: Not available")
-
+print("Beginning table formatting...\n")
