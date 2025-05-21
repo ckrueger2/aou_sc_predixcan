@@ -36,7 +36,6 @@ if [ ! -f mashr_eqtl.tar ]; then
     echo "Downloading mashr_eqtl.tar..."
     wget https://zenodo.org/record/3518299/files/mashr_eqtl.tar -O mashr_eqtl.tar
     tar -xvf mashr_eqtl.tar
-    rm mashr_eqtl.tar
 fi
 
 #download splicing models
