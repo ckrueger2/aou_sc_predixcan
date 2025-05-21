@@ -31,29 +31,7 @@ if ! conda env list | grep -q imlabtools; then
 fi
         
 #download databases
-#download expression models
 if [ ! -d eqtl ]; then
-    echo "Downloading mashr_eqtl.tar..."
     wget https://zenodo.org/record/3518299/files/mashr_eqtl.tar?download=1 -O mashr_eqtl.tar
     tar -xvpf mashr_eqtl.tar
 fi
-
-#download splicing models
-#if [ ! -f mashr_sqtl.tar ]; then
-#    echo "Downloading mashr_sqtl.tar..."
-#    wget https://zenodo.org/record/3518299/files/mashr_sqtl.tar -O mashr_sqtl.tar
-#    tar -xvf mashr_sqtl.tar
-#    rm mashr_sqtl.tar
-#fi
-
-#download LD reference data for expression
-#if [ ! -f gtex_v8_expression_mashr_snp_smultixcan_covariance.txt.gz ]; then
-#    echo "Downloading expression LD reference..."
-#    wget https://zenodo.org/record/3518299/files/gtex_v8_expression_mashr_snp_smultixcan_covariance.txt.gz
-#fi
-
-#download LD reference data for splicing
-#if [ ! -f gtex_v8_splicing_mashr_snp_smultixcan_covariance.txt.gz ]; then
-#    echo "Downloading splicing LD reference..."
-#    wget https://zenodo.org/record/3518299/files/gtex_v8_splicing_mashr_snp_smultixcan_covariance.txt.gz
-#fi
