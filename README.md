@@ -43,14 +43,17 @@ This second wrapper performs the TWAS part of this tool. It executes setting up 
 
 Run the wrapper via
 ```
-bash ~/GWAS-TWAS-in-All-of-Us-Cloud/00twas-wrapper.sh --phecode <PHECODE> --pop <POP> --ref <REF>
+bash ~/GWAS-TWAS-in-All-of-Us-Cloud/00twas-wrapper.sh --phecode <PHECODE> --pop <POP> --ref <REF> --gwas_h2 <H2> --gwas_N <N>
 ```
 
 `<PHECODE>` is the phenotype code of interest  
 `<POP>` is the population the sample originates from  
 `<REF>` is the reference database to use  
-Possible reference databases can be displayed by running `bash ~/GWAS-TWAS-in-All-of-Us-Cloud/00twas-wrapper.sh --databases` 
-Choose a database that corresponds to the phenotype of interest. For example, we used Muscle_Skeletal with a rheumatoid arthrithis dataset.
+`<H2>` (optional flag) is the hertiability of the GWAS phenotype  
+`<N>` (optional flag) is the sample size of the GWAS summary statistics
+- H2 and N will be printed by the 00wrapper.sh script if they are available within the hail table global statistics; use these values or researched values for input
+- Possible reference databases can be displayed by running `bash ~/GWAS-TWAS-in-All-of-Us-Cloud/00twas-wrapper.sh --databases` 
+  - Choose a database that corresponds to the phenotype of interest. For example, we used Muscle_Skeletal with a rheumatoid arthrithis dataset.
 ***
 ## Pipeline Outline: 
 ### The [First Wrapper](https://github.com/bmoginot/GWAS-TWAS-in-All-of-Us-Cloud/blob/main/00wrapper.sh) will run the following scripts:
