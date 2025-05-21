@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# install and initialize miniconda
+#install and initialize miniconda
 if [ ! -d ~/miniconda3 ]; then
     mkdir -p ~/miniconda3
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
@@ -10,7 +10,7 @@ if [ ! -d ~/miniconda3 ]; then
     conda init bash
 fi 
 
-# clone repo and create environment
+#clone repo and create environment
 if [ ! -d MetaXcan ]; then
     git clone https://github.com/hakyimlab/MetaXcan
     cd MetaXcan
