@@ -27,7 +27,7 @@ fi
 #create imlabtools manually if needed (version numbers may need to be changed with future updates)
 if ! conda env list | grep -q imlabtools; then
     echo "Failed to create imlabtools environment, creating manually"
-    conda create -n imlabtools python=3.8 numpy=1.9 pandas scipy h5py -y
+    conda create -n imlabtools python=3.8 numpy=1.19 pandas scipy h5py -y
 fi
         
 # download databases
