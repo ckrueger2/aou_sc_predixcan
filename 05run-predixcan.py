@@ -28,30 +28,47 @@ def main():
     #python and metaxcan paths
     python_path = sys.executable
     metaxcan_dir = "/home/jupyter/MetaXcan"
-    
-    #build the command
-    cmd = f"{python_path} {metaxcan_dir}/software/SPrediXcan.py \
-    --gwas_file /tmp/{filename} \
-    --snp_column SNP \
-    --effect_allele_column ALT \
-    --non_effect_allele_column REF \
-    --beta_column BETA \
-    --se_column SE \
-    --model_db_path eqtl/mashr/mashr_{args.ref}.db \
-    --covariance eqtl/mashr/mashr_{args.ref}.txt.gz \
-    --keep_non_rsid \
-    --additional_output \
-    --model_db_snp_key varID \
-    --throw \
-    --output_file {output}"
-    
-    #add heritability parameter if available
-    if args.gwas_h2 is not None:
-        cmd += f" \\\n    --gwas_h2 {args.gwas_h2}"
-    
-    #add sample size parameter if available
-    if args.gwas_N is not None:
-        cmd += f" \\\n    --gwas_N {args.gwas_N}"
+
+    #build command based on parameters
+    if args.gwas_h2 is not None or args.gwas_N is not None:
+        #command with optional parameters
+        cmd = f"{python_path} {metaxcan_dir}/software/SPrediXcan.py \
+        --gwas_file /tmp/{filename} \
+        --snp_column SNP \
+        --effect_allele_column ALT \
+        --non_effect_allele_column REF \
+        --beta_column BETA \
+        --se_column SE \
+        --model_db_path {bucket}/data/en_{args.ref}.db \
+        --covariance {bucket}/data/en_{args.ref}.txt.gz \
+        --keep_non_rsid \
+        --additional_output \
+        --model_db_snp_key varID \
+        --throw \
+        --output_file {output}"
+        
+        #add heritability parameter if available
+        if args.gwas_h2 is not None:
+            cmd += f" \\\n    --gwas_h2 {args.gwas_h2}"
+        
+        #add sample size parameter if available
+        if args.gwas_N is not None:
+            cmd += f" \\\n    --gwas_N {args.gwas_N}"
+    else:
+        #command without optional parameters
+        cmd = f"{python_path} {metaxcan_dir}/software/SPrediXcan.py \
+        --gwas_file /tmp/{filename} \
+        --snp_column SNP \
+        --effect_allele_column ALT \
+        --non_effect_allele_column REF \
+        --beta_column BETA \
+        --se_column SE \
+        --model_db_path eqtl/mashr/mashr_{args.ref}.db \
+        --covariance eqtl/mashr/mashr_{args.ref}.txt.gz \
+        --keep_non_rsid \
+        --model_db_snp_key varID \
+        --throw \
+        --output_file {output}"
         
     #execute the S-PrediXcan command
     exit_code = os.system(cmd)
