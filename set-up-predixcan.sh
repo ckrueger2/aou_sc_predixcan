@@ -14,8 +14,6 @@ fi
 if [ ! -d MetaXcan ]; then
     git clone https://github.com/hakyimlab/MetaXcan
     cd MetaXcan
-    git checkout 76a11b856f3cbab0b866033d518c201374a5594b
-    cd ..
     if [ -f MetaXcan/software/conda_env.yaml ]; then
         conda env create -f MetaXcan/software/conda_env.yaml
     else
