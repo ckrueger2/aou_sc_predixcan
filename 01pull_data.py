@@ -51,6 +51,12 @@ os.system(f"gsutil -u $GOOGLE_PROJECT ls gs://fc-aou-datasets-controlled/AllxAll
 #find hail table and save to variable
 ht = hl.read_table(f"gs://fc-aou-datasets-controlled/AllxAll/v1/ht/ACAF/{pop}/phenotype_{phenotype_id}_ACAF_results.ht")
 
+#find global fields
+global_fields = list(ht.globals())
+n_cases = ht.globals.n_cases.collect()[0]
+n_controls = ht.globals.n_controls.collect()[0]
+heritability = ht.globals.heritability.collect()[0]
+
 #columns to keep
 desired_columns = ['locus', 'alleles', 'BETA', 'SE', 'Het_Q', 'Pvalue', 'Pvalue_log10', 'CHR', 'POS', 'rank', 'Pvalue_expected', 'Pvalue_expected_log10']
 
@@ -141,3 +147,29 @@ try:
 except subprocess.CalledProcessError:
     #if command failed
     sys.exit(f"ERROR: File '{filtered_path}' was not found in {bucket}/data/.\n")
+
+#print sample size and heritability if available
+print("Available Global Fields:")
+print(global_fields)
+print()
+
+print("APPLY THE FOLLOWING VALUES TO S-PREDIXCAN IF AVAILABLE:\n")
+if 'n_cases' in global_fields:
+    print(f"Number of cases: {n_cases}")
+else:
+    print("Number of cases: Not available")
+
+if 'n_controls' in global_fields:
+    print(f"Number of controls: {n_controls}")
+else:
+    print("Number of controls: Not available")
+
+if 'n_controls' and 'n_cases' in global_fields:
+    n_total = int(n_controls) + int(n_cases)
+    print(f"Sample Size (n): {n_total}")
+    
+if 'heritability' in global_fields:
+    print(f"Heritability: {heritability}")
+else:
+    print("Heritability: Not available")
+
