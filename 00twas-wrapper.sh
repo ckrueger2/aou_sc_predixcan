@@ -77,6 +77,9 @@ fi
 # Patch numpy.str deprecation in Utilities.py
 if [ -f /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py ]; then
     sed -i 's/numpy.str/numpy.str_/g' /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
+    
+    # Fix pandas drop() method call
+    sed -i 's/results = results.drop("n_snps_in_model",1)/results = results.drop(columns=["n_snps_in_model"])/' /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
 fi
 
 output_file="/home/jupyter/${POP}_predixcan_output_${PHECODE}.csv"
