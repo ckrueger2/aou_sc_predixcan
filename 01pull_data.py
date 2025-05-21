@@ -153,7 +153,7 @@ print("Available Global Fields:")
 print(global_fields)
 print()
 
-print("APPLY THE FOLLOWING VALUES TO S-PREDIXCAN IF AVAILABLE:\n")
+print("APPLY THE FOLLOWING VALUES TO S-PREDIXCAN IF AVAILABLE:")
 if 'n_cases' in global_fields:
     print(f"Number of cases: {n_cases}")
 else:
