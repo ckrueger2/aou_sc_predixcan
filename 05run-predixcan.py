@@ -56,7 +56,7 @@ def main():
         #command with optional parameters
         cmd = f"{python_path} {metaxcan_dir}/software/SPrediXcan.py \
         --gwas_file /tmp/{filename} \
-        --snp_column SNP \
+        --snp_column rsID \
         --effect_allele_column ALT \
         --non_effect_allele_column REF \
         --beta_column BETA \
