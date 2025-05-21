@@ -20,7 +20,7 @@ if [ ! -d MetaXcan ]; then
         conda env create -f MetaXcan/software/conda_env.yaml
     else
         # Create environment manually as fallback
-        conda create -n imlabtools python=3.8 numpy pandas scipy h5py -y
+        conda create -n imlabtools python=3.8 numpy=1.19 pandas scipy -y
     fi
 fi
 
