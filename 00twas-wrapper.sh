@@ -62,7 +62,7 @@ if conda env list | grep -q imlabtools; then
 fi
 
 #create environment with compatible versions
-conda create -n imlabtools python=3.8 numpy=1.19 pandas=1.1 scipy -y
+conda create -n imlabtools python=3.8 numpy=1.19 pandas scipy -y
 
 #activate imlabtools
 if conda activate imlabtools; then
