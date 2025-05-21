@@ -90,7 +90,7 @@ def main():
 
     #clean up tmp files if they exist
     if args.gwas_h2 is not None and args.gwas_N is not None:
-        os.system("rm -rf /tmp/elastic-net-with-phi /tmp/eqtl /tmp/elastic-net-with-phi.tar 2>/dev/null")
+        os.system("rm -rf /tmp/elastic-net-with-phi /tmp/eqtl 2>/dev/null")
         
     print("S-PrediXcan analysis completed successfully")
 
