@@ -20,14 +20,14 @@ if [ ! -d MetaXcan ]; then
         conda env create -f MetaXcan/software/conda_env.yaml
     else
         # Create environment manually as fallback (version numbers may need to be changed with future updates)
-        conda create -n imlabtools python=3.8 numpy=1.19 pandas=1.1 scipy -y
+        conda create -n imlabtools python=3.8 numpy=1.19 pandas scipy -y
     fi
 fi
 
 #create imlabtools manually if needed (version numbers may need to be changed with future updates)
 if ! conda env list | grep -q imlabtools; then
     echo "Failed to create imlabtools environment, creating manually"
-    conda create -n imlabtools python=3.8 numpy=1.9 pandas=1.1 scipy h5py -y
+    conda create -n imlabtools python=3.8 numpy=1.9 pandas scipy h5py -y
 fi
         
 # download databases
