@@ -182,6 +182,8 @@ colnames(reference_data) <- c("CHR", "POS", "rsID")
 #format data for matching
 filtered_table$CHR <- as.character(filtered_table$CHR)
 filtered_table$POS <- as.character(filtered_table$POS)
+gtex_table$CHR <- as.character(gtex_table$CHR)
+gtex_table$POS <- as.character(gtex_table$POS)
 
 reference_data$CHR <- paste0("chr", reference_data$CHR)
 reference_data$CHR <- as.character(reference_data$CHR)
@@ -214,6 +216,7 @@ merged_gtex_table$CHR <- gsub("Y", "24", merged_gtex_table$CHR)
 filtered_merged_table$CHR <- as.numeric(filtered_merged_table$CHR)
 merged_gtex_table$CHR <- as.numeric(merged_gtex_table$CHR)
 filtered_merged_table$POS <- as.numeric(filtered_merged_table$POS)
+merged_gtex_table$POS <- as.numeric(merged_gtex_table$POS)
 
 #sort by chr, pos
 filtered_merged_table <- filtered_merged_table %>%
