@@ -35,7 +35,7 @@ system(read_in_command, intern=TRUE)
 df <- fread(name_of_file_in_bucket, sep = ",", header=TRUE)
 
 #accessing the Ensembl biomart database for 'genes', specifically the human genes version 113 (can be changed or left out)
-biomart_access <- useEnsembl(biomart = "genes", dataset = "hsapiens_gene_ensembl", version = "113")
+biomart_access <- useEnsembl(biomart = "genes", dataset = "hsapiens_gene_ensembl")
 
 #removes the decimal after the gene, helps with merging and searching in general 
 #this doesnt rename the gene, instead creates a new column so we dont lose data
