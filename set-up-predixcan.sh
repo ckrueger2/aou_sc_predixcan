@@ -40,23 +40,21 @@ if [ ! -f mashr_eqtl.tar ]; then
 fi
 
 #download splicing models
-if [ ! -f mashr_sqtl.tar ]; then
-    echo "Downloading mashr_sqtl.tar..."
-    wget https://zenodo.org/record/3518299/files/mashr_sqtl.tar -O mashr_sqtl.tar
-    tar -xvf mashr_sqtl.tar
-    rm mashr_sqtl.tar
-fi
+#if [ ! -f mashr_sqtl.tar ]; then
+#    echo "Downloading mashr_sqtl.tar..."
+#    wget https://zenodo.org/record/3518299/files/mashr_sqtl.tar -O mashr_sqtl.tar
+#    tar -xvf mashr_sqtl.tar
+#    rm mashr_sqtl.tar
+#fi
 
 #download LD reference data for expression
-if [ ! -f gtex_v8_expression_mashr_snp_smultixcan_covariance.txt.gz ]; then
-    echo "Downloading expression LD reference..."
-    wget https://zenodo.org/record/3518299/files/gtex_v8_expression_mashr_snp_smultixcan_covariance.txt.gz
-fi
+#if [ ! -f gtex_v8_expression_mashr_snp_smultixcan_covariance.txt.gz ]; then
+#    echo "Downloading expression LD reference..."
+#    wget https://zenodo.org/record/3518299/files/gtex_v8_expression_mashr_snp_smultixcan_covariance.txt.gz
+#fi
 
-download LD reference data for splicing
-if [ ! -f gtex_v8_splicing_mashr_snp_smultixcan_covariance.txt.gz ]; then
-    echo "Downloading splicing LD reference..."
-    wget https://zenodo.org/record/3518299/files/gtex_v8_splicing_mashr_snp_smultixcan_covariance.txt.gz
-fi
-
-cd ..
+#download LD reference data for splicing
+#if [ ! -f gtex_v8_splicing_mashr_snp_smultixcan_covariance.txt.gz ]; then
+#    echo "Downloading splicing LD reference..."
+#    wget https://zenodo.org/record/3518299/files/gtex_v8_splicing_mashr_snp_smultixcan_covariance.txt.gz
+#fi
