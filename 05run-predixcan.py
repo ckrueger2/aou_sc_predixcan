@@ -9,8 +9,8 @@ def set_args():
     parser.add_argument("--phecode", help="phecode", required=True)
     parser.add_argument("--pop", help="population", required=True)
     parser.add_argument("--ref", help="eqtl model and matrix to use as ref", required=True)
-    parser.add_argument("--gwas_h2", help="heritability value (optional)", type=float)
-    parser.add_argument("--gwas_N", help="total sample size (optional)", type=int)
+    parser.add_argument("--gwas_h2", help="heritability value (optional)")
+    parser.add_argument("--gwas_N", help="total sample size (optional)")
     return parser
     
 def main():
