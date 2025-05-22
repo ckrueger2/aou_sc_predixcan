@@ -78,8 +78,8 @@ if (check_result != 0) {
 #unzip files
 #command8 <- paste0("gsutil cat ", my_bucket, "/data/predixcan_models_varids-effallele.txt.gz | gunzip > /tmp/predixcan_models_varids-effallele.txt")
 #system(command8)
-#command8.5 <- paste0("gsutil cat ", my_bucket, "/data/predixcan_models_varids-effallele_phi.txt.gz | gunzip > /tmp/predixcan_models_varids-effallele_phi.txt")
-#system(command8.5)
+command8.5 <- paste0("gsutil cat ", my_bucket, "/data/predixcan_models_varids-effallele_phi.txt.gz | gunzip > /tmp/predixcan_models_varids-effallele_phi.txt")
+system(command8.5)
 
 #format reference file
 #system("awk -F'[,:]' 'NR>1 {print $1\":\"$2}' /tmp/predixcan_models_varids-effallele.txt > /tmp/chrpos_allele_table.tsv", intern=TRUE)
