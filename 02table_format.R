@@ -197,7 +197,6 @@ head(reference_data)
 
 #merge files
 merged_table <- merge(filtered_table, reference_data[, c("CHR", "POS", "rsID")], by = c("CHR", "POS"), all.x = TRUE)
-merged_table <- merge(gtex_table, phi_data[, c("rsid", "varID")], by = c("SNP"="varID"), all.x = TRUE)
 
 #remove un-needed columns
 filtered_merged_table <- merged_table[, c(1, 2, 13, 14, 15, 17, 5, 6, 8)]
@@ -218,18 +217,21 @@ filtered_merged_table$CHR <- as.numeric(filtered_merged_table$CHR)
 gtex_table$CHR <- as.numeric(gtex_table$CHR)
 filtered_merged_table$POS <- as.numeric(filtered_merged_table$POS)
 
+#add rsIDs to gtex table
+merged_gtex_table <- merge(gtex_table, phi_data[, c("rsid", "varID")], by = c("SNP"="varID"), all.x = TRUE)
+
 #sort by chr, pos
 filtered_merged_table <- filtered_merged_table %>%
   arrange(CHR, POS)
-gtex_table <- gtex_table %>%
+merged_gtex_table <- merged_gtex_table %>%
   arrange(CHR, POS)
 
 #rename header
-gtex_table$"#CHROM" <- gtex_table$CHR
-gtex_table$CHR <- NULL
+merged_gtex_table$"#CHROM" <- merged_gtex_table$CHR
+merged_gtex_table$CHR <- NULL
 
 #select columns
-gtex_table <- gtex_table %>%
+merged_gtex_table <- merged_gtex_table %>%
   select(locus, alleles, ID, REF, ALT, "#CHROM", BETA, SE, Pvalue, SNP)
 
 #check tables
@@ -237,13 +239,13 @@ cat("Final pvalue filtered table:\n")
 head(filtered_merged_table)
 
 cat("Final GTEx filtered table:\n")
-head(gtex_table)
+head(merged_gtex_table)
 
 #write table
 gtex_destination_filename <- paste0(args$pop, "_formatted_gtex_", args$phecode,".tsv")
 
 #store the dataframe in current workspace
-write.table(gtex_table, gtex_destination_filename, col.names=TRUE, row.names=FALSE, quote=FALSE, sep="\t")
+write.table(merged_gtex_table, gtex_destination_filename, col.names=TRUE, row.names=FALSE, quote=FALSE, sep="\t")
 
 #copy the file from current workspace to the bucket
 system(paste0("gsutil cp ./", gtex_destination_filename, " ", my_bucket, "/data/"), intern=TRUE)
