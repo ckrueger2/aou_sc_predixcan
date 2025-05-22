@@ -155,6 +155,7 @@ gtex_table$CHR <- gsub("X", "23", gtex_table$CHR)
 gtex_table$CHR <- gsub("Y", "24", gtex_table$CHR)
 
 head(gtex_table)
+head(phi_table)
 
 #repeat for filtered table
 filtered_table$locus_formatted <- gsub(":", "_", filtered_table$locus) #colon to underscore
