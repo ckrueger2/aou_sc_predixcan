@@ -103,22 +103,14 @@ system(command9)
 #filter SNPs
 command10 <- paste0("awk 'NR==FNR{a[$1];next} $1 in a' /tmp/chrpos_allele_table.tsv /tmp/", args$pop, "_full_", args$phecode, ".tsv > /tmp/gtex_", args$phecode, ".tsv")
 system(command10)
-
-#filter reference vcf file
-command2.5 <- paste0("cat /tmp/gtex_", args$phecode, ".tsv| awk 'NR > 1 {print $8, $9}' > /tmp/gtex_subset_", args$phecode, ".tsv")
-system(command2.5)
-command3.5 <- paste0("sed -e 's/chr//' -e 's/^X /23 /' /tmp/gtex_subset_", args$phecode, ".tsv > /tmp/gtex_nochr", args$phecode, ".tsv")
-system(command3.5)
-command4.5 <- paste0("zcat All_20180418.vcf.gz | awk 'NR==FNR {a[$1\" \"$2]=1; next} !/^#/ && ($1\" \"$2) in a' /tmp/gtex_nochr", args$phecode, ".tsv - > /tmp/gtex_20180418.vcf")
-system(command4.5)
-command5.5 <- paste0("awk '!/^##/' /tmp/gtex_20180418.vcf > /tmp/", args$phecode, "gtex_ref.vcf")
-system(command5.5)
-#command6.5 <- paste0("gsutil cp /tmp/", args$phecode, "gtex_ref.vcf ", my_bucket, "/data/")
-#system(command6.5)
+command10.5 <- paste0("zcat All_20180418.vcf.gz | awk -F'\t' 'NR==FNR {seen[$1":"$2]=1; next} /^#/ {print; next} {if (($1":"$2) in seen) print}' /tmp/chrpos_allele_table.tsv - > /tmp/gtex_20180418.vcf")
+system(command10.5)
 
 #save to bucket
 command11 <- paste0("gsutil cp /tmp/gtex_", args$phecode, ".tsv ", my_bucket, "/data/", args$pop, "_gtex_", args$phecode,".tsv")
 system(command11)
+command11.5 <- paste0("gsutil cp /tmp/gtex_20180418.vcf ", my_bucket, "/data/gtex_ref.vcf")
+system(command11.5)
 
 #check bucket
 check_result2 <- system(paste0("gsutil ls ", my_bucket, "/data/ | grep ", args$phecode, "gtex_ref.vcf"), ignore.stderr = TRUE)
