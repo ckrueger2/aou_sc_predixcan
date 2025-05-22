@@ -235,7 +235,7 @@ merged_gtex_table$CHR <- NULL
 
 #select columns
 merged_gtex_table <- merged_gtex_table %>%
-  select(locus, alleles, ID, REF, ALT, "#CHROM", BETA, SE, Pvalue, SNP)
+  select(locus, alleles, ID, REF, ALT, "#CHROM", BETA, SE, Pvalue, SNP, rsid)
 
 #check tables
 cat("Final pvalue filtered table:\n")
