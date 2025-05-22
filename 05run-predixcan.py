@@ -28,7 +28,7 @@ def main():
     
     #retrieve gtex filtered file from bucket
     bucket = os.getenv('WORKSPACE_BUCKET')
-    filename = args.pop + "_formatted_filtered_" + args.phecode + ".tsv"
+    filename = args.pop + "_formatted_gtex_" + args.phecode + ".tsv"
     get_command = "gsutil cp " + bucket + "/data/" + filename + " /tmp/"
     os.system(get_command)
     
@@ -56,7 +56,7 @@ def main():
         #command with optional parameters
         cmd = f"{python_path} {metaxcan_dir}/software/SPrediXcan.py \
         --gwas_file /tmp/{filename} \
-        --snp_column rsID \
+        --snp_column rsid \
         --effect_allele_column ALT \
         --non_effect_allele_column REF \
         --beta_column BETA \
