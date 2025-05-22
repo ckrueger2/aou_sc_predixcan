@@ -1,6 +1,6 @@
 #!/usr/bin/R
 
-print("Beginning table formatting...")
+cat("Beginning table formatting...")
 
 #if needed, install packages
 if (!requireNamespace("data.table", quietly = TRUE)) install.packages("data.table")
@@ -37,7 +37,7 @@ if (!file.exists(file_name)) {
   cat("File", file_name, "already exists. Skipping download.\n")
 }
 
-print("Formatting reference files...")
+cat("Formatting reference files...")
 
 #create file of chr and pos columns only to use for filtering
 #command2 <- paste0("gsutil cat ", my_bucket, "/data/", args$pop, "_filtered_", args$phecode, ".tsv | awk 'NR > 1 {print $8, $9}' > /tmp/subset_", args$phecode, ".tsv")
