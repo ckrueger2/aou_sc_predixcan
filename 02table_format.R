@@ -57,7 +57,7 @@ command5 <- paste0("awk '!/^##/' /tmp/filtered_20180418.vcf > /tmp/", args$pheco
 system(command5)
 
 #copy to bucket
-#command6 <- paste0("gsutil cp /tmp/", args$phecode, "ref.vcf ", my_bucket, "/data/")
+command6 <- paste0("gsutil cp /tmp/", args$phecode, "ref.vcf ", my_bucket, "/data/")
 system(command6)
 
 #check bucket for vcf file
