@@ -78,35 +78,42 @@ if (check_result != 0) {
 #unzip files
 #command8 <- paste0("gsutil cat ", my_bucket, "/data/predixcan_models_varids-effallele.txt.gz | gunzip > /tmp/predixcan_models_varids-effallele.txt")
 #system(command8)
-command8.5 <- paste0("gsutil cat ", my_bucket, "/data/predixcan_models_varids-effallele_phi.txt.gz | gunzip > /tmp/predixcan_models_varids-effallele_phi.txt")
-system(command8.5)
+#command8.5 <- paste0("gsutil cat ", my_bucket, "/data/predixcan_models_varids-effallele_phi.txt.gz | gunzip > /tmp/predixcan_models_varids-effallele_phi.txt")
+#system(command8.5)
 
 #format reference file
 #system("awk -F'[,:]' 'NR>1 {print $1\":\"$2}' /tmp/predixcan_models_varids-effallele.txt > /tmp/chrpos_allele_table.tsv", intern=TRUE)
 
 #make temp files
-command9 <- paste0("gsutil cp ", my_bucket, "/data/", args$pop, "_full_", args$phecode,".tsv /tmp/")
-system(command9)
+#command9 <- paste0("gsutil cp ", my_bucket, "/data/", args$pop, "_full_", args$phecode,".tsv /tmp/")
+#system(command9)
 
 #filter SNPs
 #command10 <- paste0("awk 'NR==FNR{a[$1];next} $1 in a' /tmp/chrpos_allele_table.tsv /tmp/", args$pop, "_full_", args$phecode, ".tsv > /tmp/gtex_", args$phecode, ".tsv")
 #system(command10)
-command10.5 <- paste0("awk 'NR==FNR{if(NR>1){split($0,arr,\",\"); a[arr[2]\":\"arr[3]]}; next} FNR>1 && $1 in a' /tmp/predixcan_models_varids-effallele_phi.txt /tmp/", args$pop, "_full_", args$phecode, ".tsv > /tmp/phi_", args$phecode, ".tsv")
-system(command10.5)
+#command10.5 <- paste0("awk 'NR==FNR{if(NR>1){split($0,arr,\",\"); a[arr[2]\":\"arr[3]]}; next} FNR>1 && $1 in a' /tmp/predixcan_models_varids-effallele_phi.txt /tmp/", args$pop, "_full_", args$phecode, ".tsv > /tmp/phi_", args$phecode, ".tsv")
+#system(command10.5)
 
 #save to bucket
 #command11 <- paste0("gsutil cp /tmp/gtex_", args$phecode, ".tsv ", my_bucket, "/data/", args$pop, "_gtex_", args$phecode,".tsv")
 #system(command11)
-command11.5 <- paste0("gsutil cp /tmp/phi_", args$phecode, ".tsv ", my_bucket, "/data/", args$pop, "_phi_", args$phecode,".tsv")
-system(command11.5)
+#command11.5 <- paste0("gsutil cp /tmp/phi_", args$phecode, ".tsv ", my_bucket, "/data/", args$pop, "_phi_", args$phecode,".tsv")
+#system(command11.5)
 
 #check bucket
 check_result2 <- system(paste0("gsutil ls ", my_bucket, "/data/ | grep ", args$pop, "_gtex_", args$phecode, ".tsv"), ignore.stderr = TRUE)
+check_result3 <- system(paste0("gsutil ls ", my_bucket, "/data/ | grep ", args$pop, "_phi_", args$phecode, ".tsv"), ignore.stderr = TRUE)
 
 if (check_result2 != 0) {
   stop(paste0("ERROR: File '", args$pop, "_gtex_", args$phecode, ".tsv' was not found in bucket ", my_bucket, "/data/"))
 } else {
   cat("Reference GTEx file successfully transferred to bucket.\n")
+}
+
+if (check_result3 != 0) {
+  stop(paste0("ERROR: File '", args$pop, "_phi_", args$phecode, ".tsv' was not found in bucket ", my_bucket, "/data/"))
+} else {
+  cat("Reference phi correction GTEx file successfully transferred to bucket.\n")
 }
 
 #FORMAT TABLES
@@ -123,6 +130,19 @@ colnames(gtex_table) <- c("locus","alleles","BETA","SE","Het_Q","Pvalue","Pvalue
 cat("GTEx filtered table preview:\n")
 head(gtex_table)
 
+#read in phi filtered table
+name_of_phi_file <- paste0(args$pop, "_phi_", args$phecode, ".tsv")
+phi_command <- paste0("gsutil cp ", my_bucket, "/data/", name_of_phi_file, " .")
+
+system(phi_command, intern=TRUE)
+
+phi_table <- fread(name_of_phi_file, header=FALSE, sep="\t")
+colnames(phi_table) <- c("locus","alleles","BETA","SE","Het_Q","Pvalue","Pvalue_log10","CHR","POS","rank","Pvalue_expected","Pvalue_expected_log10")
+
+#check table
+cat("Phi filtered table preview:\n")
+head(phi_table)
+
 #read in pvalue filtered table
 name_of_filtered_file <- paste0(args$pop, "_filtered_", args$phecode, ".tsv")
 filtered_command <- paste0("gsutil cp ", my_bucket, "/data/", name_of_filtered_file, " .")
@@ -135,7 +155,7 @@ filtered_table <- fread(name_of_filtered_file, header=TRUE)
 cat("pvalue filtered table preview:\n")
 head(filtered_table)
 
-#gtex table
+#GTEX TABLE
 #reformat locus column to chr_pos_ref_alt_b38
 gtex_table$locus_formatted <- gsub(":", "_", gtex_table$locus) #colon to underscore
 gtex_table$alleles_formatted <- gsub('\\["', "", gtex_table$alleles)  #remove opening [
@@ -158,7 +178,30 @@ gtex_table$alleles_formatted <- NULL
 gtex_table$CHR <- gsub("X", "23", gtex_table$CHR)
 gtex_table$CHR <- gsub("Y", "24", gtex_table$CHR)
 
-#repeat for filtered table
+#PHI TABLE
+#reformat locus column to chr_pos_ref_alt_b38
+phi_table$locus_formatted <- gsub(":", "_", phi_table$locus) #colon to underscore
+phi_table$alleles_formatted <- gsub('\\["', "", phi_table$alleles)  #remove opening [
+phi_table$alleles_formatted <- gsub('"\\]', "", phi_table$alleles_formatted)  #remove closing ]
+phi_table$alleles_formatted <- gsub('","', "_", phi_table$alleles_formatted)  #comma to underscore
+
+#split allele column
+phi_table <- phi_table %>%
+  separate(alleles_formatted, into = c("REF", "ALT"), sep = "_", remove=F)
+
+#combine strings
+phi_table$SNP <- paste0(phi_table$locus_formatted, "_", phi_table$alleles_formatted, "_b38")
+phi_table$ID <- paste0(phi_table$locus, ":", phi_table$REF, ":", phi_table$ALT)
+
+#remove intermediate columns
+phi_table$locus_formatted <- NULL
+phi_table$alleles_formatted <- NULL
+
+#edit sex chromosomes
+phi_table$CHR <- gsub("X", "23", phi_table$CHR)
+phi_table$CHR <- gsub("Y", "24", phi_table$CHR)
+
+#FILTERED TABLE
 filtered_table$locus_formatted <- gsub(":", "_", filtered_table$locus) #colon to underscore
 filtered_table$alleles_formatted <- gsub('\\["', "", filtered_table$alleles)  #remove opening [
 filtered_table$alleles_formatted <- gsub('"\\]', "", filtered_table$alleles_formatted)  #remove closing ]
@@ -215,30 +258,40 @@ filtered_merged_table$CHR <- gsub("chr", "", filtered_merged_table$CHR)
 gtex_table$CHR <- gsub("chr", "", gtex_table$CHR)
 gtex_table$CHR <- gsub("X", "23", gtex_table$CHR)
 gtex_table$CHR <- gsub("Y", "24", gtex_table$CHR)
+phi_table$CHR <- gsub("chr", "", phi_table$CHR)
+phi_table$CHR <- gsub("X", "23", phi_table$CHR)
+phi_table$CHR <- gsub("Y", "24", phi_table$CHR)
 
 #make numeric
 filtered_merged_table$CHR <- as.numeric(filtered_merged_table$CHR)
 gtex_table$CHR <- as.numeric(gtex_table$CHR)
+phi_table$CHR <- as.numeric(phi_table$CHR)
 filtered_merged_table$POS <- as.numeric(filtered_merged_table$POS)
 
 #read in phi rsIDs
 phi_data <- fread("/tmp/predixcan_models_varids-effallele_phi.txt", header=TRUE, sep=",")
 
 #add rsIDs to gtex table
-merged_gtex_table <- merge(gtex_table, phi_data[, c("chr", "pos", "rsid")], by.x = c("CHR", "POS"), by.y = c("chr", "pos"),, all.x = TRUE)
+phi_table <- merge(phi_table, phi_data[, c("chr", "pos", "rsid")], by.x = c("CHR", "POS"), by.y = c("chr", "pos"),, all.x = TRUE)
 
 #sort by chr, pos
 filtered_merged_table <- filtered_merged_table %>%
   arrange(CHR, POS)
-merged_gtex_table <- merged_gtex_table %>%
+gtex_table <- gtex_table %>%
+  arrange(CHR, POS)
+phi_table <- phi_table %>%
   arrange(CHR, POS)
 
 #rename header
-merged_gtex_table$"#CHROM" <- merged_gtex_table$CHR
-merged_gtex_table$CHR <- NULL
+gtex_table$"#CHROM" <- gtex_table$CHR
+gtex_table$CHR <- NULL
+phi_table$"#CHROM" <- phi_table$CHR
+phi_table$CHR <- NULL
 
 #select columns
-merged_gtex_table <- merged_gtex_table %>%
+gtex_table <- gtex_table %>%
+  select(locus, alleles, ID, REF, ALT, "#CHROM", BETA, SE, Pvalue, SNP)
+phi_table <- gtex_table %>%
   select(locus, alleles, ID, REF, ALT, "#CHROM", BETA, SE, Pvalue, SNP, rsid)
 
 #check tables
@@ -246,18 +299,30 @@ cat("Final pvalue filtered table:\n")
 head(filtered_merged_table)
 
 cat("Final GTEx filtered table:\n")
-head(merged_gtex_table)
+head(gtex_table)
 
-#write table
+cat("Final Phi filtered table:\n")
+head(phi_table)
+
+#write gtex table
 gtex_destination_filename <- paste0(args$pop, "_formatted_gtex_", args$phecode,".tsv")
 
 #store the dataframe in current workspace
-write.table(merged_gtex_table, gtex_destination_filename, col.names=TRUE, row.names=FALSE, quote=FALSE, sep="\t")
+write.table(gtex_table, gtex_destination_filename, col.names=TRUE, row.names=FALSE, quote=FALSE, sep="\t")
 
 #copy the file from current workspace to the bucket
 system(paste0("gsutil cp ./", gtex_destination_filename, " ", my_bucket, "/data/"), intern=TRUE)
 
-#write table
+#write phi table
+phi_destination_filename <- paste0(args$pop, "_formatted_phi_", args$phecode,".tsv")
+
+#store the dataframe in current workspace
+write.table(phi_table, phi_destination_filename, col.names=TRUE, row.names=FALSE, quote=FALSE, sep="\t")
+
+#copy the file from current workspace to the bucket
+system(paste0("gsutil cp ./", phi_destination_filename, " ", my_bucket, "/data/"), intern=TRUE)
+
+#write p-filtered table
 filtered_destination_filename <- paste0(args$pop, "_formatted_filtered_", args$phecode,".tsv")
 
 #store the dataframe in current workspace
@@ -274,6 +339,15 @@ if (check_gtex != 0) {
   stop(paste0("ERROR: File '", gtex_destination_filename, "' was not found in bucket ", my_bucket, "/data/"))
 } else {
   cat("GTEx formatted file successfully saved to bucket.\n")
+}
+
+#phi file
+check_phi <- system(paste0("gsutil ls ", my_bucket, "/data/ | grep ", phi_destination_filename), ignore.stderr = TRUE)
+
+if (check_phi != 0) {
+  stop(paste0("ERROR: File '", phi_destination_filename, "' was not found in bucket ", my_bucket, "/data/"))
+} else {
+  cat("Phi formatted file successfully saved to bucket.\n")
 }
 
 #filtered file
