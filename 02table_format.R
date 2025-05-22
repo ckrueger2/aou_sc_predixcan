@@ -154,8 +154,6 @@ gtex_table$alleles_formatted <- NULL
 gtex_table$CHR <- gsub("X", "23", gtex_table$CHR)
 gtex_table$CHR <- gsub("Y", "24", gtex_table$CHR)
 
-head(gtex_table)
-
 #repeat for filtered table
 filtered_table$locus_formatted <- gsub(":", "_", filtered_table$locus) #colon to underscore
 filtered_table$alleles_formatted <- gsub('\\["', "", filtered_table$alleles)  #remove opening [
@@ -184,9 +182,6 @@ system(reference_command, intern=T)
 reference_data <- fread(name_of_vcf, header = FALSE, sep='\t')
 reference_data <- reference_data[,1:3]
 colnames(reference_data) <- c("CHR", "POS", "rsID")
-
-phi_data <- fread("/tmp/predixcan_models_varids-effallele_phi.txt", header=TRUE, sep=",")
-head(phi_data)
 
 #format data for matching
 filtered_table$CHR <- as.character(filtered_table$CHR)
@@ -222,8 +217,11 @@ filtered_merged_table$CHR <- as.numeric(filtered_merged_table$CHR)
 gtex_table$CHR <- as.numeric(gtex_table$CHR)
 filtered_merged_table$POS <- as.numeric(filtered_merged_table$POS)
 
+#read in phi rsIDs
+phi_data <- fread("/tmp/predixcan_models_varids-effallele_phi.txt", header=TRUE, sep=",")
+
 #add rsIDs to gtex table
-merged_gtex_table <- merge(gtex_table, phi_data[, c("rsid", "varID")], by = c("SNP"="varID"), all.x = TRUE)
+merged_gtex_table <- merge(gtex_table, phi_data[, c("chr", "pos", "rsid")], by.x = c("CHR", "POS"), by.y = c("chr", "pos"),, all.x = TRUE)
 
 #sort by chr, pos
 filtered_merged_table <- filtered_merged_table %>%
