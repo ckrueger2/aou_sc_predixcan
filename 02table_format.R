@@ -155,7 +155,6 @@ gtex_table$CHR <- gsub("X", "23", gtex_table$CHR)
 gtex_table$CHR <- gsub("Y", "24", gtex_table$CHR)
 
 head(gtex_table)
-head(phi_table)
 
 #repeat for filtered table
 filtered_table$locus_formatted <- gsub(":", "_", filtered_table$locus) #colon to underscore
@@ -187,6 +186,7 @@ reference_data <- reference_data[,1:3]
 colnames(reference_data) <- c("CHR", "POS", "rsID")
 
 phi_data <- fread("/tmp/predixcan_models_varids-effallele_phi.txt", header=TRUE, sep=",")
+head(phi_data)
 
 #format data for matching
 filtered_table$CHR <- as.character(filtered_table$CHR)
