@@ -40,84 +40,69 @@ if (!file.exists(file_name)) {
 cat("Formatting reference files...")
 
 #create file of chr and pos columns only to use for filtering
-#command2 <- paste0("gsutil cat ", my_bucket, "/data/", args$pop, "_filtered_", args$phecode, ".tsv | awk 'NR > 1 {print $8, $9}' > /tmp/subset_", args$phecode, ".tsv")
-#system(command2)
-#command2.5 <- paste0("gsutil cat ", my_bucket, "/data/", args$pop, "_full_", args$phecode, ".tsv | awk 'NR > 1 {print $8, $9}' > /tmp/gtex_subset_", args$phecode, ".tsv")
-#system(command2.5)
+command2 <- paste0("gsutil cat ", my_bucket, "/data/", args$pop, "_filtered_", args$phecode, ".tsv | awk 'NR > 1 {print $8, $9}' > /tmp/subset_", args$phecode, ".tsv")
+system(command2)
 
 #remove chr prefix
-#command3 <- paste0("sed -e 's/chr//' -e 's/^X /23 /' /tmp/subset_", args$phecode, ".tsv > /tmp/nochr", args$phecode, ".tsv")
-#system(command3)
-#command3.5 <- paste0("sed -e 's/chr//' -e 's/^X /23 /' /tmp/gtex_subset_", args$phecode, ".tsv > /tmp/gtex_nochr", args$phecode, ".tsv")
-#system(command3.5)
+command3 <- paste0("sed -e 's/chr//' -e 's/^X /23 /' /tmp/subset_", args$phecode, ".tsv > /tmp/nochr", args$phecode, ".tsv")
+system(command3)
+
 
 #filter large file, eliminating SNPs not present in sumstats file
-#command4 <- paste0("zcat All_20180418.vcf.gz | awk 'NR==FNR {a[$1\" \"$2]=1; next} !/^#/ && ($1\" \"$2) in a' /tmp/nochr", args$phecode, ".tsv - > /tmp/filtered_20180418.vcf")
-#system(command4)
-#command4.5 <- paste0("zcat All_20180418.vcf.gz | awk 'NR==FNR {a[$1\" \"$2]=1; next} !/^#/ && ($1\" \"$2) in a' /tmp/gtex_nochr", args$phecode, ".tsv - > /tmp/gtex_20180418.vcf")
-#system(command4.5)
+command4 <- paste0("zcat All_20180418.vcf.gz | awk 'NR==FNR {a[$1\" \"$2]=1; next} !/^#/ && ($1\" \"$2) in a' /tmp/nochr", args$phecode, ".tsv - > /tmp/filtered_20180418.vcf")
+system(command4)
 
 #remove metadata rows
-#command5 <- paste0("awk '!/^##/' /tmp/filtered_20180418.vcf > /tmp/", args$phecode, "ref.vcf")
-#system(command5)
-#command5.5 <- paste0("awk '!/^##/' /tmp/gtex_20180418.vcf > /tmp/", args$phecode, "gtex_ref.vcf")
-#system(command5.5)
+command5 <- paste0("awk '!/^##/' /tmp/filtered_20180418.vcf > /tmp/", args$phecode, "ref.vcf")
+system(command5)
 
 #copy to bucket
 #command6 <- paste0("gsutil cp /tmp/", args$phecode, "ref.vcf ", my_bucket, "/data/")
-#system(command6)
-#command6.5 <- paste0("gsutil cp /tmp/", args$phecode, "gtex_ref.vcf ", my_bucket, "/data/")
-#system(command6.5)
+system(command6)
 
 #check bucket for vcf file
 check_result <- system(paste0("gsutil ls ", my_bucket, "/data/ | grep ", args$phecode, "ref.vcf"), ignore.stderr = TRUE)
-#check_result2 <- system(paste0("gsutil ls ", my_bucket, "/data/ | grep ", args$phecode, "gtex_ref.vcf"), ignore.stderr = TRUE)
 
 if (check_result != 0) {
   stop(paste0("ERROR: File '", args$phecode, "ref.vcf' was not found in bucket ", my_bucket, "/data/"))
 } else {
   cat("Reference VCF file successfully transferred to bucket.\n")
 }
-#if (check_result2 != 0) {
-#  stop(paste0("ERROR: File '", args$phecode, "gtex_ref.vcf' was not found in bucket ", my_bucket, "/data/"))
-#} else {
-#  cat("Reference gtex VCF file successfully transferred to bucket.\n")
-#}
 
 #PERFORM COMMAND LINE FORMATTING FOR S-PREDIXCAN FILE
 #upload GTEx SNP file to workspace bucket
-#command7 <- paste0("gsutil -m cp -v ~/GWAS-TWAS-in-All-of-Us-Cloud/predixcan_models_varids-effallele.txt.gz ", my_bucket, "/data/")
-#system(command7, intern=TRUE)
+command7 <- paste0("gsutil -m cp -v ~/GWAS-TWAS-in-All-of-Us-Cloud/predixcan_models_varids-effallele.txt.gz ", my_bucket, "/data/")
+system(command7, intern=TRUE)
 
 #unzip files
-#command8 <- paste0("gsutil cat ", my_bucket, "/data/predixcan_models_varids-effallele.txt.gz | gunzip > /tmp/predixcan_models_varids-effallele.txt")
-#system(command8)
+command8 <- paste0("gsutil cat ", my_bucket, "/data/predixcan_models_varids-effallele.txt.gz | gunzip > /tmp/predixcan_models_varids-effallele.txt")
+system(command8)
 
 #format reference file
-#system("awk -F'[,:]' 'NR>1 {print $1\":\"$2}' /tmp/predixcan_models_varids-effallele.txt > /tmp/chrpos_allele_table.tsv", intern=TRUE)
+system("awk -F'[,:]' 'NR>1 {print $1\":\"$2}' /tmp/predixcan_models_varids-effallele.txt > /tmp/chrpos_allele_table.tsv", intern=TRUE)
 
 #make temp files
-#command9 <- paste0("gsutil cp ", my_bucket, "/data/", args$pop, "_full_", args$phecode,".tsv /tmp/")
-#system(command9)
+command9 <- paste0("gsutil cp ", my_bucket, "/data/", args$pop, "_full_", args$phecode,".tsv /tmp/")
+system(command9)
 
 #filter SNPs
-#command10 <- paste0("awk 'NR==FNR{a[$1];next} $1 in a' /tmp/chrpos_allele_table.tsv /tmp/", args$pop, "_full_", args$phecode, ".tsv > /tmp/gtex_", args$phecode, ".tsv")
-#system(command10)
+command10 <- paste0("awk 'NR==FNR{a[$1];next} $1 in a' /tmp/chrpos_allele_table.tsv /tmp/", args$pop, "_full_", args$phecode, ".tsv > /tmp/gtex_", args$phecode, ".tsv")
+system(command10)
 #command10.5 <- paste0("zcat All_20180418.vcf.gz | awk -F'\\t' 'NR==FNR {seen[\\$1\":\"\\$2]=1; next} /^#/ {print; next} {if ((\\$1\":\"\\$2) in seen) print}' /tmp/chrpos_allele_table.tsv - > /tmp/gtex_20180418.vcf")
 
 #extract chr and pos with space separation to match VCF format
-system('awk -F":" \'{print $1" "$2}\' /tmp/chrpos_allele_table.tsv > /tmp/chrpos_lookup.tsv')
-system('zcat All_20180418.vcf.gz | awk \'NR==FNR {a[$1" "$2]=1; next} !/^#/ && ($1" "$2) in a\' /tmp/chrpos_lookup.tsv - > /tmp/gtex_20180418.vcf')
+#system('awk -F":" \'{print $1" "$2}\' /tmp/chrpos_allele_table.tsv > /tmp/chrpos_lookup.tsv')
+#system('zcat All_20180418.vcf.gz | awk \'NR==FNR {a[$1" "$2]=1; next} !/^#/ && ($1" "$2) in a\' /tmp/chrpos_lookup.tsv - > /tmp/gtex_20180418.vcf')
 
 #save to bucket
 command11 <- paste0("gsutil cp /tmp/gtex_", args$phecode, ".tsv ", my_bucket, "/data/", args$pop, "_gtex_", args$phecode,".tsv")
 system(command11)
-command11.5 <- paste0("gsutil cp /tmp/gtex_20180418.vcf ", my_bucket, "/data/gtex_ref.vcf")
-system(command11.5)
+#command11.5 <- paste0("gsutil cp /tmp/gtex_20180418.vcf ", my_bucket, "/data/gtex_ref.vcf")
+#system(command11.5)
 
 #check bucket
 check_result2 <- system(paste0("gsutil ls ", my_bucket, "/data/ | grep ", args$phecode, "gtex_ref.vcf"), ignore.stderr = TRUE)
-check_result3 <- system(paste0("gsutil ls ", my_bucket, "/data/ | grep ", args$pop, "_gtex_", args$phecode, ".tsv"), ignore.stderr = TRUE)
+#check_result3 <- system(paste0("gsutil ls ", my_bucket, "/data/ | grep ", args$pop, "_gtex_", args$phecode, ".tsv"), ignore.stderr = TRUE)
 
 if (check_result2 != 0) {
   stop(paste0("ERROR: File '", args$phecode, "gtex_ref.vcf' was not found in bucket ", my_bucket, "/data/"))
@@ -125,11 +110,11 @@ if (check_result2 != 0) {
   cat("Reference gtex VCF file successfully transferred to bucket.\n")
 }
 
-if (check_result3 != 0) {
-  stop(paste0("ERROR: File '", args$pop, "_gtex_", args$phecode, ".tsv' was not found in bucket ", my_bucket, "/data/"))
-} else {
-  cat("Reference GTEx file successfully transferred to bucket.\n")
-}
+#if (check_result3 != 0) {
+#  stop(paste0("ERROR: File '", args$pop, "_gtex_", args$phecode, ".tsv' was not found in bucket ", my_bucket, "/data/"))
+#} else {
+#  cat("Reference GTEx file successfully transferred to bucket.\n")
+#}
 
 #FORMAT TABLES
 #read in gtex filtered table
