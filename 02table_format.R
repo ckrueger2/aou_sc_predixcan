@@ -89,14 +89,14 @@ if (check_result != 0) {
 #system(command9)
 
 #filter SNPs
-command10 <- paste0("awk 'NR==FNR{a[$1];next} $1 in a' /tmp/chrpos_allele_table.tsv /tmp/", args$pop, "_full_", args$phecode, ".tsv > /tmp/gtex_", args$phecode, ".tsv")
-system(command10)
+#command10 <- paste0("awk 'NR==FNR{a[$1];next} $1 in a' /tmp/chrpos_allele_table.tsv /tmp/", args$pop, "_full_", args$phecode, ".tsv > /tmp/gtex_", args$phecode, ".tsv")
+#system(command10)
 command10.5 <- paste0("awk -F',' 'NR==FNR && NR>1{a[$2\":\"$3];next}' /tmp/predixcan_models_varids-effallele_phi.txt FS='\t' 'FNR>1 && $1 in a' /tmp/", args$pop, "_full_", args$phecode, ".tsv > /tmp/phi_", args$phecode, ".tsv")
 system(command10.5)
 
 #save to bucket
-command11 <- paste0("gsutil cp /tmp/gtex_", args$phecode, ".tsv ", my_bucket, "/data/", args$pop, "_gtex_", args$phecode,".tsv")
-system(command11)
+#command11 <- paste0("gsutil cp /tmp/gtex_", args$phecode, ".tsv ", my_bucket, "/data/", args$pop, "_gtex_", args$phecode,".tsv")
+#system(command11)
 command11.5 <- paste0("gsutil cp /tmp/phi_", args$phecode, ".tsv ", my_bucket, "/data/", args$pop, "_phi_", args$phecode,".tsv")
 system(command11.5)
 
