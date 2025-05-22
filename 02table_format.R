@@ -225,7 +225,7 @@ gtex_table$CHR <- NULL
 
 #select columns
 gtex_table <- gtex_table %>%
-  select(locus, alleles, ID, REF, ALT, "#CHROM", BETA, SE, Pvalue, SNP, rsID)
+  select(locus, alleles, ID, REF, ALT, "#CHROM", BETA, SE, Pvalue, SNP)
 
 #check tables
 cat("Final pvalue filtered table:\n")
