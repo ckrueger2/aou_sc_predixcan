@@ -273,30 +273,27 @@ phi_data <- fread("/tmp/predixcan_models_varids-effallele_phi.txt", header=TRUE,
 phi_data$chr <- as.character(phi_data$chr)
 phi_data$pos <- as.integer(phi_data$pos)
 
-str(phi_data)
-head(phi_data)
-
 #add rsIDs to gtex table
-phi_table <- merge(phi_table, phi_data[, c("chr", "pos", "rsid")], by.x = c("CHR", "POS"), by.y = c("chr", "pos"),, all.x = TRUE)
+merged_phi_table <- merge(phi_table, phi_data[, c("chr", "pos", "rsid")], by.x = c("CHR", "POS"), by.y = c("chr", "pos"), all.x = TRUE)
 
 #sort by chr, pos
 filtered_merged_table <- filtered_merged_table %>%
   arrange(CHR, POS)
 gtex_table <- gtex_table %>%
   arrange(CHR, POS)
-phi_table <- phi_table %>%
+merged_phi_table <- merged_phi_table %>%
   arrange(CHR, POS)
 
 #rename header
 gtex_table$"#CHROM" <- gtex_table$CHR
 gtex_table$CHR <- NULL
-phi_table$"#CHROM" <- phi_table$CHR
-phi_table$CHR <- NULL
+merged_phi_table$"#CHROM" <- merged_phi_table$CHR
+merged_phi_table$CHR <- NULL
 
 #select columns
 gtex_table <- gtex_table %>%
   select(locus, alleles, ID, REF, ALT, "#CHROM", BETA, SE, Pvalue, SNP)
-phi_table <- phi_table %>%
+merged_phi_table <- merged_phi_table %>%
   select(locus, alleles, ID, REF, ALT, "#CHROM", BETA, SE, Pvalue, SNP, rsid)
 
 #check tables
@@ -307,7 +304,7 @@ cat("Final GTEx filtered table:\n")
 head(gtex_table)
 
 cat("Final Phi filtered table:\n")
-head(phi_table)
+head(merged_phi_table)
 
 #write gtex table
 gtex_destination_filename <- paste0(args$pop, "_formatted_gtex_", args$phecode,".tsv")
@@ -322,7 +319,7 @@ system(paste0("gsutil cp ./", gtex_destination_filename, " ", my_bucket, "/data/
 phi_destination_filename <- paste0(args$pop, "_formatted_phi_", args$phecode,".tsv")
 
 #store the dataframe in current workspace
-write.table(phi_table, phi_destination_filename, col.names=TRUE, row.names=FALSE, quote=FALSE, sep="\t")
+write.table(merged_phi_table, phi_destination_filename, col.names=TRUE, row.names=FALSE, quote=FALSE, sep="\t")
 
 #copy the file from current workspace to the bucket
 system(paste0("gsutil cp ./", phi_destination_filename, " ", my_bucket, "/data/"), intern=TRUE)
