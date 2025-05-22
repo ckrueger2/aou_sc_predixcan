@@ -28,7 +28,7 @@ def main():
     
     #retrieve gtex filtered file from bucket
     bucket = os.getenv('WORKSPACE_BUCKET')
-    filename = args.pop + "_formatted_gtex_" + args.phecode + ".tsv"
+    filename = args.pop + "_formatted_filtered_" + args.phecode + ".tsv"
     get_command = "gsutil cp " + bucket + "/data/" + filename + " /tmp/"
     os.system(get_command)
     
