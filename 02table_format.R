@@ -104,7 +104,10 @@ if (check_result != 0) {
 #command10 <- paste0("awk 'NR==FNR{a[$1];next} $1 in a' /tmp/chrpos_allele_table.tsv /tmp/", args$pop, "_full_", args$phecode, ".tsv > /tmp/gtex_", args$phecode, ".tsv")
 #system(command10)
 #command10.5 <- paste0("zcat All_20180418.vcf.gz | awk -F'\\t' 'NR==FNR {seen[\\$1\":\"\\$2]=1; next} /^#/ {print; next} {if ((\\$1\":\"\\$2) in seen) print}' /tmp/chrpos_allele_table.tsv - > /tmp/gtex_20180418.vcf")
-system('zcat All_20180418.vcf.gz | awk -F\'\t\' \'NR==FNR {split($1,a,":"); seen[a[1]":"a[2]]=1; next} /^#/ {print; next} {if (($1":"$2) in seen) print}\' /tmp/chrpos_allele_table.tsv - > /tmp/gtex_20180418.vcf')
+
+#extract chr and pos with space separation to match VCF format
+system('awk -F":" \'{print $1" "$2}\' /tmp/chrpos_allele_table.tsv > /tmp/chrpos_lookup.tsv')
+system('zcat All_20180418.vcf.gz | awk \'NR==FNR {a[$1" "$2]=1; next} !/^#/ && ($1" "$2) in a\' /tmp/chrpos_lookup.tsv - > /tmp/gtex_20180418.vcf')
 
 #save to bucket
 command11 <- paste0("gsutil cp /tmp/gtex_", args$phecode, ".tsv ", my_bucket, "/data/", args$pop, "_gtex_", args$phecode,".tsv")
