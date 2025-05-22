@@ -26,12 +26,8 @@ def main():
         gwas_h2 = None
         gwas_N = None
     
-    #retrieve gtex filtered file from bucket
+    #define paths
     bucket = os.getenv('WORKSPACE_BUCKET')
-    filename = args.pop + "_formatted_gtex_" + args.phecode + ".tsv"
-    get_command = "gsutil cp " + bucket + "/data/" + filename + " /tmp/"
-    os.system(get_command)
-    
     output = f"/home/jupyter/{args.pop}_predixcan_output_{args.phecode}.csv"
     
     #python and metaxcan paths
@@ -53,6 +49,11 @@ def main():
             print("ERROR: Failed to extract elastic-net-with-phi.tar")
             return 1
 
+        #retrieve phi filtered file from bucket
+        filename = args.pop + "_formatted_phi_" + args.phecode + ".tsv"
+        get_command = "gsutil cp " + bucket + "/data/" + filename + " /tmp/"
+        os.system(get_command)
+        
         #command with optional parameters
         cmd = f"{python_path} {metaxcan_dir}/software/SPrediXcan.py \
         --gwas_file /tmp/{filename} \
@@ -77,6 +78,11 @@ def main():
         if gwas_N is not None:
             cmd += f" \\\n    --gwas_N {gwas_N}"
     else:
+        #retrieve gtex filtered file from bucket
+        filename = args.pop + "_formatted_gtex_" + args.phecode + ".tsv"
+        get_command = "gsutil cp " + bucket + "/data/" + filename + " /tmp/"
+        os.system(get_command)
+        
         #command without optional parameters
         cmd = f"{python_path} {metaxcan_dir}/software/SPrediXcan.py \
         --gwas_file /tmp/{filename} \
