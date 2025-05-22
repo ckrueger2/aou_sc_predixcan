@@ -270,11 +270,25 @@ filtered_merged_table$POS <- as.numeric(filtered_merged_table$POS)
 
 #read in phi rsIDs
 phi_data <- fread("/tmp/predixcan_models_varids-effallele_phi.txt", header=TRUE, sep=",")
-phi_data$chr <- as.character(phi_data$chr)
-phi_data$pos <- as.integer(phi_data$pos)
 
-#add rsIDs to gtex table
-merged_phi_table <- merge(phi_table, phi_data[, c("chr", "pos", "rsid")], by.x = c("CHR", "POS"), by.y = c("chr", "pos"), all.x = TRUE)
+#this merge is finicky, re-format everything
+phi_data$chr <- paste0("chr", gsub("^chr", "", phi_data$chr))
+phi_table$CHR <- paste0("chr", gsub("^chr", "", phi_table$CHR))
+phi_data$pos <- as.integer(as.character(phi_data$pos))
+phi_table$POS <- as.integer(as.character(phi_table$POS))
+phi_data$chr <- trimws(phi_data$chr)
+phi_data$rsid <- trimws(phi_data$rsid)
+phi_table$CHR <- trimws(phi_table$CHR)
+
+#create unique key for matching 
+phi_data$merge_key <- paste(phi_data$chr, phi_data$pos, sep="_")
+phi_table$merge_key <- paste(phi_table$CHR, phi_table$POS, sep="_")
+
+#merge phi table and data
+merged_phi_table <- merge(phi_table, phi_data[, c("merge_key", "rsid")], by = "merge_key", all.x = TRUE)
+
+#clean up the merge key column
+merged_phi_table$merge_key <- NULL
 
 #sort by chr, pos
 filtered_merged_table <- filtered_merged_table %>%
