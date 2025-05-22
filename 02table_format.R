@@ -270,6 +270,11 @@ filtered_merged_table$POS <- as.numeric(filtered_merged_table$POS)
 
 #read in phi rsIDs
 phi_data <- fread("/tmp/predixcan_models_varids-effallele_phi.txt", header=TRUE, sep=",")
+phi_data$chr <- as.character(phi_data$chr)
+phi_data$pos <- as.integer(phi_data$pos)
+
+str(phi_data)
+head(phi_data)
 
 #add rsIDs to gtex table
 phi_table <- merge(phi_table, phi_data[, c("chr", "pos", "rsid")], by.x = c("CHR", "POS"), by.y = c("chr", "pos"),, all.x = TRUE)
