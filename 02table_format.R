@@ -291,7 +291,7 @@ phi_table$CHR <- NULL
 #select columns
 gtex_table <- gtex_table %>%
   select(locus, alleles, ID, REF, ALT, "#CHROM", BETA, SE, Pvalue, SNP)
-phi_table <- gtex_table %>%
+phi_table <- phi_table %>%
   select(locus, alleles, ID, REF, ALT, "#CHROM", BETA, SE, Pvalue, SNP, rsid)
 
 #check tables
