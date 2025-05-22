@@ -65,7 +65,7 @@ def main():
         --covariance /tmp/elastic-net-with-phi/en_{args.ref}.txt.gz \
         --keep_non_rsid \
         --additional_output \
-        --model_db_snp_key varID \
+        #--model_db_snp_key varID \
         --throw \
         --output_file {output}"
         
