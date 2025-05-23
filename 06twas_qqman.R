@@ -87,7 +87,7 @@ cat("Preview of BioMart merged table \n")
 head(merged_df, 10)
 
 #finding sample size to calculate threshold
-sample_size <- nrow(merged_df)
+sample_size <- nrow(df) - 1
 
 #calculate the new bonferroni and threshold based on sample size 
 bonferroni_threshold <- 0.05 / sample_size
