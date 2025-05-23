@@ -28,7 +28,7 @@ def main():
     
     #define paths
     bucket = os.getenv('WORKSPACE_BUCKET')
-    output = f"/home/jupyter/{args.pop}_predixcan_output_{args.phecode}.csv"
+    output = f"/home/jupyter/{args.pop}_predixcan_output_{args.phecode}_{args.ref}.csv"
     
     #python and metaxcan paths
     python_path = sys.executable
