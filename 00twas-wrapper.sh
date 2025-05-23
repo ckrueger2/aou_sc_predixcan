@@ -118,7 +118,7 @@ fi
 eval $PREDIXCAN_CMD
 
 #run qqman on twas sum stats
-Rscript "$REPO/06twas_qqman.R" --phecode "$PHECODE" --pop "$POP"
+Rscript "$REPO/06twas_qqman.R" --phecode "$PHECODE" --pop "$POP" --ref "$REF"
 
 #deactivate imlabtools
 conda deactivate
