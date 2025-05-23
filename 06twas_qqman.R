@@ -20,6 +20,7 @@ library(argparse)
 parser <- ArgumentParser()
 parser$add_argument("--phecode", help="all of us phenotype ID")
 parser$add_argument("--pop", help="all of us population ID")
+parser$add_argument("--ref", help="predixcan tissue")
 
 args <- parser$parse_args()
 
@@ -27,7 +28,7 @@ args <- parser$parse_args()
 my_bucket <- Sys.getenv('WORKSPACE_BUCKET')
 
 #pull file from bucket
-name_of_file_in_bucket <- paste0(args$pop, "_predixcan_output_", args$phecode,".csv")
+name_of_file_in_bucket <- paste0(args$pop, "_predixcan_output_", args$phecode, "_", args$ref, ".csv")
 read_in_command <- paste0("gsutil cp ", my_bucket, "/data/", name_of_file_in_bucket, " .")
 
 #copy file from the bucket to the current workspace
