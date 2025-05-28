@@ -91,10 +91,10 @@ def main():
         --non_effect_allele_column REF \
         --beta_column BETA \
         --se_column SE \
-        --model_db_path eqtl/mashr/mashr_{args.ref}.db \
-        --covariance eqtl/mashr/mashr_{args.ref}.txt.gz \
+        --model_db_path mesa_dbfiles/MESA_{args.pop}.db \
+        --covariance mesa_dbfiles/MESA_{args.pop}.txt.gz \
         --keep_non_rsid \
-        --model_db_snp_key varID \
+        --model_db_snp_key rsid \
         --throw \
         --output_file {output}"
         
