@@ -55,14 +55,14 @@ SNP_COUNT=$((SNP_COUNT - 1)) #subtract 1 to exclude the header line
 Rscript "$REPO/03gwas_qqman.R" --phecode "$PHECODE" --pop "$POP" --snp_count "$SNP_COUNT"
 
 #locuszoomR
-LOCUSZOOM_CMD="Rscript $REPO/04locuszoom.R --phecode \"$PHECODE\" --pop \"$POP\""
-if [[ ! -z "$RSID" ]]; then
-    LOCUSZOOM_CMD="$LOCUSZOOM_CMD --rsid \"$RSID\""
-fi
-if [[ ! -z "$TOKEN" ]]; then
-    LOCUSZOOM_CMD="$LOCUSZOOM_CMD --token \"$TOKEN\""
-fi
-eval $LOCUSZOOM_CMD
+#LOCUSZOOM_CMD="Rscript $REPO/04locuszoom.R --phecode \"$PHECODE\" --pop \"$POP\""
+#if [[ ! -z "$RSID" ]]; then
+#    LOCUSZOOM_CMD="$LOCUSZOOM_CMD --rsid \"$RSID\""
+#fi
+#if [[ ! -z "$TOKEN" ]]; then
+#    LOCUSZOOM_CMD="$LOCUSZOOM_CMD --token \"$TOKEN\""
+#fi
+#eval $LOCUSZOOM_CMD
 
 #how to view generated PNG files
 echo "To view the PNG files, go to the Jupyter file browser by selecting the jupyter logo to the top left of the terminal."
