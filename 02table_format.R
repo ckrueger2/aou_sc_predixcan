@@ -70,19 +70,19 @@ if (check_result != 0) {
 
 #PERFORM COMMAND LINE FORMATTING FOR S-PREDIXCAN FILE
 #upload GTEx SNP file to workspace bucket
-command7 <- paste0("gsutil -m cp -v ~/GWAS-TWAS-in-All-of-Us-Cloud/predixcan_models_varids-effallele.txt.gz ", my_bucket, "/data/")
+command7 <- paste0("gsutil -m cp -v ~/aou_predixcan/predixcan_models_varids-effallele_mesa.txt.gz ", my_bucket, "/data/")
 system(command7, intern=TRUE)
-command7.5 <- paste0("gsutil -m cp -v ~/GWAS-TWAS-in-All-of-Us-Cloud/predixcan_models_varids-effallele_phi.txt.gz ", my_bucket, "/data/")
+command7.5 <- paste0("gsutil -m cp -v ~/aou_predixcan/predixcan_models_varids-effallele_phi.txt.gz ", my_bucket, "/data/")
 system(command7.5, intern=TRUE)
 
 #unzip files
-command8 <- paste0("gsutil cat ", my_bucket, "/data/predixcan_models_varids-effallele.txt.gz | gunzip > /tmp/predixcan_models_varids-effallele.txt")
+command8 <- paste0("gsutil cat ", my_bucket, "/data/predixcan_models_varids-effallele_mesa.txt.gz | gunzip > /tmp/predixcan_models_varids-effallele_mesa.txt")
 system(command8)
 command8.5 <- paste0("gsutil cat ", my_bucket, "/data/predixcan_models_varids-effallele_phi.txt.gz | gunzip > /tmp/predixcan_models_varids-effallele_phi.txt")
 system(command8.5)
 
 #format reference file
-system("awk -F'[,:]' 'NR>1 {print $1\":\"$2}' /tmp/predixcan_models_varids-effallele.txt > /tmp/chrpos_allele_table.tsv", intern=TRUE)
+system("awk -F'[,:]' 'NR>1 {print $1\":\"$2}' /tmp/predixcan_models_varids-effallele_mesa.txt > /tmp/chrpos_allele_table.tsv", intern=TRUE)
 
 #make temp files
 command9 <- paste0("gsutil cp ", my_bucket, "/data/", args$pop, "_full_", args$phecode,".tsv /tmp/")
@@ -376,4 +376,4 @@ if (check_filtered != 0) {
 }
 
 #clean up tmp files
-system(paste0("rm -f /tmp/subset_", args$phecode, ".tsv /tmp/nochr", args$phecode, ".tsv /tmp/filtered_20180418.vcf /tmp/", args$phecode, "ref.vcf /tmp/predixcan_models_varids-effallele.txt /tmp/chrpos_allele_table.tsv /tmp/", args$pop, "_full_", args$phecode, ".tsv /tmp/gtex_", args$phecode, ".tsv"), intern=TRUE)
+system(paste0("rm -f /tmp/subset_", args$phecode, ".tsv /tmp/nochr", args$phecode, ".tsv /tmp/filtered_20180418.vcf /tmp/", args$phecode, "ref.vcf /tmp/predixcan_models_varids-effallele_mesa.txt /tmp/chrpos_allele_table.tsv /tmp/", args$pop, "_full_", args$phecode, ".tsv /tmp/gtex_", args$phecode, ".tsv"), intern=TRUE)
