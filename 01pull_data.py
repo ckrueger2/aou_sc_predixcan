@@ -7,6 +7,13 @@ except ImportError:
     import subprocess, sys
     subprocess.run([sys.executable, "-m", "pip", "install", "pandas"], check=True)
     import pandas as pd
+
+try:
+    import hail as hl
+except ImportError:
+    import subprocess, sys
+    subprocess.run([sys.executable, "-m", "pip", "install", "hail"], check=True)
+    import hail as hl
     
 import os
 import argparse
