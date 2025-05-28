@@ -38,7 +38,7 @@ if [[ -z "$PHECODE" || -z "$POP" ]]; then
 fi
 
 #github repo path
-REPO=$HOME/GWAS-TWAS-in-All-of-Us-Cloud
+REPO=$HOME/aou_predixcan
 
 #download hail table
 python "$REPO/01pull_data.py" --phecode "$PHECODE" --pop "$POP"
