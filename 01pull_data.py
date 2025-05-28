@@ -11,7 +11,7 @@ except ImportError:
 import os
 import argparse
 import sys
-import hail as hl
+#import hail as hl
 import subprocess
 
 #arguments
