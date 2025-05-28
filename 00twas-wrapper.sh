@@ -48,7 +48,7 @@ if [[ -z "$PHECODE" || -z "$POP" || -z "$REF" ]]; then
 fi
 
 #github repo path
-REPO=$HOME/GWAS-TWAS-in-All-of-Us-Cloud
+REPO=$HOME/aou_predixcan
 
 #set up S-PrediXcan environment
 bash "$REPO/set-up-predixcan.sh"
