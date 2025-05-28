@@ -244,6 +244,7 @@ head(reference_data)
 
 #merge files
 merged_table <- merge(filtered_table, reference_data[, c("CHR", "POS", "rsID")], by = c("CHR", "POS"), all.x = TRUE)
+head(merged_table)
 
 #remove un-needed columns
 filtered_merged_table <- merged_table[, c(1, 2, 13, 14, 15, 17, 5, 6, 8)]
