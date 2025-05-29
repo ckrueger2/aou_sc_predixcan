@@ -37,11 +37,6 @@ bash ~/aou_predixcan/00twas-wrapper.sh --phecode <PHECODE> --pop <POP> --ref <RE
 `<REF>` is the reference database to use  
 `<H2>` (optional flag) is the hertiability of the GWAS phenotype  
 `<N>` (optional flag) is the sample size of the GWAS summary statistics
-- H2 and N will be printed by the 00wrapper.sh script if they are available within the hail table global statistics; use these values or researched values for input
-- Possible reference databases can be displayed by running `bash ~/aou_predixcan/00twas-wrapper.sh --databases` 
-  - Choose a database that corresponds to the phenotype of interest. For example, we used Muscle_Skeletal with a rheumatoid arthrithis dataset.
+- H2 and N will be printed by the 00wrapper.sh script if they are available within the hail table global statistics; use these values or researched values for input.
+  - If H2 and N flags are applied, updated phi corrected MetaXcan elastic net .db files will be used. If these flags are not applied, TopMed MESA trained .db files for protein level prediction will be used.
 ***
-Files can be copied from the bucket to the current directory via
-```
-gustil cp $WORKSPACE_BUCKET/<filename> .
-```
