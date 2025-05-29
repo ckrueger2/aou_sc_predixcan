@@ -115,7 +115,8 @@ print(f"Number of SNPs: {num_snps} at pvalue < {pval}")
 sig_snps_sorted = significant_snps.order_by(significant_snps.Pvalue)
 
 #edit locus column
-sig_snps_sorted = sig_snps_sorted.annotate(ocus = hl.str(sig_snps_sorted.locus) + ':' + sig_snps_sorted.alleles[0] + ':' + sig_snps_sorted.alleles[1])
+sig_snps_sorted = sig_snps_sorted.annotate(locus = hl.str(sig_snps_sorted.locus) + ':' + sig_snps_sorted.alleles[0] + ':' + sig_snps_sorted.alleles[1])
+
 #print top SNPs
 sig_snps_sorted.show(10)
 
