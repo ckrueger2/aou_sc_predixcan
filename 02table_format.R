@@ -72,13 +72,13 @@ if (check_result != 0) {
 #upload GTEx SNP file to workspace bucket
 command7 <- paste0("gsutil -m cp -v ~/aou_predixcan/predixcan_models_varids-effallele_mesa.txt.gz ", my_bucket, "/data/")
 system(command7, intern=TRUE)
-#command7.5 <- paste0("gsutil -m cp -v ~/aou_predixcan/unique_mesa_snps.txt.gz ", my_bucket, "/data/")
+#command7.5 <- paste0("gsutil -m cp -v ~/aou_predixcan/", args$pop, "_mesa_snps.txt.gz ", my_bucket, "/data/")
 #system(command7.5, intern=TRUE)
 
 #unzip files
 command8 <- paste0("gsutil cat ", my_bucket, "/data/predixcan_models_varids-effallele_mesa.txt.gz | gunzip > /tmp/predixcan_models_varids-effallele_mesa.txt")
 system(command8)
-command8.5 <- paste0("gsutil cat ", my_bucket, "/data/unique_mesa_snps.txt.gz | gunzip > /tmp/unique_mesa_snps.txt")
+command8.5 <- paste0("gsutil cat ", my_bucket, "/data/", args$pop, "_mesa_snps.txt.gz | gunzip > /tmp/", args$pop, "_mesa_snps.txt")
 system(command8.5)
 
 #format reference file
@@ -91,7 +91,7 @@ system(command9)
 #filter SNPs
 command10 <- paste0("awk 'NR==FNR{a[$1];next} $1 in a' /tmp/chrpos_allele_table.tsv /tmp/", args$pop, "_full_", args$phecode, ".tsv > /tmp/gtex_", args$phecode, ".tsv")
 system(command10)
-command10.5 <- paste0("awk 'NR==FNR{if(NR>1){split($0,arr,\",\"); a[arr[2]\":\"arr[3]]}; next} FNR>1 && $1 in a' /tmp/unique_mesa_snps.txt /tmp/", args$pop, "_full_", args$phecode, ".tsv > /tmp/mesa_", args$phecode, ".tsv")
+command10.5 <- paste0("awk 'NR==FNR{if(NR>1){split($0,arr,\",\"); a[arr[2]\":\"arr[3]]}; next} FNR>1 && $1 in a' /tmp/", args$pop, "_mesa_snps.txt /tmp/", args$pop, "_full_", args$phecode, ".tsv > /tmp/mesa_", args$phecode, ".tsv")
 system(command10.5)
 
 #save to bucket
@@ -272,7 +272,7 @@ mesa_table$CHR <- as.numeric(mesa_table$CHR)
 filtered_merged_table$POS <- as.numeric(filtered_merged_table$POS)
 
 #read in mesa rsIDs
-mesa_data <- fread("/tmp/unique_mesa_snps.txt", header=TRUE, sep=",")
+mesa_data <- fread("/tmp/", args$pop, "_mesa_snps.txt", header=TRUE, sep=",")
 
 #this merge is finicky, re-format everything
 mesa_data$chr <- paste0("chr", gsub("^chr", "", mesa_data$chr))
