@@ -31,8 +31,8 @@ if ! conda env list | grep -q imlabtools; then
 fi
         
 #download databases
-if [ ! -d eqtl ]; then
-    wget https://zenodo.org/records/3518299/files/mashr_eqtl.tar -O mashr_eqtl.tar
-    tar -xvpf mashr_eqtl.tar
-    rm mashr_eqtl.tar
-fi
+#if [ ! -d eqtl ]; then
+#    wget https://zenodo.org/records/3518299/files/mashr_eqtl.tar -O mashr_eqtl.tar
+#    tar -xvpf mashr_eqtl.tar
+#    rm mashr_eqtl.tar
+#fi
