@@ -82,6 +82,10 @@ def main():
         filename = args.pop + "_formatted_gtex_" + args.phecode + ".tsv"
         get_command = "gsutil cp " + bucket + "/data/" + filename + " /tmp/"
         os.system(get_command)
+
+        #copy MESA dbfiles to workspace
+        if not os.path.exists("/home/jupyter/mesa_dbfiles/MESA_EAS.txt.gz"):
+            ret = subprocess.run(f"gsutil cp -r {bucket}/data/mesa_dbfiles/ /home/jupyter/", shell=True)
         
         #command without optional parameters
         cmd = f"{python_path} {metaxcan_dir}/software/SPrediXcan.py \
