@@ -6,7 +6,7 @@ Prior to running the 00wrapper.sh script, run
 chmod +x ~/aou_predixcan/00wrapper.sh
 ```
 
-Upload a list of SNPs to be used in colocalization analysis: `gsutil -m cp -v unique_mesa_snps.txt.gz {PASTE_YOUR_BUCKET_HERE}/data/` {see below for bucket retrieval details}
+Upload a list of SNPs to be used in colocalization analysis: `gsutil -m cp -v /home/claudia/coloc/unique_mesa_snps.txt.gz {PASTE_YOUR_BUCKET_HERE}/data/` {see below for bucket retrieval details}
 
 Running the 00Wrapper.sh will execute scripts 1 through 4, which include pulling GWAS summary statistics, formatting them, plotting a Manhattan plot, and running LocusZoom on one locus of interest.
 
