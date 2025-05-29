@@ -72,8 +72,8 @@ if (check_result != 0) {
 #upload GTEx SNP file to workspace bucket
 command7 <- paste0("gsutil -m cp -v ~/aou_predixcan/predixcan_models_varids-effallele_mesa.txt.gz ", my_bucket, "/data/")
 system(command7, intern=TRUE)
-command7.5 <- paste0("gsutil -m cp -v ~/aou_predixcan/unique_mesa_snps.txt.gz ", my_bucket, "/data/")
-system(command7.5, intern=TRUE)
+#command7.5 <- paste0("gsutil -m cp -v ~/aou_predixcan/unique_mesa_snps.txt.gz ", my_bucket, "/data/")
+#system(command7.5, intern=TRUE)
 
 #unzip files
 command8 <- paste0("gsutil cat ", my_bucket, "/data/predixcan_models_varids-effallele_mesa.txt.gz | gunzip > /tmp/predixcan_models_varids-effallele_mesa.txt")
