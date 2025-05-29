@@ -210,14 +210,16 @@ filtered_table$alleles_formatted <- gsub('","', "_", filtered_table$alleles_form
 filtered_table <- filtered_table %>%
   separate(alleles_formatted, into = c("REF", "ALT"), sep = "_", remove=F)
 
-filtered_table$SNP <- paste0(filtered_table$locus_formatted, "_", filtered_table$alleles_formatted, "_b38")
-filtered_table$ID <- paste0(filtered_table$locus, ":", filtered_table$REF, ":", filtered_table$ALT)
+#filtered_table$SNP <- paste0(filtered_table$locus_formatted, "_", filtered_table$alleles_formatted, "_b38")
+#filtered_table$ID <- paste0(filtered_table$locus, ":", filtered_table$REF, ":", filtered_table$ALT)
+filtered_table$SNP <- paste0(filtered_table$locus_formatted, "_b38")
+filtered_table$ID <- paste0(filtered_table$locus)
 
 filtered_table$locus_formatted <- NULL
 filtered_table$alleles_formatted <- NULL
 
-filtered_table$CHR <- gsub("X", "23", filtered_table$CHR)
-filtered_table$CHR <- gsub("Y", "24", filtered_table$CHR)
+#filtered_table$CHR <- gsub("X", "23", filtered_table$CHR)
+#filtered_table$CHR <- gsub("Y", "24", filtered_table$CHR)
 
 #MERGE rsIDs TO S-PREDIXCAN TABLE
 #read in rsID reference file
