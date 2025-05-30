@@ -218,8 +218,8 @@ filtered_table$ID <- paste0(filtered_table$locus)
 filtered_table$locus_formatted <- NULL
 filtered_table$alleles_formatted <- NULL
 
-#filtered_table$CHR <- gsub("X", "23", filtered_table$CHR)
-#filtered_table$CHR <- gsub("Y", "24", filtered_table$CHR)
+filtered_table$CHR <- gsub("X", "23", filtered_table$CHR)
+filtered_table$CHR <- gsub("Y", "24", filtered_table$CHR)
 
 #MERGE rsIDs TO S-PREDIXCAN TABLE
 #read in rsID reference file
