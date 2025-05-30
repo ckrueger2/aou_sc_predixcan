@@ -34,6 +34,8 @@ destination_filename <- paste0(args$pop, "_", args$phecode,"_gwas_manhattan.png"
 #manhattan plot title name
 title <- paste0(args$pop, " ", args$phecode, " GWAS Manhattan Plot")
 
+hail_table$CHR <- as.numeric(as.character(hail_table$CHR))
+
 #png destination
 png(filename = destination_filename, width = 1200, height = 800, res = 100)
 
