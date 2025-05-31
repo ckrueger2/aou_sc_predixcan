@@ -40,24 +40,24 @@ if (!file.exists(file_name)) {
 cat("Formatting reference files...")
 
 #create file of chr and pos columns only to use for filtering
-command2 <- paste0("gsutil cat ", my_bucket, "/data/", args$pop, "_full_", args$phecode, ".tsv | awk 'NR > 1 {print $8, $9}' > /tmp/subset_", args$phecode, ".tsv")
-system(command2)
+#command2 <- paste0("gsutil cat ", my_bucket, "/data/", args$pop, "_full_", args$phecode, ".tsv | awk 'NR > 1 {print $8, $9}' > /tmp/subset_", args$phecode, ".tsv")
+#system(command2)
 
 #remove chr prefix
-command3 <- paste0("sed -e 's/chr//' -e 's/^X /23 /' /tmp/subset_", args$phecode, ".tsv > /tmp/nochr", args$phecode, ".tsv")
-system(command3)
+#command3 <- paste0("sed -e 's/chr//' -e 's/^X /23 /' /tmp/subset_", args$phecode, ".tsv > /tmp/nochr", args$phecode, ".tsv")
+#system(command3)
 
 #filter large file, eliminating SNPs not present in sumstats file
-command4 <- paste0("zcat All_20180418.vcf.gz | awk 'NR==FNR {a[$1\" \"$2]=1; next} !/^#/ && ($1\" \"$2) in a' /tmp/nochr", args$phecode, ".tsv - > /tmp/filtered_20180418.vcf")
-system(command4)
+#command4 <- paste0("zcat All_20180418.vcf.gz | awk 'NR==FNR {a[$1\" \"$2]=1; next} !/^#/ && ($1\" \"$2) in a' /tmp/nochr", args$phecode, ".tsv - > /tmp/filtered_20180418.vcf")
+#system(command4)
 
 #remove metadata rows
-command5 <- paste0("awk '!/^##/' /tmp/filtered_20180418.vcf > /tmp/", args$phecode, "ref.vcf")
-system(command5)
+#command5 <- paste0("awk '!/^##/' /tmp/filtered_20180418.vcf > /tmp/", args$phecode, "ref.vcf")
+#system(command5)
 
 #copy to bucket
-command6 <- paste0("gsutil cp /tmp/", args$phecode, "ref.vcf ", my_bucket, "/data/")
-system(command6)
+#command6 <- paste0("gsutil cp /tmp/", args$phecode, "ref.vcf ", my_bucket, "/data/")
+#system(command6)
 
 #check bucket for vcf file
 check_result <- system(paste0("gsutil ls ", my_bucket, "/data/ | grep ", args$phecode, "ref.vcf"), ignore.stderr = TRUE)
@@ -72,8 +72,8 @@ if (check_result != 0) {
 #upload GTEx SNP file to workspace bucket
 #command7 <- paste0("gsutil -m cp -v ~/aou_predixcan/predixcan_models_varids-effallele_mesa.txt.gz ", my_bucket, "/data/")
 #system(command7, intern=TRUE)
-command7.5 <- paste0("gsutil -m cp -v ~/aou_predixcan/", args$pop, "_mesa_snp_list.txt.gz ", my_bucket, "/data/")
-system(command7.5, intern=TRUE)
+#command7.5 <- paste0("gsutil -m cp -v ~/aou_predixcan/", args$pop, "_mesa_snp_list.txt.gz ", my_bucket, "/data/")
+#system(command7.5, intern=TRUE)
 
 #unzip files
 #command8 <- paste0("gsutil cat ", my_bucket, "/data/predixcan_models_varids-effallele_mesa.txt.gz | gunzip > /tmp/predixcan_models_varids-effallele_mesa.txt")
