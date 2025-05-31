@@ -43,8 +43,8 @@ for (phenotype in unique_phenotypes) {
     #merge tables
     merged_data <- inner_join(gwas_coloc, qtl_coloc, by = c("ID" = "variant_id"))
     head(merged_data)
-
-    print(nrow(merged_data))
+    
+    pre_filter <- (nrow(merged_data))
     
     #remove duplicate SNPs
     duplicate_snps <- merged_data$ID[duplicated(merged_data$ID)]
@@ -57,7 +57,9 @@ for (phenotype in unique_phenotypes) {
         ungroup()
     }
 
-    print(nrow(merged_data))
+    post_filter <-(nrow(merged_data))
+
+    cat("Pre-filter SNP count: ", pre_filter, " Post-filter SNP count: ", post_filter, "\n")
     
     #prepare datasets
     dataset1 <- list(
