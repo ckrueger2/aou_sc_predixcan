@@ -202,6 +202,7 @@ mesa_table$ID <- paste0(mesa_table$locus, ":", mesa_table$REF, ":", mesa_table$A
 mesa_table$locus_formatted <- NULL
 mesa_table$alleles_formatted <- NULL
 
+cat("MESA table preview:\n")
 head(mesa_table)
 
 #edit sex chromosomes
@@ -265,6 +266,7 @@ head(filtered_merged_table)
 #FINAL FORMATTING
 #format chromosomes
 filtered_merged_table$CHR <- gsub("chr", "", filtered_merged_table$CHR)
+head(filtered_merged_table)
 #gtex_table$CHR <- gsub("chr", "", gtex_table$CHR)
 #gtex_table$CHR <- gsub("X", "23", gtex_table$CHR)
 #gtex_table$CHR <- gsub("Y", "24", gtex_table$CHR)
@@ -274,6 +276,7 @@ filtered_merged_table$CHR <- gsub("chr", "", filtered_merged_table$CHR)
 
 #make numeric
 filtered_merged_table$CHR <- as.numeric(filtered_merged_table$CHR)
+head(filtered_merged_table)
 #gtex_table$CHR <- as.numeric(gtex_table$CHR)
 #mesa_table$CHR <- as.numeric(mesa_table$CHR)
 filtered_merged_table$POS <- as.numeric(filtered_merged_table$POS)
