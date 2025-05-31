@@ -85,20 +85,20 @@ system(command8.5)
 #system("awk -F'[,:]' 'NR>1 {print $1\":\"$2}' /tmp/predixcan_models_varids-effallele_mesa.txt > /tmp/chrpos_allele_table.tsv", intern=TRUE)
 
 #make temp files
-command9 <- paste0("gsutil cp ", my_bucket, "/data/", args$pop, "_full_", args$phecode,".tsv /tmp/")
-system(command9)
+#command9 <- paste0("gsutil cp ", my_bucket, "/data/", args$pop, "_full_", args$phecode,".tsv /tmp/")
+#system(command9)
 
 #filter SNPs
 #command10 <- paste0("awk 'NR==FNR{a[$1];next} $1 in a' /tmp/chrpos_allele_table.tsv /tmp/", args$pop, "_full_", args$phecode, ".tsv > /tmp/gtex_", args$phecode, ".tsv")
 #system(command10)
-command10.5 <- paste0("awk 'NR==FNR{if(NR>1){split($0,arr,\",\"); a[arr[2]\":\"arr[3]]}; next} FNR>1 && $1 in a' /tmp/", args$pop, "_mesa_snp_list.txt /tmp/", args$pop, "_full_", args$phecode, ".tsv > /tmp/mesa_", args$phecode, ".tsv")
-system(command10.5)
+#command10.5 <- paste0("awk 'NR==FNR{if(NR>1){split($0,arr,\",\"); a[arr[2]\":\"arr[3]]}; next} FNR>1 && $1 in a' /tmp/", args$pop, "_mesa_snp_list.txt /tmp/", args$pop, "_full_", args$phecode, ".tsv > /tmp/mesa_", args$phecode, ".tsv")
+#system(command10.5)
 
 #save to bucket
 #command11 <- paste0("gsutil cp /tmp/gtex_", args$phecode, ".tsv ", my_bucket, "/data/", args$pop, "_gtex_", args$phecode,".tsv")
 #system(command11)
-command11.5 <- paste0("gsutil cp /tmp/mesa_", args$phecode, ".tsv ", my_bucket, "/data/", args$pop, "_mesa_", args$phecode,".tsv")
-system(command11.5)
+#command11.5 <- paste0("gsutil cp /tmp/mesa_", args$phecode, ".tsv ", my_bucket, "/data/", args$pop, "_mesa_", args$phecode,".tsv")
+#system(command11.5)
 
 #check bucket
 #check_result2 <- system(paste0("gsutil ls ", my_bucket, "/data/ | grep ", args$pop, "_gtex_", args$phecode, ".tsv"), ignore.stderr = TRUE)
