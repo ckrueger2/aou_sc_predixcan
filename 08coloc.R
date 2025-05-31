@@ -46,6 +46,8 @@ for (phenotype in unique_phenotypes) {
     merged_data <- inner_join(gwas_coloc, qtl_coloc, by = c("ID" = "variant_id"))
     head(merged_data)
 
+    nrow(merged_data)
+    
     #remove duplicate SNPs
     duplicate_snps <- merged_data$ID[duplicated(merged_data$ID)]
     if (length(duplicate_snps) > 0) {
@@ -56,14 +58,17 @@ for (phenotype in unique_phenotypes) {
         slice_min(pval_nominal, n = 1, with_ties = FALSE) %>%
         ungroup()
     }
-      
+
+    nrow(merged_data)
+    
     #prepare datasets
     dataset1 <- list(
       beta = merged_data$slope,
       varbeta = merged_data$slope_se^2,
       snp = merged_data$ID,
       type = "quant",
-      N = 2953 #META: 2953, EUR: 1270
+      N = 2953, #META: 2953, EUR: 1270
+      MAF = merged_data$af
     )
     
     dataset2 <- list(
