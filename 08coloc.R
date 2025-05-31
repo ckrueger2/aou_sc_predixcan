@@ -82,6 +82,60 @@ for (phenotype in unique_phenotypes) {
     
     #run coloc
     result <- coloc.abf(dataset1, dataset2)
+
+    # Print results
+    cat("\n=== Colocalization Analysis Results ===\n")
+    print(coloc_result$summary)
+    
+    cat("\nPosterior probabilities:\n")
+    cat("PP.H0 (no association):", coloc_result$summary[1], "\n")
+    cat("PP.H1 (association with trait 1 only):", coloc_result$summary[2], "\n")
+    cat("PP.H2 (association with trait 2 only):", coloc_result$summary[3], "\n")
+    cat("PP.H3 (association with both traits, different causal variants):", coloc_result$summary[4], "\n")
+    cat("PP.H4 (association with both traits, shared causal variant):", coloc_result$summary[5], "\n")
+    
+    # Interpretation
+    pp4 <- coloc_result$summary[5]
+    if (pp4 > 0.8) {
+      cat("\nInterpretation: Strong evidence for colocalization (PP.H4 > 0.8)\n")
+    } else if (pp4 > 0.5) {
+      cat("\nInterpretation: Moderate evidence for colocalization (PP.H4 > 0.5)\n")
+    } else {
+      cat("\nInterpretation: Weak/no evidence for colocalization (PP.H4 < 0.5)\n")
+    }
+    
+    # Plot results if there are enough variants
+    if (nrow(merged_data) > 5) {
+      # Create comparison plot
+      par(mfrow = c(2, 1))
+      
+      plot(-log10(merged_data$pval_nominal), 
+           main = "QTL Association", 
+           xlab = "Variant index", 
+           ylab = "-log10(P-value)",
+           pch = 20, col = "blue")
+      
+      plot(-log10(merged_data$Pvalue), 
+           main = "GWAS Association", 
+           xlab = "Variant index", 
+           ylab = "-log10(P-value)",
+           pch = 20, col = "red")
+      
+      par(mfrow = c(1, 1))
+    }
+    
+    # Detailed results table
+    cat("\n=== Detailed Results for Each Variant ===\n")
+    detailed_results <- data.frame(
+      variant = merged_data$variant_key,
+      qtl_beta = merged_data$slope,
+      qtl_se = merged_data$slope_se,
+      qtl_pval = merged_data$pval_nominal,
+      gwas_beta = merged_data$BETA,
+      gwas_se = merged_data$SE,
+      gwas_pval = merged_data$Pvalue
+    )
+    print(detailed_results)
     
     #view summary
     cat("Results for", phenotype, ":\n")
