@@ -23,35 +23,51 @@ gwas_data <- fread(name_of_gwas_file, header=TRUE)
 qtl_data$variant_key <- gsub("chr", "", qtl_data$variant_id)
 gwas_data$variant_key <- paste(gwas_data$CHR, gwas_data$POS, gwas_data$REF, gwas_data$ALT, sep = ":")
 
-#find common SNPs
-common_variants <- intersect(qtl_data$variant_key, gwas_data$variant_key)
+#extract unique phenotypes
+unique_phenotypes <- unique(qtl_data$phenotype_id)
 
-#filter to common SNPs
-qtl_coloc <- qtl_data[qtl_data$variant_key %in% common_variants, ]
-gwas_coloc <- gwas_data[gwas_data$variant_key %in% common_variants, ]
-
-#merge tables
-merged_data <- merge(qtl_coloc, gwas_coloc, by = "variant_key")
-
-# Prepare datasets
-dataset1 <- list(
-  beta = merged_data$slope,
-  varbeta = merged_data$slope_se^2,
-  snp = merged_data$variant_key,
-  type = "quant",
-  N = 2953 #META: 2953, EUR: 1270
-)
-
-dataset2 <- list(
-  beta = merged_data$BETA,
-  varbeta = merged_data$SE^2,
-  snp = merged_data$variant_key,
-  type = "quant",
-  N = 276112  #META: 276112, EUR: 111887
-)
-
-#run coloc
-result <- coloc.abf(dataset1, dataset2)
-
-#output
-print(result$summary)
+for (phenotype in unique_phenotypes) {
+  cat("Processing phenotype:", phenotype, "\n")
+  
+  #filter QTL data for current phenotype
+  qtl_subset <- qtl_data[qtl_data$phenotype_id == phenotype, ]
+  
+  #find common SNPs for each phenotype
+  common_variants <- intersect(qtl_subset$variant_key, gwas_data$variant_key)
+  
+  if (length(common_variants) > 0) {
+    # Filter to common SNPs
+    qtl_coloc <- qtl_subset[qtl_subset$variant_key %in% common_variants, ]
+    gwas_coloc <- gwas_data[gwas_data$variant_key %in% common_variants, ]
+    
+    #merge tables
+    merged_data <- merge(qtl_coloc, gwas_coloc, by = "variant_key")
+    
+    # Prepare datasets
+    dataset1 <- list(
+      beta = merged_data$slope,
+      varbeta = merged_data$slope_se^2,
+      snp = merged_data$variant_key,
+      type = "quant",
+      N = 2953 #META: 2953, EUR: 1270
+    )
+    
+    dataset2 <- list(
+      beta = merged_data$BETA,
+      varbeta = merged_data$SE^2,
+      snp = merged_data$variant_key,
+      type = "quant",
+      N = 276112  #META: 276112, EUR: 111887
+    )
+    
+    #run coloc
+    result <- coloc.abf(dataset1, dataset2)
+    
+    #view summary
+    cat("Results for", phenotype, ":\n")
+    print(result$summary)
+    cat("\n")
+  } else {
+    cat("No common variants found for", phenotype, "\n\n")
+  }
+}
