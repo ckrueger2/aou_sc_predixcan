@@ -39,30 +39,30 @@ if (!file.exists(file_name)) {
 
 cat("Formatting reference files...")
 
-command8.5 <- paste0("gsutil cat ", my_bucket, "/data/", args$pop, "_mesa_snp_list.txt.gz | gunzip > /tmp/", args$pop, "_mesa_snp_list.txt")
-system(command8.5)
+#command8.5 <- paste0("gsutil cat ", my_bucket, "/data/", args$pop, "_mesa_snp_list.txt.gz | gunzip > /tmp/", args$pop, "_mesa_snp_list.txt")
+#system(command8.5)
 
 #create file of chr and pos columns only to use for filtering
 #command2 <- paste0("gsutil cat ", my_bucket, "/data/", args$pop, "_full_", args$phecode, ".tsv | awk 'NR > 1 {print $8, $9}' > /tmp/subset_", args$phecode, ".tsv")
 #system(command2)
-command2 <- paste0("tail -n +2 /tmp/", args$pop, "_mesa_snp_list.txt | awk -F',' '{print $2, $3}' > /tmp/subset_", args$phecode, ".tsv")
-system(command2)
+#command2 <- paste0("tail -n +2 /tmp/", args$pop, "_mesa_snp_list.txt | awk -F',' '{print $2, $3}' > /tmp/subset_", args$phecode, ".tsv")
+#system(command2)
 
 #remove chr prefix
-command3 <- paste0("sed -e 's/chr//' -e 's/^X /23 /' /tmp/subset_", args$phecode, ".tsv > /tmp/nochr", args$phecode, ".tsv")
-system(command3)
+#command3 <- paste0("sed -e 's/chr//' -e 's/^X /23 /' /tmp/subset_", args$phecode, ".tsv > /tmp/nochr", args$phecode, ".tsv")
+#system(command3)
 
 #filter large file, eliminating SNPs not present in sumstats file
-command4 <- paste0("zcat All_20180418.vcf.gz | awk 'NR==FNR {a[$1\" \"$2]=1; next} !/^#/ && ($1\" \"$2) in a' /tmp/nochr", args$phecode, ".tsv - > /tmp/filtered_20180418.vcf")
-system(command4)
+#command4 <- paste0("zcat All_20180418.vcf.gz | awk 'NR==FNR {a[$1\" \"$2]=1; next} !/^#/ && ($1\" \"$2) in a' /tmp/nochr", args$phecode, ".tsv - > /tmp/filtered_20180418.vcf")
+#system(command4)
 
 #remove metadata rows
-command5 <- paste0("awk '!/^##/' /tmp/filtered_20180418.vcf > /tmp/", args$phecode, "ref.vcf")
-system(command5)
+#command5 <- paste0("awk '!/^##/' /tmp/filtered_20180418.vcf > /tmp/", args$phecode, "ref.vcf")
+#system(command5)
 
 #copy to bucket
-command6 <- paste0("gsutil cp /tmp/", args$phecode, "ref.vcf ", my_bucket, "/data/")
-system(command6)
+#command6 <- paste0("gsutil cp /tmp/", args$phecode, "ref.vcf ", my_bucket, "/data/")
+#system(command6)
 
 #check bucket for vcf file
 check_result <- system(paste0("gsutil ls ", my_bucket, "/data/ | grep ", args$phecode, "ref.vcf"), ignore.stderr = TRUE)
@@ -240,8 +240,8 @@ reference_data <- reference_data[,1:3]
 colnames(reference_data) <- c("CHR", "POS", "rsID")
 
 #format data for matching
-mesa_table$CHR <- as.character(filtered_table$CHR)
-mesa_table$POS <- as.character(filtered_table$POS)
+mesa_table$CHR <- as.character(mesa_table$CHR)
+mesa_table$POS <- as.character(mesa_table$POS)
 
 reference_data$CHR <- paste0("chr", reference_data$CHR)
 reference_data$CHR <- as.character(reference_data$CHR)
