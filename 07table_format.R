@@ -257,7 +257,7 @@ merged_table <- merge(mesa_table, reference_data[, c("CHR", "POS", "rsID")], by 
 head(merged_table)
 
 #remove un-needed columns
-filtered_merged_table <- merged_table[, c(1, 2, 13, 14, 3, 4, 5, 6, 15, 16, 17)]
+filtered_merged_table <- merged_table[, c(1, 2, 13, 14, 3, 5, 6, 8, 15, 16, 17)]
 
 #check table
 cat("rsID merged table preview:\n")
