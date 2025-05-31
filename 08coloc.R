@@ -45,7 +45,18 @@ for (phenotype in unique_phenotypes) {
     #merge tables
     merged_data <- inner_join(gwas_coloc, qtl_coloc, by = c("ID" = "variant_id"))
     head(merged_data)
-    
+
+    #remove duplicate SNPs
+    duplicate_snps <- merged_data$ID[duplicated(merged_data$ID)]
+    if (length(duplicate_snps) > 0) {
+      cat("Found", length(duplicate_snps), "duplicate SNPs. Removing duplicates...\n")
+      #keep most significant
+      merged_data <- merged_data %>%
+        group_by(ID) %>%
+        slice_min(pval_nominal, n = 1, with_ties = FALSE) %>%
+        ungroup()
+    }
+      
     #prepare datasets
     dataset1 <- list(
       beta = merged_data$slope,
