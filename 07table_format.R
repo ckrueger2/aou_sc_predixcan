@@ -267,7 +267,6 @@ tail(filtered_merged_table)
 #FINAL FORMATTING
 #format chromosomes
 filtered_merged_table$CHR <- gsub("chr", "", filtered_merged_table$CHR)
-head(filtered_merged_table)
 #gtex_table$CHR <- gsub("chr", "", gtex_table$CHR)
 #gtex_table$CHR <- gsub("X", "23", gtex_table$CHR)
 #gtex_table$CHR <- gsub("Y", "24", gtex_table$CHR)
@@ -277,7 +276,6 @@ head(filtered_merged_table)
 
 #make numeric
 filtered_merged_table$CHR <- as.numeric(filtered_merged_table$CHR)
-head(filtered_merged_table)
 #gtex_table$CHR <- as.numeric(gtex_table$CHR)
 #mesa_table$CHR <- as.numeric(mesa_table$CHR)
 filtered_merged_table$POS <- as.numeric(filtered_merged_table$POS)
@@ -304,6 +302,8 @@ filtered_merged_table$POS <- as.numeric(filtered_merged_table$POS)
 #clean up the merge key column
 #merged_mesa_table$merge_key <- NULL
 
+cat("here\n")
+head(filtered_merged_table)
 #sort by chr, pos
 filtered_merged_table <- filtered_merged_table %>%
   arrange(CHR, POS)
