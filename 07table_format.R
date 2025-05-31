@@ -39,13 +39,18 @@ if (!file.exists(file_name)) {
 
 cat("Formatting reference files...")
 
+command8.5 <- paste0("gsutil cat ", my_bucket, "/data/", args$pop, "_mesa_snp_list.txt.gz | gunzip > /tmp/", args$pop, "_mesa_snp_list.txt")
+system(command8.5)
+
 #create file of chr and pos columns only to use for filtering
 #command2 <- paste0("gsutil cat ", my_bucket, "/data/", args$pop, "_full_", args$phecode, ".tsv | awk 'NR > 1 {print $8, $9}' > /tmp/subset_", args$phecode, ".tsv")
 #system(command2)
+command2 <- paste0("tail -n +2 /tmp/", args$pop, "_mesa_snp_list.txt | awk -F',' '{print $2, $3}' > /tmp/subset_", args$phecode, ".tsv")
+system(command2)
 
 #remove chr prefix
-#command3 <- paste0("sed -e 's/chr//' -e 's/^X /23 /' /tmp/subset_", args$phecode, ".tsv > /tmp/nochr", args$phecode, ".tsv")
-#system(command3)
+command3 <- paste0("sed -e 's/chr//' -e 's/^X /23 /' /tmp/subset_", args$phecode, ".tsv > /tmp/nochr", args$phecode, ".tsv")
+system(command3)
 
 #filter large file, eliminating SNPs not present in sumstats file
 #command4 <- paste0("zcat All_20180418.vcf.gz | awk 'NR==FNR {a[$1\" \"$2]=1; next} !/^#/ && ($1\" \"$2) in a' /tmp/nochr", args$phecode, ".tsv - > /tmp/filtered_20180418.vcf")
@@ -78,8 +83,8 @@ if (check_result != 0) {
 #unzip files
 #command8 <- paste0("gsutil cat ", my_bucket, "/data/predixcan_models_varids-effallele_mesa.txt.gz | gunzip > /tmp/predixcan_models_varids-effallele_mesa.txt")
 #system(command8)
-command8.5 <- paste0("gsutil cat ", my_bucket, "/data/", args$pop, "_mesa_snp_list.txt.gz | gunzip > /tmp/", args$pop, "_mesa_snp_list.txt")
-system(command8.5)
+#command8.5 <- paste0("gsutil cat ", my_bucket, "/data/", args$pop, "_mesa_snp_list.txt.gz | gunzip > /tmp/", args$pop, "_mesa_snp_list.txt")
+#system(command8.5)
 
 #format reference file
 #system("awk -F'[,:]' 'NR>1 {print $1\":\"$2}' /tmp/predixcan_models_varids-effallele_mesa.txt > /tmp/chrpos_allele_table.tsv", intern=TRUE)
