@@ -12,12 +12,14 @@ name_of_pqtl_file <- "META_mesa_pqtls.txt"
 pqtl_command <- paste0("gsutil cp ", my_bucket, "/data/", name_of_pqtl_file, " .")
 system(pqtl_command, intern=TRUE)
 qtl_data <- fread(name_of_pqtl_file, header=TRUE)
+head(qtl_data)
 
 #read in AoU GWAS table
 name_of_gwas_file <- "META_formatted_mesa_CV_404.tsv"
 gwas_command <- paste0("gsutil cp ", my_bucket, "/data/", name_of_gwas_file, " .")
 system(gwas_command, intern=TRUE)
 gwas_data <- fread(name_of_gwas_file, header=TRUE)
+head(gwas_data)
 
 #ID SNPs
 #qtl_data$variant_key <- gsub("chr", "", qtl_data$variant_id)
@@ -41,7 +43,7 @@ for (phenotype in unique_phenotypes) {
     gwas_coloc <- gwas_data[gwas_data$ID %in% common_variants, ]
     
     #merge tables
-    merged_data <- left_join(gwas_coloc, qtl_coloc, by = c("ID" = "variant_id"))
+    merged_data <- inner_join(gwas_coloc, qtl_coloc, by = c("ID" = "variant_id"))
     head(merged_data)
     
     #prepare datasets
