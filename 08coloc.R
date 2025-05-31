@@ -32,10 +32,6 @@ gwas_command <- paste0("gsutil cp ", my_bucket, "/data/", name_of_gwas_file, " .
 system(gwas_command, intern=TRUE)
 gwas_data <- fread(name_of_gwas_file, header=TRUE)
 
-#ID SNPs
-#qtl_data$variant_key <- gsub("chr", "", qtl_data$variant_id)
-#gwas_data$variant_key <- paste(gwas_data$CHR, gwas_data$POS, gwas_data$REF, gwas_data$ALT, sep = ":")
-
 #extract unique phenotypes
 unique_phenotypes <- unique(qtl_data$phenotype_id)
 
