@@ -37,17 +37,18 @@ for (phenotype in unique_phenotypes) {
   
   if (length(common_variants) > 0) {
     # Filter to common SNPs
-    qtl_coloc <- qtl_subset[qtl_subset$variant_key %in% common_variants, ]
-    gwas_coloc <- gwas_data[gwas_data$variant_key %in% common_variants, ]
+    qtl_coloc <- qtl_subset[qtl_subset$variant_id %in% common_variants, ]
+    gwas_coloc <- gwas_data[gwas_data$ID %in% common_variants, ]
     
     #merge tables
-    merged_data <- merge(qtl_coloc, gwas_coloc, by = "variant_key")
+    merged_data <- left_join(gwas_coloc, qtl_coloc, by = c("ID" = "variant_id"))
+    head(merged_data)
     
-    # Prepare datasets
+    #prepare datasets
     dataset1 <- list(
       beta = merged_data$slope,
       varbeta = merged_data$slope_se^2,
-      snp = merged_data$variant_key,
+      snp = merged_data$variant_id,
       type = "quant",
       N = 2953 #META: 2953, EUR: 1270
     )
@@ -55,7 +56,7 @@ for (phenotype in unique_phenotypes) {
     dataset2 <- list(
       beta = merged_data$BETA,
       varbeta = merged_data$SE^2,
-      snp = merged_data$variant_key,
+      snp = merged_data$variant_id,
       type = "quant",
       N = 276112  #META: 276112, EUR: 111887
     )
