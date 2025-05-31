@@ -4,6 +4,9 @@ library(dplyr)
 library(data.table)
 library(coloc)
 
+#find bucket
+my_bucket <- Sys.getenv('WORKSPACE_BUCKET')
+
 #read in MESA pQTL table
 name_of_pqtl_file <- "META_mesa_pqtls.txt"
 pqtl_command <- paste0("gsutil cp ", my_bucket, "/data/", name_of_pqtl_file, " .")
