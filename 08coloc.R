@@ -27,7 +27,7 @@ system(pqtl_command, intern=TRUE)
 qtl_data <- fread(name_of_pqtl_file, header=TRUE)
 
 #read in AoU GWAS table
-name_of_gwas_file <- paste0(args$pop, "_formatted_mesa_, ", args$phecode, ".tsv"
+name_of_gwas_file <- paste0(args$pop, "_formatted_mesa_", args$phecode, ".tsv"
 gwas_command <- paste0("gsutil cp ", my_bucket, "/data/", name_of_gwas_file, " .")
 system(gwas_command, intern=TRUE)
 gwas_data <- fread(name_of_gwas_file, header=TRUE)
