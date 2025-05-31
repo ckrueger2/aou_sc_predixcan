@@ -305,10 +305,8 @@ filtered_merged_table$POS <- as.numeric(filtered_merged_table$POS)
 #sort by chr, pos
 filtered_merged_table <- filtered_merged_table %>%
   arrange(CHR, POS)
-cat("here\n")
-head(filtered_merged_table)
 #gtex_table <- gtex_table %>%
-  arrange(CHR, POS)
+#  arrange(CHR, POS)
 #merged_mesa_table <- merged_mesa_table %>%
 #  arrange(CHR, POS)
 
