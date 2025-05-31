@@ -50,7 +50,7 @@ for (phenotype in unique_phenotypes) {
     dataset1 <- list(
       beta = merged_data$slope,
       varbeta = merged_data$slope_se^2,
-      snp = merged_data$variant_id,
+      snp = merged_data$ID,
       type = "quant",
       N = 2953 #META: 2953, EUR: 1270
     )
@@ -58,7 +58,7 @@ for (phenotype in unique_phenotypes) {
     dataset2 <- list(
       beta = merged_data$BETA,
       varbeta = merged_data$SE^2,
-      snp = merged_data$variant_id,
+      snp = merged_data$ID,
       type = "quant",
       N = 276112  #META: 276112, EUR: 111887
     )
