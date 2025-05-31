@@ -11,7 +11,7 @@ my_bucket <- Sys.getenv('WORKSPACE_BUCKET')
 name_of_pqtl_file <- "META_mesa_pqtls.txt"
 pqtl_command <- paste0("gsutil cp ", my_bucket, "/data/", name_of_pqtl_file, " .")
 system(pqtl_command, intern=TRUE)
-pqtl_data <- fread(name_of_pqtl_file, header=TRUE)
+qtl_data <- fread(name_of_pqtl_file, header=TRUE)
 
 #read in AoU GWAS table
 name_of_gwas_file <- "META_formatted_mesa_CV_404.tsv"
