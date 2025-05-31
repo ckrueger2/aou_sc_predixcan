@@ -20,8 +20,8 @@ system(gwas_command, intern=TRUE)
 gwas_data <- fread(name_of_gwas_file, header=TRUE)
 
 #ID SNPs
-qtl_data$variant_key <- gsub("chr", "", qtl_data$variant_id)
-gwas_data$variant_key <- paste(gwas_data$CHR, gwas_data$POS, gwas_data$REF, gwas_data$ALT, sep = ":")
+#qtl_data$variant_key <- gsub("chr", "", qtl_data$variant_id)
+#gwas_data$variant_key <- paste(gwas_data$CHR, gwas_data$POS, gwas_data$REF, gwas_data$ALT, sep = ":")
 
 #extract unique phenotypes
 unique_phenotypes <- unique(qtl_data$phenotype_id)
@@ -33,7 +33,7 @@ for (phenotype in unique_phenotypes) {
   qtl_subset <- qtl_data[qtl_data$phenotype_id == phenotype, ]
   
   #find common SNPs for each phenotype
-  common_variants <- intersect(qtl_subset$variant_key, gwas_data$variant_key)
+  common_variants <- intersect(qtl_subset$variant_id, gwas_data$ID)
   
   if (length(common_variants) > 0) {
     # Filter to common SNPs
