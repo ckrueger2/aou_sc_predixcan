@@ -85,7 +85,8 @@ for (phenotype in unique_phenotypes) {
       varbeta = merged_data$SE^2,
       snp = merged_data$ID,
       type = "quant",
-      N = if (args$pop == "EUR") 111887 else 276112, #META: 276112, EUR: 111887
+      #N = if (args$pop == "EUR") 111887 else 276112, #META: 276112, EUR: 111887
+      N = 277593
       sdY = 1
     )
     
