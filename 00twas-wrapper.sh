@@ -2,7 +2,7 @@
 
 #command
 usage() {
-    echo "Usage: $0 --phecode <PHECODE> --pop <POP> --ref <REF> [--gwas_h2 <H2>] [--gwas_N <N>] [--databases]"
+    echo "Usage: $0 --phecode <PHECODE> --pop <POP> --ref <REF> --cell_type <TYPE>"
     exit 1
 }
         
@@ -23,17 +23,9 @@ while [[ $# -gt 0 ]]; do
             REF=$2
             shift 2
             ;;
-        --gwas_h2)
-            H2=$2
+        --cell_type)
+            TYPE=$2
             shift 2
-            ;;
-        --gwas_N)
-            N=$2
-            shift 2
-            ;;
-        --databases)
-            echo -e "$TISSUES"
-            shift 1
             ;;
         *)
             echo "unknown flag: $1"
@@ -43,12 +35,12 @@ while [[ $# -gt 0 ]]; do
 done
 
 #check for required arguments
-if [[ -z "$PHECODE" || -z "$POP" || -z "$REF" ]]; then
+if [[ -z "$PHECODE" || -z "$POP" || -z "$REF" || -z "$TYPE"]]; then
     usage
 fi
 
 #github repo path
-REPO=$HOME/aou_predixcan
+REPO=$HOME/aou_sc_predixcan
 
 #set up S-PrediXcan environment
 bash "$REPO/set-up-predixcan.sh"
@@ -108,14 +100,7 @@ if [ -f "$output_file" ]; then
 fi
 
 #run s-predixcan
-PREDIXCAN_CMD="python $REPO/05run-predixcan.py --phecode \"$PHECODE\" --pop \"$POP\" --ref \"$REF\""
-if [[ ! -z "$H2" ]]; then
-    PREDIXCAN_CMD="$PREDIXCAN_CMD --gwas_h2 \"$H2\""
-fi
-if [[ ! -z "$N" ]]; then
-    PREDIXCAN_CMD="$PREDIXCAN_CMD --gwas_N \"$N\""
-fi
-eval $PREDIXCAN_CMD
+python $REPO/05run_predixcan.py --phecode \"$PHECODE\" --pop \"$POP\" --ref \"$REF\" --cell_type \"$TYPE\""
 
 #run qqman on twas sum stats
 Rscript "$REPO/06twas_qqman.R" --phecode "$PHECODE" --pop "$POP" --ref "$REF"
