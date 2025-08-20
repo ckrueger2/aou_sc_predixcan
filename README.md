@@ -1,4 +1,4 @@
-# All of Us + TopMed MESA S-PrediXcan and Colocalization analysis
+# All of Us Single Cell S-PrediXcan
 ***
 ### 00Wrapper
 Prior to running the 00wrapper.sh script, run
@@ -21,22 +21,24 @@ bash ~/aou_predixcan/00wrapper.sh --phecode <PHECODE> --pop <POP> --rsid <RSID> 
 
 > Token represents the LDlink personal access code needed to display linkage disequilibrium when plotting with locuszoomr. To make a one-time request for your personal access token follow the directions within the following web browser at https://ldlink.nih.gov/?tab=apiaccess.
 
-### 00twas-wrapper
+### 00TWAS Wrapper
 This second wrapper performs the TWAS part of this tool. It executes setting up S-PrediXcan and scripts 5 & 6, which imputes TWAS summary statistics and generates a Manhattan plot of those data.
 
 **MUST BE PERFORMED AT LEAST ONCE PRIOR TO RUNNING S-PREDIXCAN:**
-1. Run in AoU terminal: `chmod +x ~/aou_predixcan/00twas-wrapper.sh`
+1. Run in AoU terminal: `chmod +x ~/aou_predixcan/00twas_wrapper.sh`
 2. Run in AoU terminal: `gsutil ls` to find bucket name -> ex. `gs://fc-secure-d80c2561-4630-4343-ab98-9fb7fcc9c21b`
-3. Run in lab server terminal: `gsutil -m cp -v /home/wheelerlab3/Data/predictdb_models/elastic-net-with-phi.tar {PASTE_YOUR_BUCKET_HERE}/data/` -> ex. `gsutil -m cp -v //home/wheelerlab3/Data/predictdb_models/elastic-net-with-phi.tar gs://fc-secure-d80c2561-4630-4343-ab98-9fb7fcc9c21b/data/`
+3. Run in lab server terminal: `gsutil -m cp -r -v /home/wheelerlab3/Data/predictdb_models/scPrediXcan_models/l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/ {PASTE_YOUR_BUCKET_HERE}/data/` -> ex. `gsutil -m cp -v gsutil -m cp -r -v /home/wheelerlab3/Data/predictdb_models/scPrediXcan_models/l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/ gs://fc-secure-d80c2561-4630-4343-ab98-9fb7fcc9c21b/data/`
+4. Run in lab server terminal: `gsutil -m cp -r -v /home/wheelerlab3/Data/predictdb_models/scPrediXcan_models/l-ctPred_models_for_islet_cell_types_from_OneK1K_dataset/ {PASTE_YOUR_BUCKET_HERE}/data/` -> ex. `gsutil -m cp -v gsutil -m cp -r -v /home/wheelerlab3/Data/predictdb_models/scPrediXcan_models/l-ctPred_models_for_islet_cell_types_from_OneK1K_dataset/ gs://fc-secure-d80c2561-4630-4343-ab98-9fb7fcc9c21b/data/`
 
 Run the wrapper via
 ```
-bash ~/aou_predixcan/00twas-wrapper.sh --phecode <PHECODE> --pop <POP> --ref <REF>
+bash ~/aou_predixcan/00twas_wrapper.sh --phecode <PHECODE> --pop <POP> --ref <REF> --cell_type <TYPE>
 ```
 
 `<PHECODE>` is the phenotype code of interest  
 `<POP>` is the population the sample originates from  
 `<REF>` is the reference database to use  
+`<TYPE>` is the single cell database to use (immune cell or islet cell)
 
 - Database files from /home/claudia/aou_predixcan/mesa_dbfiles are used for S-PrediXcan analysis
   - To upload: `gsutil -m cp -r /home/claudia/aou_predixcan/mesa_dbfiles {PASTE_YOUR_BUCKET_HERE}/data/`
