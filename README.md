@@ -39,7 +39,4 @@ bash ~/aou_predixcan/00twas_wrapper.sh --phecode <PHECODE> --pop <POP> --ref <RE
 `<POP>` is the population the sample originates from  
 `<REF>` is the reference database to use  
 `<TYPE>` is the single cell database to use (immune cell or islet cell)
-
-- Database files from /home/claudia/aou_predixcan/mesa_dbfiles are used for S-PrediXcan analysis
-  - To upload: `gsutil -m cp -r /home/claudia/aou_predixcan/mesa_dbfiles {PASTE_YOUR_BUCKET_HERE}/data/`
 ***
