@@ -150,28 +150,3 @@ try:
 except subprocess.CalledProcessError:
     #if command failed
     sys.exit(f"ERROR: File '{filtered_path}' was not found in {bucket}/data/.\n")
-
-#print sample size and heritability if available
-print("Available Global Fields:")
-print(global_fields)
-print()
-
-print("APPLY THE FOLLOWING VALUES TO S-PREDIXCAN IF AVAILABLE:")
-if 'n_cases' in global_fields:
-    print(f"Number of cases: {n_cases}")
-else:
-    print("Number of cases: Not available")
-
-if 'n_controls' in global_fields:
-    print(f"Number of controls: {n_controls}")
-else:
-    print("Number of controls: Not available")
-
-if n_controls is not None and n_cases is not None:
-    n_total = int(n_controls) + int(n_cases)
-    print(f"Sample Size (n): {n_total}")
-    
-if 'heritability' in global_fields:
-    print(f"Heritability: {heritability}")
-else:
-    print("Heritability: Not available")
