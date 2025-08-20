@@ -29,13 +29,13 @@ def main():
     get_command = "gsutil cp " + bucket + "/data/" + filename + " /tmp/"
     os.system(get_command)
     
-    #copy single cell dbfiles to workspace
-    if not os.path.exists("/home/jupyter/l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/CD14-low_CD16-positive_monocyte_covariances.txt.gz"):
-        ret = subprocess.run(f"gsutil cp -r {bucket}/data/l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/ /home/jupyter/", shell=True)
-
     #build command based on parameters
     if cell_type == "islet":
         output = f"/home/jupyter/{args.pop}_predixcan_output_{args.phecode}_islet_cell_{args.ref}.csv"
+
+        #copy single cell dbfiles to workspace
+        if not os.path.exists("/home/jupyter/l-ctPred_models_for_islet_cell_types_from_T2D_dataset/Acinar_covariances.txt.gz"):
+            ret = subprocess.run(f"gsutil cp -r {bucket}/data/l-ctPred_models_for_islet_cell_types_from_T2D_dataset/ /home/jupyter/", shell=True)
 
         #command without optional parameters
         cmd = f"{python_path} {metaxcan_dir}/software/SPrediXcan.py \
@@ -45,14 +45,19 @@ def main():
         --non_effect_allele_column REF \
         --beta_column BETA \
         --se_column SE \
-        --model_db_path l-ctPred_models_for_islet_cell_types_from_OneK1K_dataset/{args.ref}.db \
-        --covariance l-ctPred_models_for_islet_cell_types_from_OneK1K_dataset/{args.ref}_covariances.txt.gz \
+        --model_db_path l-ctPred_models_for_islet_cell_types_from_T2D_dataset/{args.ref}.db \
+        --covariance l-ctPred_models_for_islet_cell_types_from_T2D_dataset/{args.ref}_covariances.txt.gz \
         --keep_non_rsid \
         --model_db_snp_key rsid \
         --throw \
         --output_file {output}"
     elif cell_type == "immune":
         output = f"/home/jupyter/{args.pop}_predixcan_output_{args.phecode}_immune_cell_{args.ref}.csv"
+        
+        #copy single cell dbfiles to workspace
+        if not os.path.exists("/home/jupyter/l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/CD14-low_CD16-positive_monocyte_covariances.txt.gz"):
+            ret = subprocess.run(f"gsutil cp -r {bucket}/data/l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/ /home/jupyter/", shell=True)
+
         
         #command without optional parameters
         cmd = f"{python_path} {metaxcan_dir}/software/SPrediXcan.py \
