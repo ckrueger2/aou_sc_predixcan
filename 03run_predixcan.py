@@ -24,8 +24,8 @@ def main():
     python_path = sys.executable
     metaxcan_dir = "/home/jupyter/MetaXcan"
     
-    #retrieve gtex filtered file from bucket
-    filename = args.pop + "_formatted_gtex_" + args.phecode + ".tsv"
+    #retrieve single cell filtered file from bucket
+    filename = args.pop + "_formatted_sc_" + args.cell_type + "_" + args.phecode + ".tsv"
     get_command = "gsutil cp " + bucket + "/data/" + filename + " /tmp/"
     os.system(get_command)
     
