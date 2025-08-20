@@ -86,44 +86,6 @@ ordered_ht.show(20)
 rows, cols = ordered_ht.count(), len(ordered_ht.row)
 print(f"Table dimensions: {rows} rows x {cols} columns")
 
-#FILTER BY PVALUE
-#set thresholds
-pval = 0.05
-max_snps = 2000000
-min_pval = 5e-8
-
-#intial thinning of SNPs
-significant_snps = ordered_ht.filter(ordered_ht.Pvalue < pval)
-num_snps = significant_snps.count()
-
-#continue to thin until less than max_snps threshold
-while num_snps > max_snps and pval > min_pval:
-    #make threshold 5x more stringent
-    pval /= 5
-    if pval < min_pval:
-        pval = min_pval
-    #thin again
-    significant_snps = ordered_ht.filter(ordered_ht.Pvalue < pval)
-    num_snps = significant_snps.count()
-    if pval == min_pval:
-        break
-
-#print number of SNPs and pvalue in filtered table
-print(f"Number of SNPs: {num_snps} at pvalue < {pval}")
-
-#sort SNPs
-sig_snps_sorted = significant_snps.order_by(significant_snps.Pvalue)
-
-#edit locus column
-sig_snps_sorted = sig_snps_sorted.annotate(locus = hl.str(sig_snps_sorted.locus) + ':' + sig_snps_sorted.alleles[0] + ':' + sig_snps_sorted.alleles[1])
-
-#print top SNPs
-sig_snps_sorted.show(10)
-
-#save filtered file
-filtered_path = f'{bucket}/data/{pop}_filtered_{phenotype_id}.tsv'
-sig_snps_sorted.export(filtered_path)
-
 #CHECK IF FILES ARE SAVED TO BUCKET
 #full file
 try:
@@ -137,16 +99,3 @@ try:
 except subprocess.CalledProcessError:
     #if command failed
     sys.exit(f"ERROR: File '{ht_path}' was not found in {bucket}/data/.\n")
-    
-#pvalue file
-try:
-    check_filtered = subprocess.check_output(
-        f"gsutil ls {bucket}/data/ | grep {filtered_path}", 
-        shell=True, 
-        stderr=subprocess.DEVNULL
-    )
-    #if command succeeded 
-    print("Pvalue filtered file successfully saved to bucket.\n")
-except subprocess.CalledProcessError:
-    #if command failed
-    sys.exit(f"ERROR: File '{filtered_path}' was not found in {bucket}/data/.\n")
