@@ -86,7 +86,7 @@ if [ -f /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py ]; then
     sed -i 's/results = results.drop("n_snps_in_model",1)/results = results.drop(columns=["n_snps_in_model"])/' /home/jupyter/MetaXcan/software/metax/metaxcan/Utilities.py
 fi
 
-output_file="/home/jupyter/${POP}_predixcan_output_${PHECODE}_${TYPE}_${REF}.csv"
+output_file="/home/jupyter/${POP}_predixcan_output_${PHECODE}_${TYPE}_cell_${REF}.csv"
 
 #check if the output file already exists
 if [ -f "$output_file" ]; then
