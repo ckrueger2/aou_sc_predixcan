@@ -2,7 +2,7 @@
 
 #command
 usage() {
-    echo "Usage: $0 --phecode <PHECODE> --pop <POP>"
+    echo "Usage: $0 --phecode <PHECODE> --pop <POP> --cell_type <TYPE>"
     exit 1
 }
 
@@ -17,6 +17,10 @@ while [[ $# -gt 0 ]]; do
             POP=$2
             shift 2
             ;;
+        --cell_type)
+            TYPE=$2
+            shift 2
+            ;;
         *)
             echo "unknown flag: $1"
             usage
@@ -25,7 +29,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 #check for required arguments
-if [[ -z "$PHECODE" || -z "$POP" ]]; then
+if [[ -z "$PHECODE" || -z "$POP" || -z "$TYPE" ]]; then
     usage
 fi
 
@@ -36,15 +40,4 @@ REPO=$HOME/aou_sc_predixcan
 python "$REPO/01pull_data.py" --phecode "$PHECODE" --pop "$POP"
 
 #format hail tables
-Rscript "$REPO/02table_format.R" --phecode "$PHECODE" --pop "$POP"
-
-#capture the SNP count
-BUCKET_PATH=$(gsutil ls gs://*/data/${POP}_full_${PHECODE}.tsv)
-SNP_COUNT=$(gsutil cat $BUCKET_PATH | wc -l)
-SNP_COUNT=$((SNP_COUNT - 1)) #subtract 1 to exclude the header line
-
-#GWAS qqman
-Rscript "$REPO/03gwas_qqman.R" --phecode "$PHECODE" --pop "$POP" --snp_count "$SNP_COUNT"
-
-#how to view generated PNG files
-echo "To view the PNG files, go to the Jupyter file browser by selecting the jupyter logo to the top left of the terminal."
+Rscript "$REPO/02table_format.R" --phecode "$PHECODE" --pop "$POP" --cell_type "$TYPE"
