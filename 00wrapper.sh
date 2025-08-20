@@ -38,7 +38,7 @@ if [[ -z "$PHECODE" || -z "$POP" ]]; then
 fi
 
 #github repo path
-REPO=$HOME/aou_predixcan
+REPO=$HOME/aou_sc_predixcan
 
 #download hail table
 python "$REPO/01pull_data.py" --phecode "$PHECODE" --pop "$POP"
