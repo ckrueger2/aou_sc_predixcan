@@ -98,7 +98,7 @@ cat("Bonferroni corrected P-value: ", bonferroni_threshold , "\n")
 title <- paste0(args$pop, " ", args$phecode, " TWAS Manhattan Plot")
 
 #name of saved file
-destination_filename <- paste0(args$pop, "_", args$phecode,"_twas_manhattan_", args$ref, ".png")
+destination_filename <- paste0(args$pop, "_", args$phecode,"_sc_twas_manhattan_", args$ref, ".png")
 
 #use qqman to plot the chromosome, location, snp, and pvalue into manhattan plot
 png(filename = destination_filename, width = 1200, height = 800, res = 100)
