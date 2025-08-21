@@ -30,4 +30,14 @@ Example command:
 ```
 bash ~/aou_sc_predixcan/00wrapper.sh --phecode CV_404 --pop META --ref CD14-low_CD16-positive_monocyte --cell_type immune
 ```
+
+*Prior to setting up a conda environment, two permission must be accepted:*  
+```
+*Input the following to prompt permission acceptance:*
+conda install --dry-run numpy
+*Output to accept permission:*
+Do you accept the Terms of Service (ToS) for https://repo.anaconda.com/pkgs/main? [(a)ccept/(r)eject/(v)iew]: a
+Do you accept the Terms of Service (ToS) for https://repo.anaconda.com/pkgs/r? [(a)ccept/(r)eject/(v)iew]: a
+2 channel Terms of Service accepted
+```
 ***
