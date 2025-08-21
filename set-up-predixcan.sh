@@ -6,10 +6,7 @@ if [ ! -d ~/miniconda3 ]; then
     bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
     rm ~/miniconda3/miniconda.sh
     eval "$(~/miniconda3/bin/conda shell.bash hook)"
-    ~/miniconda3/bin/conda init bash
-    # Accept terms of service and use conda-forge only
-    ~/miniconda3/bin/conda config --add channels conda-forge
-    ~/miniconda3/bin/conda config --remove channels defaults
+    conda init bash
 fi 
 #clone repo and create environment
 if [ ! -d MetaXcan ]; then
@@ -17,23 +14,19 @@ if [ ! -d MetaXcan ]; then
     cd MetaXcan
     #git checkout 76a11b856f3cbab0b866033d518c201374a5594b
     if [ -f MetaXcan/software/conda_env.yaml ]; then
-        ~/miniconda3/bin/conda env create -f MetaXcan/software/conda_env.yaml
+        conda env create -f MetaXcan/software/conda_env.yaml
         cd ..
     else
-        # Create environment manually as fallback - USE HOME CONDA
-        ~/miniconda3/bin/conda create -n imlabtools python=3.8 numpy pandas scipy h5py sqlalchemy patsy statsmodels -y
+        # Create environment manually as fallback (ADDED: sqlalchemy patsy statsmodels)
+        conda create -n imlabtools python=3.8 numpy pandas scipy h5py sqlalchemy patsy statsmodels -y
     fi
     cd ..
 fi
-#create imlabtools manually if needed - USE HOME CONDA
-if ! ~/miniconda3/bin/conda env list | grep -q imlabtools; then
+#create imlabtools manually if needed (ADDED: sqlalchemy patsy statsmodels)
+if ! conda env list | grep -q imlabtools; then
     echo "Failed to create imlabtools environment, creating manually"
-    ~/miniconda3/bin/conda create -n imlabtools python=3.8 numpy pandas scipy h5py sqlalchemy patsy statsmodels -y
+    conda create -n imlabtools python=3.8 numpy pandas scipy h5py sqlalchemy patsy statsmodels -y
 fi
 
-# Install bio packages via pip using home conda
-source ~/miniconda3/bin/activate
-source ~/miniconda3/etc/profile.d/conda.sh
-conda activate imlabtools
+# ADDED: Install bio packages
 pip install bgen-reader>=3.0.3 cyvcf2>=0.8.0
-conda deactivate
