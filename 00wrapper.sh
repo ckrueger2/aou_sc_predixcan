@@ -104,7 +104,7 @@ if [ -f "$output_file" ]; then
 fi
 
 #run s-predixcan
-python $REPO/03run_predixcan.py --phecode \"$PHECODE\" --pop \"$POP\" --ref \"$REF\" --cell_type \"$TYPE\""
+python $REPO/03run_predixcan.py --phecode "$PHECODE" --pop "$POP" --ref "$REF" --cell_type "$TYPE"
 
 #deactivate imlabtools
 conda deactivate
