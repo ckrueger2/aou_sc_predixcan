@@ -35,8 +35,9 @@ def main():
 
         #copy single cell dbfiles
         os.makedirs("/home/jupyter/l-ctPred_models/", exist_ok=True)
-        copy_command = f"gsutil cp -r {bucket}/data/l-ctPred_models_for_islet_cell_types_from_T2D_dataset/{args.ref}* /home/jupyter/l-ctPred_models/", shell=True)
-
+        copy_command = f"gsutil cp -r {bucket}/data/l-ctPred_models_for_islet_cell_types_from_T2D_dataset/{args.ref}* /home/jupyter/l-ctPred_models/"
+        ret = subprocess.run(copy_command, shell=True)
+        
         #command without optional parameters
         cmd = f"{python_path} {metaxcan_dir}/software/SPrediXcan.py \
         --gwas_file /tmp/{filename} \
@@ -56,7 +57,8 @@ def main():
         
         #copy single cell dbfiles
         os.makedirs("/home/jupyter/l-ctPred_models/", exist_ok=True)
-        copy_command = f"gsutil cp -r {bucket}/data/l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/{args.ref}* /home/jupyter/l-ctPred_models/", shell=True)
+        copy_command = f"gsutil cp -r {bucket}/data/l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/{args.ref}* /home/jupyter/l-ctPred_models/"
+        ret = subprocess.run(copy_command, shell=True)
         
         #command without optional parameters
         cmd = f"{python_path} {metaxcan_dir}/software/SPrediXcan.py \
