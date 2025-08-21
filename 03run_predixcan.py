@@ -33,10 +33,9 @@ def main():
     if args.cell_type == "islet":
         output = f"/home/jupyter/{args.pop}_predixcan_output_{args.phecode}_islet_cell_{args.ref}.csv"
 
-        #copy single cell dbfiles to workspace
-        if not os.path.exists(f"/home/jupyter/l-ctPred_models_for_islet_cell_types_from_T2D_dataset/{args.ref}_covariances.txt.gz"):
-            os.makedirs("/home/jupyter/l-ctPred_models_for_islet_cell_types_from_T2D_dataset/", exist_ok=True)
-            ret = subprocess.run(f"gsutil cp -r {bucket}/data/l-ctPred_models_for_islet_cell_types_from_T2D_dataset/{args.ref}* /home/jupyter/l-ctPred_models_for_islet_cell_types_from_T2D_dataset/", shell=True)
+        #copy single cell dbfiles
+        os.makedirs("/home/jupyter/l-ctPred_models/", exist_ok=True)
+        copy_command = f"gsutil cp -r {bucket}/data/l-ctPred_models_for_islet_cell_types_from_T2D_dataset/{args.ref}* /home/jupyter/l-ctPred_models/", shell=True)
 
         #command without optional parameters
         cmd = f"{python_path} {metaxcan_dir}/software/SPrediXcan.py \
@@ -46,8 +45,8 @@ def main():
         --non_effect_allele_column REF \
         --beta_column BETA \
         --se_column SE \
-        --model_db_path l-ctPred_models_for_islet_cell_types_from_T2D_dataset/{args.ref}.db \
-        --covariance l-ctPred_models_for_islet_cell_types_from_T2D_dataset/{args.ref}_covariances.txt.gz \
+        --model_db_path l-ctPred_models/{args.ref}.db \
+        --covariance l-ctPred_models/{args.ref}_covariances.txt.gz \
         --keep_non_rsid \
         --model_db_snp_key rsid \
         --throw \
@@ -55,11 +54,9 @@ def main():
     elif args.cell_type == "immune":
         output = f"/home/jupyter/{args.pop}_predixcan_output_{args.phecode}_immune_cell_{args.ref}.csv"
         
-        #copy single cell dbfiles to workspace
-        if not os.path.exists("/home/jupyter/l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/{args.ref}_covariances.txt.gz"):
-            os.makedirs("/home/jupyter/l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/", exist_ok=True)
-            ret = subprocess.run(f"gsutil cp -r {bucket}/data/l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/ /home/jupyter/l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/", shell=True)
-
+        #copy single cell dbfiles
+        os.makedirs("/home/jupyter/l-ctPred_models/", exist_ok=True)
+        copy_command = f"gsutil cp -r {bucket}/data/l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/{args.ref}* /home/jupyter/l-ctPred_models/", shell=True)
         
         #command without optional parameters
         cmd = f"{python_path} {metaxcan_dir}/software/SPrediXcan.py \
@@ -69,8 +66,8 @@ def main():
         --non_effect_allele_column REF \
         --beta_column BETA \
         --se_column SE \
-        --model_db_path l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/{args.ref}.db \
-        --covariance l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/{args.ref}_covariances.txt.gz \
+        --model_db_path l-ctPred_models/{args.ref}.db \
+        --covariance l-ctPred_models/{args.ref}_covariances.txt.gz \
         --keep_non_rsid \
         --model_db_snp_key rsid \
         --throw \
@@ -91,7 +88,11 @@ def main():
     set_file = f"gsutil cp {output} {bucket}/data/"
     print(f"Uploading results: {set_file}")
     os.system(set_file)
-        
+    
+    #remove database files
+    if os.path.exists("/home/jupyter/l-ctPred_models"):
+        os.system("rm -rf /home/jupyter/l-ctPred_models")
+
     print("S-PrediXcan analysis completed successfully")
 
 if __name__ == "__main__":
