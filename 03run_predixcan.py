@@ -30,7 +30,7 @@ def main():
     os.system(get_command)
     
     #build command based on parameters
-    if cell_type == "islet":
+    if args.cell_type == "islet":
         output = f"/home/jupyter/{args.pop}_predixcan_output_{args.phecode}_islet_cell_{args.ref}.csv"
 
         #copy single cell dbfiles to workspace
@@ -51,7 +51,7 @@ def main():
         --model_db_snp_key rsid \
         --throw \
         --output_file {output}"
-    elif cell_type == "immune":
+    elif args.cell_type == "immune":
         output = f"/home/jupyter/{args.pop}_predixcan_output_{args.phecode}_immune_cell_{args.ref}.csv"
         
         #copy single cell dbfiles to workspace
