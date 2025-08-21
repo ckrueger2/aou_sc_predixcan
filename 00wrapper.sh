@@ -41,7 +41,7 @@ fi
 REPO=$HOME/aou_sc_predixcan
 
 #download hail table
-python "$REPO/01pull_data.py" --phecode "$PHECODE" --pop "$POP"
+#python "$REPO/01pull_data.py" --phecode "$PHECODE" --pop "$POP"
 
 #format hail tables
 Rscript "$REPO/02table_format.R" --phecode "$PHECODE" --pop "$POP" --cell_type "$TYPE"
