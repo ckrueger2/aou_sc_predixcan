@@ -29,10 +29,3 @@ if ! conda env list | grep -q imlabtools; then
     echo "Failed to create imlabtools environment, creating manually"
     conda create -n imlabtools python=3.8 numpy pandas scipy h5py -y
 fi
-        
-#download databases
-#if [ ! -d eqtl ]; then
-#    wget https://zenodo.org/records/3518299/files/mashr_eqtl.tar -O mashr_eqtl.tar
-#    tar -xvpf mashr_eqtl.tar
-#    rm mashr_eqtl.tar
-#fi
