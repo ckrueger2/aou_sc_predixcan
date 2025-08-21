@@ -34,8 +34,8 @@ def main():
         output = f"/home/jupyter/{args.pop}_predixcan_output_{args.phecode}_islet_cell_{args.ref}.csv"
 
         #copy single cell dbfiles to workspace
-        if not os.path.exists("/home/jupyter/l-ctPred_models_for_islet_cell_types_from_T2D_dataset/Acinar_covariances.txt.gz"):
-            ret = subprocess.run(f"gsutil cp -r {bucket}/data/l-ctPred_models_for_islet_cell_types_from_T2D_dataset/ /home/jupyter/", shell=True)
+        if not os.path.exists(f"/home/jupyter/l-ctPred_models_for_islet_cell_types_from_T2D_dataset/{args.ref}_covariances.txt.gz"):
+            ret = subprocess.run(f"gsutil cp -r {bucket}/data/l-ctPred_models_for_islet_cell_types_from_T2D_dataset/{args.ref}* /home/jupyter/l-ctPred_models_for_islet_cell_types_from_T2D_dataset/", shell=True)
 
         #command without optional parameters
         cmd = f"{python_path} {metaxcan_dir}/software/SPrediXcan.py \
@@ -55,8 +55,8 @@ def main():
         output = f"/home/jupyter/{args.pop}_predixcan_output_{args.phecode}_immune_cell_{args.ref}.csv"
         
         #copy single cell dbfiles to workspace
-        if not os.path.exists("/home/jupyter/l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/CD14-low_CD16-positive_monocyte_covariances.txt.gz"):
-            ret = subprocess.run(f"gsutil cp -r {bucket}/data/l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/ /home/jupyter/", shell=True)
+        if not os.path.exists("/home/jupyter/l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/{args.ref}_covariances.txt.gz"):
+            ret = subprocess.run(f"gsutil cp -r {bucket}/data/l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/ /home/jupyter/l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/", shell=True)
 
         
         #command without optional parameters
