@@ -27,11 +27,11 @@ my_bucket <- Sys.getenv('WORKSPACE_BUCKET')
 
 #PERFORM COMMAND LINE FORMATTING FOR S-PREDIXCAN FILE
 #upload single cell SNP file to workspace bucket
-command7 <- paste0("gsutil -m cp -v ~/aou_predixcan/sc_predixcan_models_varids-effallele_", args.cell_type,".txt.gz", my_bucket, "/data/")
+command7 <- paste0("gsutil -m cp -v ~/aou_predixcan/sc_predixcan_models_varids-effallele_", args$cell_type,".txt.gz", my_bucket, "/data/")
 system(command7, intern=TRUE)
 
 #unzip files
-command8 <- paste0("gsutil cat ", my_bucket, "/data/sc_predixcan_models_varids-effallele_", args.cell_type,".txt.gz | gunzip > /tmp/predixcan_models_varids-effallele.txt")
+command8 <- paste0("gsutil cat ", my_bucket, "/data/sc_predixcan_models_varids-effallele_", args$cell_type,".txt.gz | gunzip > /tmp/predixcan_models_varids-effallele.txt")
 system(command8)
 
 #format reference file
