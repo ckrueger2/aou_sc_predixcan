@@ -6,7 +6,10 @@ if [ ! -d ~/miniconda3 ]; then
     bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
     rm ~/miniconda3/miniconda.sh
     eval "$(~/miniconda3/bin/conda shell.bash hook)"
-    conda init bash
+    ~/miniconda3/bin/conda init bash
+    # Accept terms of service and use conda-forge only
+    ~/miniconda3/bin/conda config --add channels conda-forge
+    ~/miniconda3/bin/conda config --remove channels defaults
 fi 
 #clone repo and create environment
 if [ ! -d MetaXcan ]; then
@@ -30,6 +33,7 @@ fi
 
 # Install bio packages via pip using home conda
 source ~/miniconda3/bin/activate
-~/miniconda3/bin/conda activate imlabtools
+source ~/miniconda3/etc/profile.d/conda.sh
+conda activate imlabtools
 pip install bgen-reader>=3.0.3 cyvcf2>=0.8.0
-~/miniconda3/bin/conda deactivate
+conda deactivate
