@@ -35,6 +35,7 @@ def main():
 
         #copy single cell dbfiles to workspace
         if not os.path.exists(f"/home/jupyter/l-ctPred_models_for_islet_cell_types_from_T2D_dataset/{args.ref}_covariances.txt.gz"):
+            os.makedirs("/home/jupyter/l-ctPred_models_for_islet_cell_types_from_T2D_dataset/", exist_ok=True)
             ret = subprocess.run(f"gsutil cp -r {bucket}/data/l-ctPred_models_for_islet_cell_types_from_T2D_dataset/{args.ref}* /home/jupyter/l-ctPred_models_for_islet_cell_types_from_T2D_dataset/", shell=True)
 
         #command without optional parameters
@@ -56,6 +57,7 @@ def main():
         
         #copy single cell dbfiles to workspace
         if not os.path.exists("/home/jupyter/l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/{args.ref}_covariances.txt.gz"):
+            os.makedirs("/home/jupyter/l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/", exist_ok=True)
             ret = subprocess.run(f"gsutil cp -r {bucket}/data/l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/ /home/jupyter/l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/", shell=True)
 
         
