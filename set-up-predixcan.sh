@@ -1,4 +1,5 @@
-#!/bin/bash
+#! /bin/bash
+
 #install and initialize miniconda
 if [ ! -d ~/miniconda3 ]; then
     mkdir -p ~/miniconda3
@@ -8,6 +9,7 @@ if [ ! -d ~/miniconda3 ]; then
     eval "$(~/miniconda3/bin/conda shell.bash hook)"
     conda init bash
 fi 
+
 #clone repo and create environment
 if [ ! -d MetaXcan ]; then
     git clone https://github.com/hakyimlab/MetaXcan
@@ -17,16 +19,14 @@ if [ ! -d MetaXcan ]; then
         conda env create -f MetaXcan/software/conda_env.yaml
         cd ..
     else
-        # Create environment manually as fallback (ADDED: sqlalchemy patsy statsmodels)
-        conda create -n imlabtools python=3.8 numpy pandas scipy h5py sqlalchemy patsy statsmodels -y
+        # Create environment manually as fallback (version numbers may need to be changed with future updates)
+        conda create -n imlabtools python=3.8 numpy pandas scipy -y
     fi
     cd ..
 fi
-#create imlabtools manually if needed (ADDED: sqlalchemy patsy statsmodels)
+
+#create imlabtools manually if needed (version numbers may need to be changed with future updates)
 if ! conda env list | grep -q imlabtools; then
     echo "Failed to create imlabtools environment, creating manually"
-    conda create -n imlabtools python=3.8 numpy pandas scipy h5py sqlalchemy patsy statsmodels -y
+    conda create -n imlabtools python=3.8 numpy pandas scipy h5py -y
 fi
-
-# ADDED: Install bio packages
-pip install bgen-reader>=3.0.3 cyvcf2>=0.8.0
