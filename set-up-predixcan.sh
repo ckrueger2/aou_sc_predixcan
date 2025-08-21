@@ -16,7 +16,7 @@ if [ ! -d MetaXcan ]; then
     cd MetaXcan
     #git checkout 76a11b856f3cbab0b866033d518c201374a5594b
     if [ -f MetaXcan/software/conda_env.yaml ]; then
-        conda env create -f ~/software/conda_env.yaml
+        conda env create -f /software/conda_env.yaml
         cd ..
     else
         # Create environment manually as fallback (version numbers may need to be changed with future updates)
