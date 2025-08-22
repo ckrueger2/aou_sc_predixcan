@@ -25,7 +25,7 @@ bash ~/aou_sc_predixcan/00wrapper.sh --phecode <PHECODE> --pop <POP> --ref <REF>
 `<PHECODE>` is the phenotype code of interest (ex. CV_404)  
 `<POP>` is the population the sample originates from (ex. META)  
 `<REF>` is the reference database to use (ex. CD14-low_CD16-positive_monocyte)  
-`<TYPE>` is the single cell database to use (immune cell or islet cell)  
+`<TYPE>` is the single cell database to use (immune or islet)  
 
 A list of available phenotype accession numbers: https://docs.google.com/spreadsheets/d/e/2PACX-1vT6SQhuX1xO-f2SOg7m5UoPmapKI3lnSb7xYRt9Vn6bYvaFevz16Ou2gsPfQPnjvJZ_DczJhOdfsKfg/pub?output=xlsx
 
