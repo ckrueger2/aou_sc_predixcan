@@ -14,7 +14,10 @@ bash ~/aou_sc_predixcan/00wrapper.sh --phecode <PHECODE> --pop <POP> --ref <REF>
 ```
 
 **MUST BE PERFORMED AT LEAST ONCE PRIOR TO RUNNING S-PREDIXCAN:**
-1. Run in AoU terminal: `chmod +x ~/aou_predixcan/00twas_wrapper.sh`
+1. Create virtual machine with the following parameters (select jupyter icon on right tool bar):
+   - Select `Hail Genomics Analysis` under `Recomended environments` drop down
+   - Select `16` under `Cloud compute profile CPUs`
+   - Select `60` under `Cloud compute profile RAM (GB)`
 2. Run in AoU terminal: `gsutil ls` to find bucket name -> ex. `gs://fc-secure-d80c2561-4630-4343-ab98-9fb7fcc9c21b`
 3. Run in lab server terminal: `gsutil -m cp -r -v /home/wheelerlab3/Data/predictdb_models/scPrediXcan_models/l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/ {PASTE_YOUR_BUCKET_HERE}/data/` -> ex. `gsutil -m cp -v gsutil -m cp -r -v /home/wheelerlab3/Data/predictdb_models/scPrediXcan_models/l-ctPred_models_for_immune_cell_types_from_OneK1K_dataset/ gs://fc-secure-d80c2561-4630-4343-ab98-9fb7fcc9c21b/data/`
 4. Run in lab server terminal: `gsutil -m cp -r -v /home/wheelerlab3/Data/predictdb_models/scPrediXcan_models/l-ctPred_models_for_islet_cell_types_from_OneK1K_dataset/ {PASTE_YOUR_BUCKET_HERE}/data/` -> ex. `gsutil -m cp -v gsutil -m cp -r -v /home/wheelerlab3/Data/predictdb_models/scPrediXcan_models/l-ctPred_models_for_islet_cell_types_from_T2D_dataset/ gs://fc-secure-d80c2561-4630-4343-ab98-9fb7fcc9c21b/data/`
