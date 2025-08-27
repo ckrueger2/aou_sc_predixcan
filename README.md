@@ -1,5 +1,10 @@
 # All of Us Single Cell S-PrediXcan
 ***
+Github for scPrediXcan: https://github.com/hakyimlab/scPrediXcan
+
+Installing pipeline in All of Us:   
+`git clone https://github.com/ckrueger2/aou_sc_predixcan`
+
 ### 00Wrapper
 Prior to running the 00wrapper.sh script, run
 ```
