@@ -85,4 +85,10 @@ Example command:
 ```
 bash ~/aou_sc_predixcan/00wrapper.sh --phecode CV_404 --pop META --ref CD14-low_CD16-positive_monocyte --cell_type immune
 ```
+
+To run multiple reference database flags in the background:
+```
+nohup bash ~/aou_sc_predixcan/run_multi_scpredixcan.sh &
+```
+*be sure to make and upload a run_multi_scpredixcan.sh of your own, changing the flags (and paths) as necessary*
 ***
