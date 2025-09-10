@@ -28,7 +28,7 @@ python ~/aou_sc_predixcan/03run_predixcan.py --pop META --phecode CV_404 --ref p
 python ~/aou_sc_predixcan/03run_predixcan.py --pop META --phecode CV_404 --ref platelet --cell_type immune
 python ~/aou_sc_predixcan/03run_predixcan.py --pop META --phecode CV_404 --ref regulatory_T_cell --cell_type immune
 python ~/aou_sc_predixcan/03run_predixcan.py --pop META --phecode CV_404 --ref transitional_stage_B_cell --cell_type immune
-python ~/aou_sc_predixcan/03run_predixcan.py --pop META --phecode CV_404 --ref Acinar --cell_type islet
+bash ~/aou_sc_predixcan/00wrapper.sh --pop META --phecode CV_404 --ref Acinar --cell_type islet
 python ~/aou_sc_predixcan/03run_predixcan.py --pop META --phecode CV_404 --ref Activated_stellate --cell_type islet
 python ~/aou_sc_predixcan/03run_predixcan.py --pop META --phecode CV_404 --ref Alpha --cell_type islet
 python ~/aou_sc_predixcan/03run_predixcan.py --pop META --phecode CV_404 --ref Beta --cell_type islet
