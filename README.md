@@ -90,5 +90,6 @@ To run multiple reference database flags in the background:
 ```
 nohup bash ~/aou_sc_predixcan/run_multi_scpredixcan.sh &
 ```
-*Note: be sure to make and upload a run_multi_scpredixcan.sh of your own, changing the flags (and paths) as necessary*
+*Note: be sure to make and upload a run_multi_scpredixcan.sh of your own, changing the flags (and paths) as necessary*   
+*Note: pausing environment or closing All of Us Workbench will stop all commands, including nohup*
 ***
