@@ -1,8 +1,8 @@
 #! /bin/python
 
-#bash ~/aou_sc_predixcan/00wrapper.sh --pop META --phecode CV_404 --ref CD14-low_CD16-positive_monocyte --cell_type immune
-#python ~/aou_sc_predixcan/03run_predixcan.py --pop META --phecode CV_404 --ref CD14-positive_monocyte --cell_type immune
-#python ~/aou_sc_predixcan/03run_predixcan.py --pop META --phecode CV_404 --ref CD16-negative_CD56-bright_natural_killer_cell_human --cell_type immune
+bash ~/aou_sc_predixcan/00wrapper.sh --pop META --phecode CV_404 --ref CD14-low_CD16-positive_monocyte --cell_type immune
+python ~/aou_sc_predixcan/03run_predixcan.py --pop META --phecode CV_404 --ref CD14-positive_monocyte --cell_type immune
+python ~/aou_sc_predixcan/03run_predixcan.py --pop META --phecode CV_404 --ref CD16-negative_CD56-bright_natural_killer_cell_human --cell_type immune
 python ~/aou_sc_predixcan/03run_predixcan.py --pop META --phecode CV_404 --ref CD4-positive_alpha-beta_cytotoxic_T_cell --cell_type immune
 python ~/aou_sc_predixcan/03run_predixcan.py --pop META --phecode CV_404 --ref CD4-positive_alpha-beta_T_cell --cell_type immune
 python ~/aou_sc_predixcan/03run_predixcan.py --pop META --phecode CV_404 --ref CD8-positive_alpha-beta_T_cell --cell_type immune
