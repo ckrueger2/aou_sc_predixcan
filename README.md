@@ -101,7 +101,7 @@ nohup bash ~/aou_sc_predixcan/run_multi_scpredixcan.sh &
 2. Select files to download by clicking their respective boxes
 3. Click 'download' from the top toolbar
 4. Affirm firewall download prompt
-5. Run scp command from your local computer (not from lab server): `ssh -r {your local download folder path}/file_names* username@10.22.9.205:/folder_path/
+5. Run scp command from your local computer (not from lab server): `ssh -r {your local download folder path}/file_names* username@10.22.9.205:/folder_path/`
    - Use -r and * to transfer multiple files
    - Example of my command: `scp -r /Users/cjkrueger/Downloads/META_predixcan_output_CV_404* claudia@10.22.9.205:/home/claudia/sc_predixcan`
    - More info: https://builtin.com/articles/scp-command
