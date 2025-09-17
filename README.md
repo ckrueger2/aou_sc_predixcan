@@ -5,7 +5,7 @@ Github for scPrediXcan: https://github.com/hakyimlab/scPrediXcan
 Installing pipeline in All of Us:   
 `git clone https://github.com/ckrueger2/aou_sc_predixcan`
 
-### 00Wrapper
+### Running 00wrapper.sh script
 Prior to running the 00wrapper.sh script, run
 ```
 chmod +x ~/aou_sc_predixcan/00wrapper.sh
@@ -36,6 +36,7 @@ bash ~/aou_sc_predixcan/00wrapper.sh --phecode <PHECODE> --pop <POP> --ref <REF>
 `<REF>` is the reference database to use (ex. CD14-low_CD16-positive_monocyte)  
 `<TYPE>` is the single cell database to use (immune or islet)  
 
+### Available Phenotypes and Single Cell Types
 A list of available phenotype accession numbers: https://docs.google.com/spreadsheets/d/e/2PACX-1vT6SQhuX1xO-f2SOg7m5UoPmapKI3lnSb7xYRt9Vn6bYvaFevz16Ou2gsPfQPnjvJZ_DczJhOdfsKfg/pub?output=xlsx
 
 Available reference database flags for immune cell types from OneK1K dataset:   
@@ -93,3 +94,14 @@ nohup bash ~/aou_sc_predixcan/run_multi_scpredixcan.sh &
 *Note: be sure to make and upload a run_multi_scpredixcan.sh of your own, changing the flags (and paths) as necessary*   
 *Note: pausing environment or closing All of Us Workbench will stop all commands, including nohup*
 ***
+
+### Downloading Data (I have a Mac, may be different for other systems)
+**`gsutil` or `scp` commands don't seem to work when transferring data out of All of Us**
+1. Click on Jupyter icon (top left corner of terminal)
+2. Select files to download by clicking their respective boxes
+3. Click 'download' from the top toolbar
+4. Affirm firewall download prompt
+5. Run scp command from your local computer (not from lab server): `ssh -r {your local download folder path}/file_names* username@10.22.9.205:/folder_path/
+   - Use -r and * to transfer multiple files
+   - Example of my command: `scp -r /Users/cjkrueger/Downloads/META_predixcan_output_CV_404* claudia@10.22.9.205:/home/claudia/sc_predixcan`
+   - More info: https://builtin.com/articles/scp-command
